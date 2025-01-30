@@ -46,7 +46,6 @@ app.get("/api/shotchartdetail", async (req, res) => {
   try {
     const response = await fetch(
       `https://stats.nba.com/stats/shotchartdetail?${queryString}`,
-      // "https://stats.nba.com/stats/shotchartdetail?ContextMeasure=PTS&LastNGames=0&LeagueID=00&Month=0&OpponentTeamID=0&Period=0&PlayerID=2544&Season=2019-20&SeasonType=Regular+Season&TeamID=1610612739",
       {
         method: "GET",
         headers: {
@@ -75,7 +74,7 @@ app.get("/api/shotchartdetail", async (req, res) => {
   }
 });
 
-app.get("/api/gamelog", async (req, res) => {
+app.get("/api/playergamelog", async (req, res) => {
   const { playerName, dateFrom, dateTo } = req.query;
   if (!playerName) {
     return res.status(400).json({
@@ -95,8 +94,8 @@ app.get("/api/gamelog", async (req, res) => {
     LeagueID: "00",
     Season: "2024-25",
     SeasonType: "Regular Season",
-    DateFrom: dateFrom.toString || null,
-    DateTo: dateTo.toString || null,
+    DateFrom: dateFrom || "",
+    DateTo: dateTo || "",
   });
 
   const queryString = params.toString().replace(/%2B/g, "+");

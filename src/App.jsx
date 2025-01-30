@@ -5,14 +5,30 @@ import SelectGames from "./components/SelectGames";
 import ShotChartContainer from "./components/ShotChartContainer";
 
 function App() {
-  const [data, setData] = useState(null);
+  const [playerName, setPlayerName] = useState(null);
+  const [playerGameLogData, setPlayerGameLogData] = useState(null);
+  const [shotChartData, setShotChartData] = useState(null);
 
-  const fetchData = async (query) => {
-    const querySplit = query.split(",");
-    const playerName = querySplit[0].trim();
-    const gameID = querySplit[1].trim();
-    console.log(playerName, gameID);
+  const fetchPlayerGameLogData = async (query) => {
+    const name = query.trim();
+    setPlayerName(name);
 
+    try {
+      const response = await fetch(
+        `http://localhost:5000/api/playergamelog?playerName=${name}`
+      );
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+      const data = await response.json();
+      console.log(data);
+      setPlayerGameLogData(data);
+    } catch (error) {
+      console.log("You made a big mistake pal", error);
+    }
+  };
+
+  const fetchShotChartData = async (gameID) => {
     try {
       const response = await fetch(
         `http://localhost:5000/api/shotchartdetail?playerName=${playerName}&gameID=${gameID}`
@@ -22,7 +38,7 @@ function App() {
       }
       const data = await response.json();
       console.log(data);
-      setData(data);
+      setShotChartData(data);
     } catch (error) {
       console.log("You made a big mistake pal", error);
     }
@@ -31,9 +47,9 @@ function App() {
   return (
     <>
       <Navbar />
-      <SearchBar onSearch={fetchData} />
-      <SelectGames />
-      <ShotChartContainer data={data} />
+      <SearchBar onSearch={fetchPlayerGameLogData} />
+      <SelectGames onClick={fetchShotChartData} data={playerGameLogData} />
+      <ShotChartContainer data={shotChartData} />
     </>
   );
 }

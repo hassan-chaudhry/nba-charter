@@ -6,12 +6,12 @@ const ShotChartContainer = ({ data }) => {
   if (!data) {
     return (
       <div className="bg-white-500 text-black p-10">
-        <div className="flex items-center justify-center">
-          Nothing to see here yet...
-        </div>
+        <div className="flex items-center justify-center"></div>
       </div>
     );
   }
+
+  console.log(data);
 
   return (
     <>

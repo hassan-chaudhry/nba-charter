@@ -2,13 +2,12 @@ import React from "react";
 import { useState } from "react";
 
 const SearchBar = ({ onSearch }) => {
-  const [query, setQuery] = useState("Jalen Brunson, 0022400641");
+  const [query, setQuery] = useState("Jalen Brunson");
 
   const onEnter = (e) => {
     if (e.key === "Enter") {
       e.preventDefault();
       onSearch(query);
-      setQuery("");
     }
   };
 
