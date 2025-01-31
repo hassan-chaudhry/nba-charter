@@ -29,6 +29,8 @@ app.get("/api/shotchartdetail", async (req, res) => {
   }
 
   const { gameID } = req.query || "";
+  const { dateFrom } = req.query || "";
+  const { dateTo } = req.query || "";
 
   const params = new URLSearchParams({
     ContextMeasure: "FGA",
@@ -39,6 +41,8 @@ app.get("/api/shotchartdetail", async (req, res) => {
     PlayerID: playerID.toString(),
     TeamID: 0,
     GameID: gameID.toString(),
+    DateFrom: dateFrom || "",
+    DateTo: dateTo || "",
   });
 
   const queryString = params.toString();

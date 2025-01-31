@@ -8,6 +8,7 @@ function App() {
   const [playerName, setPlayerName] = useState(null);
   const [playerGameLogData, setPlayerGameLogData] = useState(null);
   const [shotChartData, setShotChartData] = useState(null);
+  const [headerInfo, setHeaderInfo] = useState([]);
 
   const fetchPlayerGameLogData = async (query) => {
     const name = query.trim();
@@ -28,10 +29,11 @@ function App() {
     }
   };
 
-  const fetchShotChartData = async (gameID) => {
+  const fetchShotChartData = async (gameID, dateFrom, dateTo) => {
+    setHeaderInfo([dateFrom, dateTo]);
     try {
       const response = await fetch(
-        `http://localhost:5000/api/shotchartdetail?playerName=${playerName}&gameID=${gameID}`
+        `http://localhost:5000/api/shotchartdetail?playerName=${playerName}&gameID=${gameID}&dateFrom=${dateFrom}&dateTo=${dateTo}`
       );
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
@@ -48,8 +50,8 @@ function App() {
     <>
       <Navbar />
       <SearchBar onSearch={fetchPlayerGameLogData} />
-      <SelectGames onClick={fetchShotChartData} data={playerGameLogData} />
-      <ShotChartContainer data={shotChartData} />
+      <SelectGames onSelect={fetchShotChartData} data={playerGameLogData} />
+      <ShotChartContainer data={shotChartData} headerInfo={headerInfo} />
     </>
   );
 }

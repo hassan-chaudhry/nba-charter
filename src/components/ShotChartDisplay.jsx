@@ -3,6 +3,39 @@ import { useState, useEffect } from "react";
 import court from "../assets/images/nbahalfcourt.png";
 
 const ShotChartDisplay = ({ data }) => {
+  const teams = {
+    NYK: "New York Knicks",
+    ATL: "Atlanta Hawks",
+    BOS: "Boston Celtics",
+    BKN: "Brooklyn Nets",
+    CHA: "Charlotte Hornets",
+    CHI: "Chicago Bulls",
+    CLE: "Cleveland Cavaliers",
+    DAL: "Dallas Mavericks",
+    DEN: "Denver Nuggets",
+    DET: "Detroit Pistons",
+    GSW: "Golden State Warriors",
+    HOU: "Houston Rockets",
+    IND: "Indiana Pacers",
+    LAC: "Los Angeles Clippers",
+    LAL: "Los Angeles Lakers",
+    MEM: "Memphis Grizzlies",
+    MIA: "Miami Heat",
+    MIL: "Milwaukee Bucks",
+    MIN: "Minnesota Timberwolves",
+    NOP: "New Orleans Pelicans",
+    OKC: "Oklahoma City Thunder",
+    ORL: "Orlando Magic",
+    PHI: "Philadelphia 76ers",
+    PHX: "Phoenix Suns",
+    POR: "Portland Trail Blazers",
+    SAC: "Sacramento Kings",
+    SAS: "San Antonio Spurs",
+    TOR: "Toronto Raptors",
+    UTA: "Utah Jazz",
+    WAS: "Washington Wizards",
+  };
+
   const colors = {
     NYK: [
       [0, 107, 182],
@@ -126,7 +159,10 @@ const ShotChartDisplay = ({ data }) => {
     ],
   };
 
-  const playerTeam = data.resultSets[0].rowSet[0][22];
+  const playerTeamFullName = data.resultSets[0].rowSet[0][6];
+  const playerTeam = Object.keys(teams).find(
+    (key) => teams[key] === playerTeamFullName
+  );
   const teamPrimaryColor = JSON.stringify(colors[playerTeam][0]).replace(
     /[\[\]]/g,
     ""
@@ -156,7 +192,7 @@ const ShotChartDisplay = ({ data }) => {
           >
             <img
               src={court}
-              alt="NBA Court"
+              alt="NBA Half Court"
               style={{ width: "100%", height: "100%" }}
             />
             <svg

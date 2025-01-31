@@ -1,6 +1,6 @@
 import React from "react";
 
-const ShotChartHeader = ({ data }) => {
+const ShotChartHeader = ({ data, headerInfo }) => {
   const teams = {
     NYK: "New York Knicks",
     ATL: "Atlanta Hawks",
@@ -40,18 +40,33 @@ const ShotChartHeader = ({ data }) => {
     2
   ).replace(/"/g, "");
 
-  const opponentTeam = teams[data.resultSets[0].rowSet[0][23]];
+  const playerTeamFullName = data.resultSets[0].rowSet[0][6];
+  // const playerTeam = Object.keys(teams).find(
+  //   (key) => teams[key] === playerTeamFullName
+  // );
+  // console.log("this is my team", playerTeam);
+
+  const opponentTeam =
+    teams[data.resultSets[0].rowSet[0][22]] == playerTeamFullName
+      ? teams[data.resultSets[0].rowSet[0][23]]
+      : teams[data.resultSets[0].rowSet[0][22]];
   const date = data.resultSets[0].rowSet[0][21];
   const formatDate =
     date.slice(4, 6) + "/" + date.slice(6, 8) + "/" + date.slice(0, 4);
+  const header =
+    headerInfo[0] !== ""
+      ? `${playerName} from ${headerInfo[0]} to ${headerInfo[1]}`
+      : `${playerName} vs. ${opponentTeam} on ${formatDate}`;
 
   return (
     <>
-      <div className="bg-white-500 p-7">
+      <h1 className="flex items-center justify-center text-blue-400 text-xl font-bold mt-10 mb-1">
+        Shot Chart
+      </h1>
+
+      <div className="bg-white-500 p-3">
         <div className="flex items-center justify-center">
-          <h1 className="text-2xl">
-            {playerName} vs. {opponentTeam} on {formatDate}
-          </h1>
+          <h1 className="text-2xl">{header}</h1>
         </div>
       </div>
     </>
