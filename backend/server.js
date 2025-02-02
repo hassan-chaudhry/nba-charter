@@ -13,14 +13,64 @@ const rawData = fs.readFileSync("./data.json");
 const data = JSON.parse(rawData);
 loadAllData(data);
 
+// find closest matching player name ot user's query
+const levenshtein = (queryName, dbName) => {
+  const m = queryName.length;
+  const n = dbName.length;
+
+  let dp = Array.from({ length: m + 1 }, () => Array(n + 1).fill(0));
+
+  for (let i = 0; i <= m; i++) {
+    dp[i][0] = i;
+  }
+  for (let j = 0; j <= n; j++) {
+    dp[0][j] = j;
+  }
+
+  for (let i = 1; i <= m; i++) {
+    for (let j = 1; j <= n; j++) {
+      if (queryName[i - 1] == dbName[j - 1]) {
+        dp[i][j] = dp[i - 1][j - 1];
+      } else {
+        dp[i][j] =
+          1 + Math.min(dp[i][j - 1], Math.min(dp[i - 1][j], dp[i - 1][j - 1]));
+      }
+    }
+  }
+
+  return dp[m][n];
+};
+
+const getBestMatch = async (queryName) => {
+  // const firstLetter = queryName.charAt(0).toUpperCase();
+  const candidates = await redisClient.sMembers("player_names:");
+
+  let bestMatch = "";
+  let minLength = 30;
+  candidates.forEach((candidate) => {
+    const levenshtein_score = levenshtein(
+      queryName.toLowerCase(),
+      candidate.toLowerCase()
+    );
+
+    if (levenshtein_score < minLength) {
+      minLength = levenshtein_score;
+      bestMatch = candidate;
+    }
+  });
+
+  return bestMatch;
+};
+
 app.get("/api/shotchartdetail", async (req, res) => {
-  const { playerName } = req.query;
+  let { playerName } = req.query;
   if (!playerName) {
     return res.status(400).json({
       error: "Valid player name is required",
     });
   }
 
+  playerName = playerName.trim().toLowerCase();
   const playerID = await redisClient.get(`player:full_name:${playerName}`);
   if (!playerID) {
     return res.status(404).json({
@@ -79,17 +129,20 @@ app.get("/api/shotchartdetail", async (req, res) => {
 });
 
 app.get("/api/playergamelog", async (req, res) => {
-  const { playerName, dateFrom, dateTo } = req.query;
+  let { playerName, dateFrom, dateTo } = req.query;
   if (!playerName) {
     return res.status(400).json({
       error: "Valid player name is required",
     });
   }
 
+  playerName = playerName.trim().toLowerCase();
   const playerID = await redisClient.get(`player:full_name:${playerName}`);
   if (!playerID) {
+    const bestMatch = await getBestMatch(playerName);
     return res.status(404).json({
       error: "Player ID not found",
+      bestMatch: bestMatch,
     });
   }
 

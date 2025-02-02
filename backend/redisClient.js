@@ -34,7 +34,13 @@ const loadPlayers = (players) => {
       player.is_active
     );
 
-    redisClient.set(`player:full_name:${player.full_name}`, player.id);
+    let playerFullName = player.full_name;
+    playerFullName = playerFullName.toLowerCase();
+    redisClient.set(`player:full_name:${playerFullName}`, player.id);
+
+    redisClient.sAdd("player_names:", player.full_name);
+    // const firstLetter = player.full_name[0].toUpperCase();
+    // redisClient.sAdd(`player_names:${firstLetter}`, player.full_name);
   });
 
   console.log("NBA player data loaded into Redis");

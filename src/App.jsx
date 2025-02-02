@@ -9,6 +9,7 @@ function App() {
   const [playerGameLogData, setPlayerGameLogData] = useState(null);
   const [shotChartData, setShotChartData] = useState(null);
   const [headerInfo, setHeaderInfo] = useState([]);
+  const [suggestion, setSuggestion] = useState("");
 
   const fetchPlayerGameLogData = async (query) => {
     const name = query.trim();
@@ -18,7 +19,16 @@ function App() {
       const response = await fetch(
         `http://localhost:5000/api/playergamelog?playerName=${name}`
       );
-      if (!response.ok) {
+
+      // if (!response.ok) {
+      //   throw new Error(`HTTP error! Status: ${response.status}`);
+      // }
+      if (response.status === 404) {
+        const data = await response.json();
+        if (data.bestMatch) {
+          console.log(suggestion);
+          setSuggestion(data.bestMatch);
+        }
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
       const data = await response.json();
@@ -49,7 +59,7 @@ function App() {
   return (
     <>
       <Navbar />
-      <SearchBar onSearch={fetchPlayerGameLogData} />
+      <SearchBar onSearch={fetchPlayerGameLogData} suggestion={suggestion} />
       <SelectGames onSelect={fetchShotChartData} data={playerGameLogData} />
       <ShotChartContainer data={shotChartData} headerInfo={headerInfo} />
     </>
