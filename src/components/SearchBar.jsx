@@ -1,8 +1,9 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const SearchBar = ({ onSearch, suggestion }) => {
-  const [query, setQuery] = useState("");
+  const [query, setQuery] = useState("jalen brunson");
+  const [showSuggestion, setShowSuggestion] = useState(false);
 
   const onEnter = (e) => {
     if (e.key === "Enter") {
@@ -14,33 +15,37 @@ const SearchBar = ({ onSearch, suggestion }) => {
   const updateQuery = () => {
     onSearch(suggestion);
     setQuery(suggestion);
+    setShowSuggestion(false);
   };
 
-  let suggestionBarHeader = "";
-  let suggestionBarName = "";
-  if (suggestion !== "") {
+  useEffect(() => {
+    setShowSuggestion(suggestion !== "");
+  }, [suggestion]);
+
+  let suggestionBarHeader, suggestionBarName;
+  if (showSuggestion) {
+    console.log("show suggestion");
     suggestionBarHeader = "Did you mean: ";
     suggestionBarName = suggestion;
+  } else {
+    suggestionBarHeader = "";
+    suggestionBarName = "";
   }
 
   return (
-    <div className="bg-blue-50">
-      <div className="container m-auto max-w-3xl py-5">
-        <div className="bg-white px-4 py-4 shadow-md rounded-md m-4">
-          <input
-            className="w-full py-1 px-1"
-            placeholder="Enter a player name"
-            value={query}
-            onChange={(query) => setQuery(query.target.value)}
-            onKeyDown={(e) => onEnter(e)}
-          />
-        </div>
-        <div className="text-blue-500 ml-5">
-          <h1>{suggestionBarHeader}</h1>
-          <h1 className="hover:underline" onClick={updateQuery}>
-            {suggestionBarName}
-          </h1>
-        </div>
+    <div className="bg-white m-auto max-w-3xl">
+      <input
+        className="w-full p-4 border border-gray-500 focus:outline-none focus:ring-0 focus:border-blue-500 rounded-[20px]"
+        placeholder="Type a player's name and press 'Enter'"
+        value={query}
+        onChange={(query) => setQuery(query.target.value)}
+        onKeyDown={(e) => onEnter(e)}
+      />
+      <div className="flex text-blue-500 m-2">
+        <h1 className="mr-1">{suggestionBarHeader}</h1>
+        <h1 className="hover:underline" onClick={updateQuery}>
+          {suggestionBarName}
+        </h1>
       </div>
     </div>
   );

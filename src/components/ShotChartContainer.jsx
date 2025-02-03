@@ -1,41 +1,42 @@
 import React from "react";
 import ShotChartHeader from "./ShotChartHeader";
 import ShotChartDisplay from "./ShotChartDisplay";
-import { useState } from "react";
-import court from "../assets/images/nbahalfcourt.png";
+import { useState, useEffect } from "react";
 
 const ShotChartContainer = ({ data, headerInfo }) => {
-  if (!data) {
-    return (
-      <>
-        <h1 className="flex items-center justify-center text-blue-400 text-xl font-bold mt-5 mb-5">
-          Shot Chart
-        </h1>
+  const [showChart, setShowChart] = useState(false);
+  const [isChartActive, setIsChartActive] = useState(false);
 
-        <div className="bg-white-500 text-black">
-          <div className="flex items-center justify-center">
-            <div
-              style={{ position: "relative", width: "750px", height: "705px" }}
-            >
-              <img
-                src={court}
-                alt="Empty NBA Half Court"
-                style={{ width: "100%", height: "100%" }}
-              />
-            </div>
-          </div>
-        </div>
-      </>
-    );
-  }
-
-  console.log(data);
+  // open Shot Chart tab when data loaded
+  useEffect(() => {
+    if (data) {
+      setShowChart(true);
+      setIsChartActive(true);
+    }
+  }, [data]);
 
   return (
-    <>
-      <ShotChartHeader data={data} headerInfo={headerInfo} />
-      <ShotChartDisplay data={data} />
-    </>
+    <div className="bg-white-500 p-3">
+      <h1
+        className={`${
+          isChartActive ? "text-blue-500" : "text-gray-500"
+        } hover:text-blue-500 text-2xl m-7`}
+        onClick={() => {
+          if (data) {
+            setShowChart((prevState) => !prevState);
+            setIsChartActive((prevState) => !prevState);
+          }
+        }}
+      >
+        Shot Chart
+      </h1>
+      {showChart && data && (
+        <>
+          <ShotChartHeader data={data} headerInfo={headerInfo} />
+          <ShotChartDisplay data={data} />
+        </>
+      )}
+    </div>
   );
 };
 

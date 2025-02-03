@@ -59,17 +59,11 @@ const ShotChartHeader = ({ data, headerInfo }) => {
       : `${playerName} vs. ${opponentTeam} on ${formatDate}`;
 
   return (
-    <>
-      <h1 className="flex items-center justify-center text-blue-400 text-xl font-bold mt-10 mb-1">
-        Shot Chart
-      </h1>
-
-      <div className="bg-white-500 p-3">
-        <div className="flex items-center justify-center">
-          <h1 className="text-2xl">{header}</h1>
-        </div>
+    <div className="bg-white-500 p-3">
+      <div className="flex items-center justify-center">
+        <h1 className="text-2xl">{header}</h1>
       </div>
-    </>
+    </div>
   );
 };
 
