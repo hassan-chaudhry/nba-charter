@@ -26,25 +26,23 @@ const SelectByRange = ({ onSelect, data }) => {
       </h1>
       {showRange && data && (
         <div className="container m-auto max-w-2xl">
-          <div className="bg-blue-50 px-4 py-4 shadow-md rounded-md m-4">
-            <h1 className="mb-2">Date From:</h1>
-
+          <div className="flex p-5 border border-gray-500 hover:border-blue-500 rounded-[20px] m-3">
             <input
-              className="w-full py-1 px-1 mb-3"
+              className="border border-gray-500 px-1 rounded-md"
               placeholder="Enter start date"
               value={dateFrom}
               onChange={(dateFrom) => setDateFrom(dateFrom.target.value)}
             />
-            <h1 className="mb-2">Date To:</h1>
+            <h1 className="ml-3 mr-3 mt-2">to</h1>
             <input
-              className="w-full py-1 px-1"
+              className="border border-gray-500 px-1 rounded-md"
               placeholder="Enter end date"
               value={dateTo}
               onChange={(dateTo) => setDateTo(dateTo.target.value)}
             />
             <div className="flex justify-center">
               <button
-                className="bg-gray-500 hover:bg-blue-500 text-white font-bold py-2 px-4 mt-5 rounded-full"
+                className="bg-gray-500 hover:bg-blue-500 text-white font-bold py-2 px-4 ml-5 rounded-full"
                 type="submit"
                 onClick={() => onClick()}
               >

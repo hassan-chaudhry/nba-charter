@@ -35,7 +35,7 @@ const SearchBar = ({ onSearch, suggestion }) => {
   return (
     <div className="bg-white m-auto max-w-3xl">
       <input
-        className="w-full p-4 border border-gray-500 focus:outline-none focus:ring-0 focus:border-blue-500 rounded-[20px]"
+        className="border border-gray-500 focus:outline-none focus:ring-0 focus:border-blue-500 w-full p-4 rounded-[20px]"
         placeholder="Type a player's name and press 'Enter'"
         value={query}
         onChange={(query) => setQuery(query.target.value)}

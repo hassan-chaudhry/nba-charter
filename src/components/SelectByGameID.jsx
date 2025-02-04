@@ -27,18 +27,14 @@ const SelectByGameID = ({ onSelect, data }) => {
         Select by Game ID
       </h1>
       {showGameID && data && (
-        <div className="container m-auto max-w-2xl">
-          <div className="bg-white px-4 py-1 shadow-md rounded-md m-4">
-            <input
-              className="w-full py-1 px-1"
-              placeholder="Enter game ID"
-              value={queryGameID}
-              onChange={(queryGameID) =>
-                setQueryGameID(queryGameID.target.value)
-              }
-              onKeyDown={(e) => onEnter(e)}
-            />
-          </div>
+        <div className="m-auto max-w-2xl">
+          <input
+            className="border border-gray-500 focus:outline-none focus:ring-0 focus:border-blue-500 w-full p-3 rounded-[20px]"
+            placeholder="Enter game ID"
+            value={queryGameID}
+            onChange={(queryGameID) => setQueryGameID(queryGameID.target.value)}
+            onKeyDown={(e) => onEnter(e)}
+          />
         </div>
       )}
     </div>

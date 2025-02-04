@@ -1,6 +1,7 @@
 import React from "react";
 import ShotChartHeader from "./ShotChartHeader";
 import ShotChartDisplay from "./ShotChartDisplay";
+import GamesInfo from "./GamesInfo";
 import { useState, useEffect } from "react";
 
 const ShotChartContainer = ({ data, headerInfo }) => {
@@ -34,6 +35,7 @@ const ShotChartContainer = ({ data, headerInfo }) => {
         <>
           <ShotChartHeader data={data} headerInfo={headerInfo} />
           <ShotChartDisplay data={data} />
+          <GamesInfo data={data} />
         </>
       )}
     </div>
