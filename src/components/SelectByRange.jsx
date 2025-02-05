@@ -1,14 +1,40 @@
 import React from "react";
 import { useState } from "react";
+import MyDateRangePicker from "./MyDateRangePicker";
+import { parseDate } from "@internationalized/date";
 
 const SelectByRange = ({ onSelect, data }) => {
   const [showRange, setShowRange] = useState(false);
   const [textColor, setTextColor] = useState(false);
-  const [dateFrom, setDateFrom] = useState("2025-01-01");
-  const [dateTo, setDateTo] = useState("2025-01-07");
+  const [value, setValue] = useState({
+    start: null,
+    end: null,
+  });
 
   const onClick = () => {
-    onSelect("", dateFrom, dateTo);
+    let startDate = value.start;
+    let endDate = value.end;
+    startDate = convertDateToYMD(startDate);
+    endDate = convertDateToYMD(endDate);
+
+    onSelect("", startDate, endDate);
+  };
+
+  const convertDateToYMD = (date) => {
+    let month = date.month;
+    let day = date.day;
+    let year = date.year;
+
+    if (parseInt(day) < 10) {
+      day = "0" + day;
+    }
+    if (parseInt(month) < 10) {
+      month = "0" + month;
+    }
+
+    const convertedDate = year + "-" + month + "-" + day;
+
+    return convertedDate;
   };
 
   return (
@@ -25,24 +51,20 @@ const SelectByRange = ({ onSelect, data }) => {
         Select Range
       </h1>
       {showRange && data && (
-        <div className="container m-auto max-w-2xl">
-          <div className="flex p-5 border border-gray-500 hover:border-blue-500 rounded-[20px] m-3">
-            <input
-              className="border border-gray-500 px-1 rounded-md"
-              placeholder="Enter start date"
-              value={dateFrom}
-              onChange={(dateFrom) => setDateFrom(dateFrom.target.value)}
-            />
-            <h1 className="ml-3 mr-3 mt-2">to</h1>
-            <input
-              className="border border-gray-500 px-1 rounded-md"
-              placeholder="Enter end date"
-              value={dateTo}
-              onChange={(dateTo) => setDateTo(dateTo.target.value)}
-            />
+        <div className="container m-auto max-w-md">
+          <div className="p-5 border border-gray-500 hover:border-blue-500 rounded-[20px]">
+            <div className="flex items-center justify-center m-2">
+              <MyDateRangePicker
+                label="Game Dates"
+                value={value}
+                onChange={(value) => {
+                  setValue(value);
+                }}
+              />
+            </div>
             <div className="flex justify-center">
               <button
-                className="bg-gray-500 hover:bg-blue-500 text-white font-bold py-2 px-4 ml-5 rounded-full"
+                className="bg-gray-500 hover:bg-blue-500 text-white font-bold py-2 px-4 m-3 rounded-xl"
                 type="submit"
                 onClick={() => onClick()}
               >

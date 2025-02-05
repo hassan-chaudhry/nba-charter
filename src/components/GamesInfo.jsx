@@ -22,8 +22,6 @@ const GamesInfo = ({ data }) => {
       }
     }
   }
-  console.log("all games");
-  console.log(allGames);
 
   return (
     <div className="bg-white-500 p-3">
