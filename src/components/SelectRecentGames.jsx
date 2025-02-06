@@ -2,8 +2,7 @@ import React from "react";
 import { useState } from "react";
 
 const SelectRecentGames = ({ onSelect, data }) => {
-  const [showRecentGames, setShowRecentGames] = useState(true);
-  const [textColor, setTextColor] = useState(true);
+  const [selectGame, setSelectedGame] = useState("");
 
   const teams = {
     NYK: "New York Knicks",
@@ -185,45 +184,40 @@ const SelectRecentGames = ({ onSelect, data }) => {
 
   return (
     <div className="bg-white-500 p-3">
-      <h1
-        className={`${
-          data && textColor ? "text-blue-500" : "text-gray-500"
-        } hover:text-blue-500 text-2xl m-7`}
-        onClick={() => {
-          setShowRecentGames((prevState) => !prevState);
-          data && setTextColor((prevState) => !prevState);
-        }}
-      >
-        Recent Games
-      </h1>
-      {showRecentGames && data && (
-        <div className="max-w-[95%] mx-auto h-[300px] overflow-y-auto border border-gray-500 p-3 rounded-[20px]">
-          <div className="grid grid-cols-5 gap-1 justify-center">
-            {allGames.map(
-              ({
-                gameID,
-                gameDate,
-                gameMatchup,
-                homeTeamColor,
-                visitTeamColor,
-              }) => (
-                <div
-                  key={gameID}
-                  className="border border-black-500 text-white text-sm px-10 py-5 hover:bg-blue-100 rounded-[20px] mr-1 ml-1 mb-5"
-                  style={{
-                    background: `linear-gradient(to right, rgb(${homeTeamColor}), rgb(${visitTeamColor}))`,
-                  }}
-                  onClick={() => onSelect(gameID, "", "")}
-                >
-                  {gameMatchup}
-                  <br />
-                  {gameDate}
-                </div>
-              )
-            )}
-          </div>
+      <h1 className="text-2xl text-center ml-10 mb-3">Recent Games</h1>
+      <div className="max-w-[95%] mx-auto h-[300px] overflow-y-auto border border-gray-500 p-3 rounded-[20px]">
+        <div className="grid grid-cols-5 gap-1 justify-center">
+          {allGames.map(
+            ({
+              gameID,
+              gameDate,
+              gameMatchup,
+              homeTeamColor,
+              visitTeamColor,
+            }) => (
+              <div
+                key={gameID}
+                className={`${
+                  selectGame === gameID
+                    ? "outline outline-white outline-offset-[-7px]"
+                    : ""
+                } text-white text-sm px-10 py-5 rounded-[20px] mr-1 ml-1 mb-5`}
+                style={{
+                  background: `linear-gradient(to right, rgb(${homeTeamColor}), rgb(${visitTeamColor}))`,
+                }}
+                onClick={() => {
+                  onSelect(gameID, "", "");
+                  setSelectedGame(gameID);
+                }}
+              >
+                {gameMatchup}
+                <br />
+                {gameDate}
+              </div>
+            )
+          )}
         </div>
-      )}
+      </div>
     </div>
   );
 };

@@ -26,7 +26,6 @@ function App() {
       if (response.status === 404) {
         const data = await response.json();
         if (data.bestMatch) {
-          console.log(suggestion);
           setSuggestion(data.bestMatch);
         }
         throw new Error(`HTTP error! Status: ${response.status}`);
