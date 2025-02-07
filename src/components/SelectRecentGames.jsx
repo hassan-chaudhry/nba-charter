@@ -184,9 +184,11 @@ const SelectRecentGames = ({ onSelect, data }) => {
   }
 
   return (
-    <div className="bg-white-500 p-3">
+    <div
+      className={`bg-white-500 border-4 border-gray-300 hover:border-blue-400 rounded-[20px] p-3 m-5`}
+    >
       <h1 className="text-2xl text-center ml-10 mb-3">Recent Games</h1>
-      <div className="max-w-[95%] mx-auto h-[300px] overflow-y-auto border border-gray-500 p-3 rounded-[20px]">
+      <div className="max-w-[95%] mx-auto h-[275px] overflow-y-auto p-3 mb-3">
         <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-1 justify-center">
           {allGames.map(
             ({

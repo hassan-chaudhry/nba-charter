@@ -23,8 +23,8 @@ function MyDateRangePicker({
 }) {
   return (
     <DateRangePicker className="relative" {...props}>
-      <Label className="flex justify-center">{label}</Label>
-      <Group className="flex items-center w-fit min-w-[220px] max-w-full overflow-auto relative p-[4px] pl-[8px] border border-gray-500 rounded-[6px] whitespace-nowrap">
+      <Label className="flex justify-center text-lg">{label}</Label>
+      <Group className="flex items-center w-fit min-w-[220px] max-w-full overflow-auto relative p-[10px] pl-[20px] bg-white border border-gray-500 rounded-md whitespace-nowrap">
         <DateInput slot="start" className="flex m-1 tracking-wider">
           {(segment) => <DateSegment segment={segment} />}
         </DateInput>
@@ -32,7 +32,7 @@ function MyDateRangePicker({
         <DateInput slot="end" className="flex m-1 tracking-wider">
           {(segment) => <DateSegment segment={segment} />}
         </DateInput>
-        <Button className="bg-blue-500 text-white text-[0.857rem] ml-auto rounded-[4px] w-[1.4rem] h-[1.4rem] p-0.5">
+        <Button className="bg-blue-500 text-white text-[0.857rem] ml-auto rounded-md w-[1.4rem] h-[1.4rem] p-0.6">
           ▼
         </Button>
       </Group>

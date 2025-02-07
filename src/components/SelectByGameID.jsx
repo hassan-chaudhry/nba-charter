@@ -12,7 +12,7 @@ const SelectByGameID = ({ onSelect, data }) => {
   };
 
   return (
-    <div className="bg-white-500 p-3">
+    <div className="bg-white-500 border-4 border-gray-300 hover:border-blue-400 rounded-[20px] p-5 py-24 m-1 ml-4">
       <h1 className="text-2xl text-center mb-3">Select by Game ID</h1>
       <div className="m-auto max-w-2xl">
         <input

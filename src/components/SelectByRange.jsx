@@ -1,9 +1,8 @@
 import React from "react";
 import { useState } from "react";
 import MyDateRangePicker from "./MyDateRangePicker";
-import { parseDate } from "@internationalized/date";
 
-const SelectByRange = ({ onSelect, data }) => {
+const SelectByRange = ({ onSelect }) => {
   const [value, setValue] = useState({
     start: null,
     end: null,
@@ -36,10 +35,10 @@ const SelectByRange = ({ onSelect, data }) => {
   };
 
   return (
-    <div className="bg-white-500 p-3">
+    <div className="bg-white-500 border-4 border-gray-300 hover:border-blue-400 rounded-[20px] p-5 m-1 mr-4">
       <h1 className="text-2xl text-center mb-3">Select By Range</h1>
       <div className="container m-auto max-w-md">
-        <div className="p-5 border-0 md:border md:border-gray-500 md:hover:border-blue-500 rounded-[20px]">
+        <div className="p-5 rounded-[20px]">
           <div className="flex items-center justify-center m-2">
             <MyDateRangePicker
               label="Game Dates"
@@ -51,7 +50,7 @@ const SelectByRange = ({ onSelect, data }) => {
           </div>
           <div className="flex justify-center">
             <button
-              className="bg-gray-500 hover:bg-blue-500 text-white py-2 px-4 m-3 rounded-xl"
+              className="bg-gray-400 hover:bg-blue-500 text-white py-2 px-4 m-3 rounded-xl"
               type="submit"
               onClick={() => onClick()}
             >

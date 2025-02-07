@@ -20,19 +20,21 @@ const ShotChartContainer = forwardRef((props, ref) => {
 
   return (
     <div ref={ref} className="bg-white-500 p-3">
-      <h1
-        className={`${
-          isChartActive ? "text-blue-500" : "text-gray-500"
-        } hover:text-blue-500 text-2xl m-7`}
-        onClick={() => {
-          if (data) {
-            setShowChart((prevState) => !prevState);
-            setIsChartActive((prevState) => !prevState);
-          }
-        }}
-      >
-        Shot Chart
-      </h1>
+      <div className="flex items-center justify-center">
+        <h1
+          className={`${
+            isChartActive ? "bg-blue-400" : "bg-gray-500"
+          } hover:bg-blue-400 text-2xl text-white text-center max-w-2xl m-7 px-12 py-3 rounded-[20px]`}
+          onClick={() => {
+            if (data) {
+              setShowChart((prevState) => !prevState);
+              setIsChartActive((prevState) => !prevState);
+            }
+          }}
+        >
+          Shot Chart
+        </h1>
+      </div>
       {showChart &&
         (data.resultSets[0].rowSet.length !== 0 ? (
           <>
