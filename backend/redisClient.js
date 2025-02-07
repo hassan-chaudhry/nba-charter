@@ -39,15 +39,14 @@ const loadPlayers = (players) => {
     redisClient.set(`player:full_name:${playerFullName}`, player.id);
 
     redisClient.sAdd("player_names:", player.full_name);
-    // const firstLetter = player.full_name[0].toUpperCase();
-    // redisClient.sAdd(`player_names:${firstLetter}`, player.full_name);
   });
-
-  console.log("NBA player data loaded into Redis");
 };
 
 const loadAllData = (data) => {
   if (data.players) loadPlayers(data.players);
+  else console.log("Error loading NBA player data into Redis");
+  if (data.wnba_players) loadPlayers(data.wnba_players);
+  else console.log("Error loading WNBA player data into Redis");
 
   console.log("All data loaded into Redis");
 };
