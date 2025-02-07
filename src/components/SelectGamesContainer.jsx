@@ -4,7 +4,7 @@ import SelectRecentGames from "./SelectRecentGames";
 import SelectByGameID from "./SelectByGameID";
 import SelectByRange from "./SelectByRange";
 
-const SelectGames = ({ onSelect, data }) => {
+const SelectGamesContainer = ({ onSelect, data }) => {
   const [textColor, setTextColor] = useState(true);
   const [showSelection, setShowSelection] = useState(true);
 
@@ -36,4 +36,4 @@ const SelectGames = ({ onSelect, data }) => {
   );
 };
 
-export default SelectGames;
+export default SelectGamesContainer;

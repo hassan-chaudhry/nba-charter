@@ -162,10 +162,11 @@ const SelectRecentGames = ({ onSelect, data }) => {
 
   let homeTeamColor = "bg-blue-50";
   let visitTeamColor = "bg-blue-50";
+  const gamesSoFar = data.resultSets[0].rowSet.length;
 
   let allGames = [];
   if (data) {
-    for (let i = 0; i < 30; i++) {
+    for (let i = 0; i < gamesSoFar; i++) {
       const matchup = data.resultSets[0].rowSet[i][4];
       const teams = matchup.split(" ");
       const homeTeam = teams[0];
@@ -186,7 +187,7 @@ const SelectRecentGames = ({ onSelect, data }) => {
     <div className="bg-white-500 p-3">
       <h1 className="text-2xl text-center ml-10 mb-3">Recent Games</h1>
       <div className="max-w-[95%] mx-auto h-[300px] overflow-y-auto border border-gray-500 p-3 rounded-[20px]">
-        <div className="grid grid-cols-5 gap-1 justify-center">
+        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-1 justify-center">
           {allGames.map(
             ({
               gameID,
@@ -201,7 +202,7 @@ const SelectRecentGames = ({ onSelect, data }) => {
                   selectGame === gameID
                     ? "outline outline-white outline-offset-[-7px]"
                     : ""
-                } text-white text-sm px-10 py-5 rounded-[20px] mr-1 ml-1 mb-5`}
+                } text-white text-m text-center px-10 py-5 rounded-[20px] mr-1 ml-1 mb-3`}
                 style={{
                   background: `linear-gradient(to right, rgb(${homeTeamColor}), rgb(${visitTeamColor}))`,
                 }}

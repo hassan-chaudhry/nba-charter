@@ -1,6 +1,6 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import court from "../assets/images/nbahalfcourt.png";
+import court from "../assets/images/nba-half-court.png";
 
 const ShotChartDisplay = ({ data }) => {
   const teams = {
@@ -187,9 +187,7 @@ const ShotChartDisplay = ({ data }) => {
     <>
       <div className="bg-white-500 p-3">
         <div className="flex items-center justify-center">
-          <div
-            style={{ position: "relative", width: "750px", height: "705px" }}
-          >
+          <div className="relative w-full max-w-[750px] aspect-[500/470]">
             <img
               src={court}
               alt="NBA Half Court"
@@ -211,32 +209,33 @@ const ShotChartDisplay = ({ data }) => {
                 SHOT_MADE_FLAG === 1 ? (
                   <circle
                     key={index}
+                    className="opacity-75"
                     cx={LOC_X}
                     cy={LOC_Y}
-                    r="5"
+                    r="4"
                     stroke={`rgb(${teamPrimaryColor})`}
                     strokeWidth="2"
                     fill="none"
                   />
                 ) : (
-                  <g key={`${index} - 0`}>
+                  <g key={`${index} - 0`} className="opacity-75">
                     <line
                       key={`${index} - 1`}
-                      x1={LOC_X - 5}
-                      y1={LOC_Y - 5}
-                      x2={LOC_X + 5}
-                      y2={LOC_Y + 5}
+                      x1={LOC_X - 4.5}
+                      y1={LOC_Y - 4.5}
+                      x2={LOC_X + 4.5}
+                      y2={LOC_Y + 4.5}
                       stroke={`rgb(${teamSecondaryColor})`}
-                      strokeWidth="2"
+                      strokeWidth="3"
                     />
                     <line
                       key={`${index} - 2`}
-                      x1={LOC_X - 5}
-                      y1={LOC_Y + 5}
-                      x2={LOC_X + 5}
-                      y2={LOC_Y - 5}
+                      x1={LOC_X - 4.5}
+                      y1={LOC_Y + 4.5}
+                      x2={LOC_X + 4.5}
+                      y2={LOC_Y - 4.5}
                       stroke={`rgb(${teamSecondaryColor})`}
-                      strokeWidth="2"
+                      strokeWidth="3"
                     />
                   </g>
                 )

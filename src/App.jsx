@@ -1,7 +1,7 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import Navbar from "./components/Navbar";
 import SearchBar from "./components/SearchBar";
-import SelectGames from "./components/SelectGames";
+import SelectGamesContainer from "./components/SelectGamesContainer";
 import ShotChartContainer from "./components/ShotChartContainer";
 
 function App() {
@@ -10,6 +10,7 @@ function App() {
   const [shotChartData, setShotChartData] = useState(null);
   const [headerInfo, setHeaderInfo] = useState([]);
   const [suggestion, setSuggestion] = useState("");
+  const refShotChart = useRef(null);
 
   const fetchPlayerGameLogData = async (query) => {
     const name = query.trim();
@@ -19,10 +20,6 @@ function App() {
       const response = await fetch(
         `http://localhost:5000/api/playergamelog?playerName=${name}`
       );
-
-      // if (!response.ok) {
-      //   throw new Error(`HTTP error! Status: ${response.status}`);
-      // }
       if (response.status === 404) {
         const data = await response.json();
         if (data.bestMatch) {
@@ -50,6 +47,9 @@ function App() {
       const data = await response.json();
       console.log(data);
       setShotChartData(data);
+      setTimeout(() => {
+        refShotChart.current?.scrollIntoView({ behavior: "smooth" });
+      }, 25);
     } catch (error) {
       console.log("You made a big mistake pal", error);
     }
@@ -59,8 +59,15 @@ function App() {
     <>
       <Navbar />
       <SearchBar onSearch={fetchPlayerGameLogData} suggestion={suggestion} />
-      <SelectGames onSelect={fetchShotChartData} data={playerGameLogData} />
-      <ShotChartContainer data={shotChartData} headerInfo={headerInfo} />
+      <SelectGamesContainer
+        onSelect={fetchShotChartData}
+        data={playerGameLogData}
+      />
+      <ShotChartContainer
+        ref={refShotChart}
+        data={shotChartData}
+        headerInfo={headerInfo}
+      />
     </>
   );
 }
