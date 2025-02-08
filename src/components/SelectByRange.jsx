@@ -2,19 +2,20 @@ import React from "react";
 import { useState } from "react";
 import MyDateRangePicker from "./MyDateRangePicker";
 
-const SelectByRange = ({ onSelect }) => {
-  const [value, setValue] = useState({
+const SelectByRange = ({ onSelect, handleReset, resetRange }) => {
+  const [selectRange, setSelectRange] = useState({
     start: null,
     end: null,
   });
 
   const onClick = () => {
-    let startDate = value.start;
-    let endDate = value.end;
+    let startDate = selectRange.start;
+    let endDate = selectRange.end;
     startDate = convertDateToYMD(startDate);
     endDate = convertDateToYMD(endDate);
-
     onSelect("", startDate, endDate);
+
+    handleReset(); // reset Recent and Game ID selections
   };
 
   const convertDateToYMD = (date) => {
@@ -35,16 +36,16 @@ const SelectByRange = ({ onSelect }) => {
   };
 
   return (
-    <div className="bg-white-500 border-4 border-gray-300 hover:border-blue-400 rounded-[20px] p-5 m-1 mr-4">
+    <div className="bg-white-500 border-4 border-gray-300 hover:border-blue-400 rounded-[20px] p-6 m-1 mr-4">
       <h1 className="text-2xl text-center mb-3">Select By Range</h1>
       <div className="container m-auto max-w-md">
         <div className="p-5 rounded-[20px]">
           <div className="flex items-center justify-center m-2">
             <MyDateRangePicker
               label="Game Dates"
-              value={value}
-              onChange={(value) => {
-                setValue(value);
+              selectRange={selectRange}
+              onChange={(selectRange) => {
+                setSelectRange(selectRange);
               }}
             />
           </div>

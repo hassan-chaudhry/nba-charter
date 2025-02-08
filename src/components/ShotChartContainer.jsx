@@ -15,6 +15,9 @@ const ShotChartContainer = forwardRef((props, ref) => {
     if (data) {
       setShowChart(true);
       setIsChartActive(true);
+    } else {
+      setShowChart(false);
+      setIsChartActive(false);
     }
   }, [data]);
 
@@ -36,6 +39,7 @@ const ShotChartContainer = forwardRef((props, ref) => {
         </h1>
       </div>
       {showChart &&
+        data &&
         (data.resultSets[0].rowSet.length !== 0 ? (
           <>
             <ShotChartHeader data={data} headerInfo={headerInfo} />

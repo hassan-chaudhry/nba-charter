@@ -13,6 +13,7 @@ import {
   RangeCalendar,
 } from "react-aria-components";
 import { today, getLocalTimeZone } from "@internationalized/date";
+import { BiCalendar } from "react-icons/bi";
 
 function MyDateRangePicker({
   label,
@@ -24,7 +25,7 @@ function MyDateRangePicker({
   return (
     <DateRangePicker className="relative" {...props}>
       <Label className="flex justify-center text-lg">{label}</Label>
-      <Group className="flex items-center w-fit min-w-[220px] max-w-full overflow-auto relative p-[10px] pl-[20px] bg-white border border-gray-500 rounded-md whitespace-nowrap">
+      <Group className="flex items-center w-fit min-w-[220px] max-w-full overflow-auto relative p-[8px] pl-[16px] bg-white border border-gray-500 rounded-md whitespace-nowrap">
         <DateInput slot="start" className="flex m-1 tracking-wider">
           {(segment) => <DateSegment segment={segment} />}
         </DateInput>
@@ -32,8 +33,8 @@ function MyDateRangePicker({
         <DateInput slot="end" className="flex m-1 tracking-wider">
           {(segment) => <DateSegment segment={segment} />}
         </DateInput>
-        <Button className="bg-blue-500 text-white text-[0.857rem] ml-auto rounded-md w-[1.4rem] h-[1.4rem] p-0.6">
-          ▼
+        <Button className="text-2xl p-1">
+          <BiCalendar />
         </Button>
       </Group>
       <Popover>

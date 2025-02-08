@@ -1,40 +1,8 @@
 import React from "react";
+import { teams } from "../constants/constants.jsx";
 import blank_pfp from "../assets/images/blank-profile-picture.png";
 
 const ShotChartHeader = ({ data, headerInfo }) => {
-  const teams = {
-    NYK: "New York Knicks",
-    ATL: "Atlanta Hawks",
-    BOS: "Boston Celtics",
-    BKN: "Brooklyn Nets",
-    CHA: "Charlotte Hornets",
-    CHI: "Chicago Bulls",
-    CLE: "Cleveland Cavaliers",
-    DAL: "Dallas Mavericks",
-    DEN: "Denver Nuggets",
-    DET: "Detroit Pistons",
-    GSW: "Golden State Warriors",
-    HOU: "Houston Rockets",
-    IND: "Indiana Pacers",
-    LAC: "Los Angeles Clippers",
-    LAL: "Los Angeles Lakers",
-    MEM: "Memphis Grizzlies",
-    MIA: "Miami Heat",
-    MIL: "Milwaukee Bucks",
-    MIN: "Minnesota Timberwolves",
-    NOP: "New Orleans Pelicans",
-    OKC: "Oklahoma City Thunder",
-    ORL: "Orlando Magic",
-    PHI: "Philadelphia 76ers",
-    PHX: "Phoenix Suns",
-    POR: "Portland Trail Blazers",
-    SAC: "Sacramento Kings",
-    SAS: "San Antonio Spurs",
-    TOR: "Toronto Raptors",
-    UTA: "Utah Jazz",
-    WAS: "Washington Wizards",
-  };
-
   const playerName = JSON.stringify(
     data.resultSets[0].rowSet[0][4],
     null,

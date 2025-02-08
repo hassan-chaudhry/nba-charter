@@ -3,6 +3,7 @@ import Navbar from "./components/Navbar";
 import SearchBar from "./components/SearchBar";
 import SelectGamesContainer from "./components/SelectGamesContainer";
 import ShotChartContainer from "./components/ShotChartContainer";
+import "react-tooltip/dist/react-tooltip.css";
 
 function App() {
   const [playerName, setPlayerName] = useState(null);
@@ -13,6 +14,7 @@ function App() {
   const refShotChart = useRef(null);
 
   const fetchPlayerGameLogData = async (query) => {
+    setShotChartData(null); // reset shot chart after user searches for new player
     const name = query.trim();
     setPlayerName(name);
 
@@ -49,7 +51,7 @@ function App() {
       setShotChartData(data);
       setTimeout(() => {
         refShotChart.current?.scrollIntoView({ behavior: "smooth" });
-      }, 25);
+      }, 15);
     } catch (error) {
       console.log("You made a big mistake pal", error);
     }
