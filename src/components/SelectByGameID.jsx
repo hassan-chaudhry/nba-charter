@@ -16,7 +16,7 @@ const SelectByGameID = ({ onSelect, handleReset, resetID }) => {
     if (e.key === "Enter") {
       e.preventDefault();
       if (selectID.length !== 0) {
-        onSelect(selectID, "", "");
+        onSelect(selectID, "", "", "");
 
         handleReset(); // reset Recent and Range selections
       }
@@ -24,7 +24,7 @@ const SelectByGameID = ({ onSelect, handleReset, resetID }) => {
   };
 
   return (
-    <div className="bg-white-500 border-4 border-gray-300 hover:border-blue-400 rounded-[20px] p-5 py-24 m-1 ml-4">
+    <div className="bg-white-500 border-4 border-gray-300 hover:border-blue-400 rounded-[20px] p-5 py-16 sm:py-20 h-72 m-1 ml-4">
       <div className="flex items-center justify-center mb-3">
         <h1 className="text-2xl">Select by Game ID</h1>
         <a

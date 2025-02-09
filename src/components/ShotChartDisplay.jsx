@@ -4,17 +4,27 @@ import court from "../assets/images/nba-half-court.png";
 
 const ShotChartDisplay = ({ data }) => {
   const playerTeamFullName = data.resultSets[0].rowSet[0][6];
-  const playerTeam = Object.keys(teams).find(
-    (key) => teams[key] === playerTeamFullName
-  );
-  const teamPrimaryColor = JSON.stringify(colors[playerTeam][0]).replace(
-    /[\[\]]/g,
-    ""
-  );
-  const teamSecondaryColor = JSON.stringify(colors[playerTeam][1]).replace(
-    /[\[\]]/g,
-    ""
-  );
+
+  let teamPrimaryColor = "0,122,51";
+  let teamSecondaryColor = "134,0,56";
+
+  try {
+    const playerTeam = Object.keys(teams).find(
+      (key) => teams[key] === playerTeamFullName
+    );
+    teamPrimaryColor = JSON.stringify(colors[playerTeam][0]).replace(
+      /[\[\]]/g,
+      ""
+    );
+    teamSecondaryColor = JSON.stringify(colors[playerTeam][1]).replace(
+      /[\[\]]/g,
+      ""
+    );
+  } catch (error) {
+    console.error(
+      "The player's team could not be found. This usually occurs when the team has changed names, relocated, or is no longer active in the NBA."
+    );
+  }
 
   let allShots = [];
   for (let i = 0; i < data.resultSets[0].rowSet.length; i++) {

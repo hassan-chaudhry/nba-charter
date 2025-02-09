@@ -62,6 +62,27 @@ const getBestMatch = async (queryName) => {
   return bestMatch;
 };
 
+const getCurrentSeason = () => {
+  const currentDate = new Date();
+
+  let month = currentDate.getMonth() + 1;
+  let year = currentDate.getFullYear();
+
+  let season;
+
+  if (month >= 10) {
+    const startYear = parseInt(year);
+    const endYear = parseInt(year) + 1;
+    season = startYear + "-" + endYear.toString().slice(2, 4);
+  } else {
+    const startYear = parseInt(year) - 1;
+    const endYear = parseInt(year);
+    season = startYear + "-" + endYear.toString().slice(2, 4);
+  }
+
+  return season;
+};
+
 app.get("/api/shotchartdetail", async (req, res) => {
   let { playerName } = req.query;
   if (!playerName) {
@@ -81,6 +102,7 @@ app.get("/api/shotchartdetail", async (req, res) => {
   const { gameID } = req.query || "";
   const { dateFrom } = req.query || "";
   const { dateTo } = req.query || "";
+  const { season } = req.query || "";
 
   const params = new URLSearchParams({
     ContextMeasure: "FGA",
@@ -91,8 +113,9 @@ app.get("/api/shotchartdetail", async (req, res) => {
     PlayerID: playerID.toString(),
     TeamID: 0,
     GameID: gameID.toString(),
-    DateFrom: dateFrom || "",
-    DateTo: dateTo || "",
+    DateFrom: dateFrom,
+    DateTo: dateTo,
+    season: season,
   });
 
   const queryString = params.toString();
@@ -145,6 +168,9 @@ app.get("/api/playergamelog", async (req, res) => {
       bestMatch: bestMatch,
     });
   }
+
+  // get current active NBA season
+  const season = getCurrentSeason();
 
   const params = new URLSearchParams({
     PlayerID: playerID.toString(),

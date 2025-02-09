@@ -1,9 +1,10 @@
 import React, { forwardRef } from "react";
+import { useState, useEffect } from "react";
 import ShotChartHeader from "./ShotChartHeader";
 import ShotChartDisplay from "./ShotChartDisplay";
 import GamesInfo from "./GamesInfo";
 import errorPic from "../assets/images/shot-chart-unavailable.jpg";
-import { useState, useEffect } from "react";
+import { HiOutlineExclamation } from "react-icons/hi";
 
 const ShotChartContainer = forwardRef((props, ref) => {
   const { data, headerInfo } = props;
@@ -49,10 +50,13 @@ const ShotChartContainer = forwardRef((props, ref) => {
         ) : (
           <div className="bg-white-500 p-10">
             <div className="flex items-center justify-center">
-              <h1 className="text-xl text-center text-white bg-orange-400 rounded-[20px] mb-5 p-2 w-3/4">
-                ⚠︎ The data for this game is unavailable. Check back after the
-                game's over!
-              </h1>
+              <div className="flex items-center justify-center bg-white-500 border-2 border-orange-400 text-xl text-center text-orange-400 border-orange-400 rounded-md mb-5 p-2 w-5/6">
+                <HiOutlineExclamation className="m-2 flex-shrink-0" />
+                <h1>
+                  The data for this game is not yet available. Check back after
+                  the game is over!
+                </h1>
+              </div>
             </div>
             <div className="flex items-center justify-center">
               <img
