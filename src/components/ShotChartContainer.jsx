@@ -78,6 +78,7 @@ const ShotChartContainer = forwardRef((props, ref) => {
             <div ref={shotChartRef}>
               <ShotChartHeader data={data} headerInfo={headerInfo} />
               <ShotChartDisplay data={data} />
+              <div className="mb-4"></div>
             </div>
             <GamesInfo data={data} />
           </div>

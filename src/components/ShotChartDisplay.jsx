@@ -38,28 +38,27 @@ const ShotChartDisplay = ({ data }) => {
   }
 
   return (
-    <>
-      <div className="bg-white-500 p-3">
-        <div className="flex items-center justify-center">
-          <div className="relative w-full max-w-[750px] aspect-[500/470]">
-            <img
-              src={court}
-              alt="NBA Half Court"
-              style={{ width: "100%", height: "100%" }}
-            />
-            <svg
-              style={{
-                position: "absolute",
-                top: 0,
-                left: 0,
-                width: "100%",
-                height: "100%",
-                pointerEvents: "none",
-              }}
-              viewBox="-250 -47.5 500 470"
-              preserveAspectRatio="none"
-            >
-              {/* <circle // center of basket should be at (0,0)
+    <div className="bg-white-500 p-3">
+      <div className="flex items-center justify-center">
+        <div className="relative w-full max-w-[750px] aspect-[500/470]">
+          <img
+            src={court}
+            alt="NBA Half Court"
+            style={{ width: "100%", height: "100%" }}
+          />
+          <svg
+            style={{
+              position: "absolute",
+              top: 0,
+              left: 0,
+              width: "100%",
+              height: "100%",
+              pointerEvents: "none",
+            }}
+            viewBox="-250 -47.5 500 470"
+            preserveAspectRatio="none"
+          >
+            {/* <circle // center of basket should be at (0,0)
                 className="opacity-75"
                 cx="0"
                 cy="0"
@@ -68,50 +67,49 @@ const ShotChartDisplay = ({ data }) => {
                 strokeWidth="5"
                 fill="red"
               /> */}
-              {allShots.map(({ LOC_X, LOC_Y, SHOT_MADE_FLAG }, index) =>
-                SHOT_MADE_FLAG === 1 ? (
-                  <circle
-                    key={index}
-                    className="opacity-75"
-                    cx={LOC_X}
-                    cy={LOC_Y}
-                    r="4"
-                    stroke={`rgb(${teamPrimaryColor})`}
-                    strokeWidth="2"
-                    fill="none"
+            {allShots.map(({ LOC_X, LOC_Y, SHOT_MADE_FLAG }, index) =>
+              SHOT_MADE_FLAG === 1 ? (
+                <circle
+                  key={index}
+                  className="opacity-75"
+                  cx={LOC_X}
+                  cy={LOC_Y}
+                  r="4"
+                  stroke={`rgb(${teamPrimaryColor})`}
+                  strokeWidth="2"
+                  fill="none"
+                />
+              ) : (
+                <g key={`${index} - 0`} className="opacity-75">
+                  <line
+                    key={`${index} - 1`}
+                    x1={LOC_X - 4.5}
+                    y1={LOC_Y - 4.5}
+                    x2={LOC_X + 4.5}
+                    y2={LOC_Y + 4.5}
+                    stroke={`rgb(${teamSecondaryColor})`}
+                    strokeWidth="3"
                   />
-                ) : (
-                  <g key={`${index} - 0`} className="opacity-75">
-                    <line
-                      key={`${index} - 1`}
-                      x1={LOC_X - 4.5}
-                      y1={LOC_Y - 4.5}
-                      x2={LOC_X + 4.5}
-                      y2={LOC_Y + 4.5}
-                      stroke={`rgb(${teamSecondaryColor})`}
-                      strokeWidth="3"
-                    />
-                    <line
-                      key={`${index} - 2`}
-                      x1={LOC_X - 4.5}
-                      y1={LOC_Y + 4.5}
-                      x2={LOC_X + 4.5}
-                      y2={LOC_Y - 4.5}
-                      stroke={`rgb(${teamSecondaryColor})`}
-                      strokeWidth="3"
-                    />
-                  </g>
-                )
-              )}
-            </svg>
-            <div className="flex justify-between mt-1">
-              <h1>Data Source: stats.nba.com</h1>
-              <h1>◯ = made, X = miss</h1>
-            </div>
+                  <line
+                    key={`${index} - 2`}
+                    x1={LOC_X - 4.5}
+                    y1={LOC_Y + 4.5}
+                    x2={LOC_X + 4.5}
+                    y2={LOC_Y - 4.5}
+                    stroke={`rgb(${teamSecondaryColor})`}
+                    strokeWidth="3"
+                  />
+                </g>
+              )
+            )}
+          </svg>
+          <div className="flex justify-between mt-1">
+            <h1>Data Source: stats.nba.com</h1>
+            <h1>◯ = made, X = miss</h1>
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

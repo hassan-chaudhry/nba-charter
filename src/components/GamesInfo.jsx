@@ -39,7 +39,7 @@ const GamesInfo = ({ data }) => {
   }
 
   return (
-    <div className="bg-white-500 adjust-center p-3 mt-5">
+    <div className="bg-white-500 adjust-center p-3 mt-1">
       <div className="bg-gray-100 m-5 p-5 rounded-[20px] whitespace-pre-line">
         {`The data for the chart above comes from the following games: ${"\n\n"}`}
         {allGames.map(({ gameID, gameDate, homeTeam, visitTeam }) => (
