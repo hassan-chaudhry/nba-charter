@@ -1,15 +1,18 @@
-import React, { forwardRef } from "react";
+import React, { forwardRef, useRef } from "react";
 import { useState, useEffect } from "react";
 import ShotChartHeader from "./ShotChartHeader";
 import ShotChartDisplay from "./ShotChartDisplay";
+import html2canvas from "html2canvas-pro";
 import GamesInfo from "./GamesInfo";
 import errorPic from "../assets/images/shot-chart-unavailable.jpg";
 import { HiOutlineExclamation } from "react-icons/hi";
+import { MdDownload } from "react-icons/md";
 
 const ShotChartContainer = forwardRef((props, ref) => {
   const { data, headerInfo } = props;
   const [showChart, setShowChart] = useState(false);
   const [isChartActive, setIsChartActive] = useState(false);
+  const shotChartRef = useRef(null);
 
   // open Shot Chart tab when data loaded
   useEffect(() => {
@@ -21,6 +24,27 @@ const ShotChartContainer = forwardRef((props, ref) => {
       setIsChartActive(false);
     }
   }, [data]);
+
+  const handleDownload = async () => {
+    const element = shotChartRef.current;
+    const canvas = await html2canvas(element, {
+      useCORS: true,
+    });
+
+    const data = canvas.toDataURL("image/jpg");
+    const link = document.createElement("a");
+
+    if (typeof link.download === "string") {
+      link.href = data;
+      link.download = "shotchart.jpg";
+
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    } else {
+      window.open(data);
+    }
+  };
 
   return (
     <div ref={ref} className="bg-white-500 p-3">
@@ -42,11 +66,21 @@ const ShotChartContainer = forwardRef((props, ref) => {
       {showChart &&
         data &&
         (data.resultSets[0].rowSet.length !== 0 ? (
-          <>
-            <ShotChartHeader data={data} headerInfo={headerInfo} />
-            <ShotChartDisplay data={data} />
+          <div className="grid items-center justify-center">
+            <div className="grid justify-end mr-5">
+              <button
+                className="bg-white-500 text-3xl border border-black rounded-md p-1 hover:bg-gray-100"
+                onClick={handleDownload}
+              >
+                <MdDownload />
+              </button>
+            </div>
+            <div ref={shotChartRef}>
+              <ShotChartHeader data={data} headerInfo={headerInfo} />
+              <ShotChartDisplay data={data} />
+            </div>
             <GamesInfo data={data} />
-          </>
+          </div>
         ) : (
           <div className="bg-white-500 p-10">
             <div className="flex items-center justify-center">

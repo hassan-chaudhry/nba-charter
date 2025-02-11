@@ -204,13 +204,33 @@ app.get("/api/playergamelog", async (req, res) => {
     );
     if (!response.ok) {
       console.error(`Error: ${res.statusText}`);
-      return res.status(res.status).json({ error: res.statusText });
+      return res.status(response.status).json({ error: response.statusText });
     }
     const data = await response.json();
     res.json(data);
   } catch (error) {
     console.error("Error fetching data: ", error);
     res.status(500).json({ error: "Failed to fetch data from NBA API" });
+  }
+});
+
+app.get("/image/playerpic", async (req, res) => {
+  const { playerID } = req.query;
+
+  try {
+    const response = await fetch(
+      `https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/${playerID}.png`
+    );
+    if (!response.ok) {
+      console.error(`Failed to fetch player picture: ${res.statusText}`);
+      return res.status(response.status).json({ error: response.statusText });
+    }
+
+    const buffer = await response.arrayBuffer();
+    res.set("Content-Type", "image/png");
+    res.send(Buffer.from(buffer));
+  } catch (error) {
+    res.status(500).send("Failed to fetch image");
   }
 });
 

@@ -44,8 +44,9 @@ const ShotChartHeader = ({ data, headerInfo }) => {
     <div className="bg-white-500 p-3">
       <div className="flex items-center justify-center">
         <img
-          src={`https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/${playerID}.png`}
+          src={`http://localhost:5000/image/playerpic?playerID=${playerID}`}
           alt="Player Picture"
+          crossOrigin="anonymous"
           onError={useDefaultPic}
           className="mr-3 w-48"
         />

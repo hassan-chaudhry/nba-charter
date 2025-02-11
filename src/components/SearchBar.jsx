@@ -1,5 +1,6 @@
 import React from "react";
 import { useState, useEffect } from "react";
+import { FaSearch } from "react-icons/fa";
 
 const SearchBar = ({ onSearch, suggestion }) => {
   const [query, setQuery] = useState("jalen brunson");
@@ -35,13 +36,16 @@ const SearchBar = ({ onSearch, suggestion }) => {
 
   return (
     <div className="bg-white m-auto max-w-md sm:max-w-xl md:max-w-3xl">
-      <input
-        className="border border-gray-500 focus:outline-none focus:ring-0 focus:border-blue-500 w-full p-4 rounded-[20px]"
-        placeholder="Type a player's name and press 'Enter'"
-        value={query}
-        onChange={(query) => setQuery(query.target.value)}
-        onKeyDown={(e) => onEnter(e)}
-      />
+      <div className="flex items-center border border-gray-500 focus-within:border-blue-500 focus-within:text-blue-500 p-4 rounded-[20px]">
+        <FaSearch className="mr-3" />
+        <input
+          className="focus:outline-none focus:ring-0 w-full text-black"
+          placeholder="Type a player's name and press 'Enter'"
+          value={query}
+          onChange={(query) => setQuery(query.target.value)}
+          onKeyDown={(e) => onEnter(e)}
+        />
+      </div>
       <div className="flex text-blue-500 m-2">
         <h1 className="mr-1">{suggestionBarHeader}</h1>
         <h1 className="hover:underline" onClick={updateQuery}>

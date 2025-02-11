@@ -1,6 +1,6 @@
 import React from "react";
 import { teams, colors } from "../constants/constants.jsx";
-import court from "../assets/images/nba-half-court.png";
+import court from "../assets/images/court.png";
 
 const ShotChartDisplay = ({ data }) => {
   const playerTeamFullName = data.resultSets[0].rowSet[0][6];
@@ -59,6 +59,15 @@ const ShotChartDisplay = ({ data }) => {
               viewBox="-250 -47.5 500 470"
               preserveAspectRatio="none"
             >
+              {/* <circle // center of basket should be at (0,0)
+                className="opacity-75"
+                cx="0"
+                cy="0"
+                r="4"
+                stroke="red"
+                strokeWidth="5"
+                fill="red"
+              /> */}
               {allShots.map(({ LOC_X, LOC_Y, SHOT_MADE_FLAG }, index) =>
                 SHOT_MADE_FLAG === 1 ? (
                   <circle
