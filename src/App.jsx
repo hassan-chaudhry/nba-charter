@@ -48,6 +48,8 @@ function App() {
       setHeaderInfo(["range", dateFrom, dateTo]);
     } else if (season) {
       setHeaderInfo(["season", season, seasonType]);
+    } else {
+      setHeaderInfo([]);
     }
 
     console.log(seasonType);
