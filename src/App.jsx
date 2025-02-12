@@ -37,11 +37,24 @@ function App() {
     }
   };
 
-  const fetchShotChartData = async (gameID, dateFrom, dateTo, season) => {
-    setHeaderInfo([dateFrom, dateTo]);
+  const fetchShotChartData = async (
+    gameID,
+    dateFrom,
+    dateTo,
+    season,
+    seasonType
+  ) => {
+    if (dateFrom && dateTo) {
+      setHeaderInfo(["range", dateFrom, dateTo]);
+    } else if (season) {
+      setHeaderInfo(["season", season, seasonType]);
+    }
+
+    console.log(seasonType);
+
     try {
       const response = await fetch(
-        `http://localhost:5000/api/shotchartdetail?playerName=${playerName}&gameID=${gameID}&dateFrom=${dateFrom}&dateTo=${dateTo}&season=${season}`
+        `http://localhost:5000/api/shotchartdetail?playerName=${playerName}&gameID=${gameID}&dateFrom=${dateFrom}&dateTo=${dateTo}&season=${season}&seasonType=${seasonType}`
       );
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);

@@ -1,5 +1,6 @@
 import React from "react";
 import { useState } from "react";
+import SelectionCard from "./SelectionCard";
 import MyDateRangePicker from "./MyDateRangePicker";
 import { HiOutlineExclamation } from "react-icons/hi";
 
@@ -20,7 +21,7 @@ const SelectByRange = ({ onSelect, handleReset }) => {
       setInvalidRange(false);
       startDate = convertDateToYMD(startDate);
       endDate = convertDateToYMD(endDate);
-      onSelect("", startDate, endDate, season);
+      onSelect("", startDate, endDate, season, "");
     } else {
       setInvalidRange(true);
     }
@@ -84,49 +85,36 @@ const SelectByRange = ({ onSelect, handleReset }) => {
   };
 
   return (
-    <div className="bg-white-500 border-4 border-gray-300 hover:border-blue-400 rounded-[20px] p-5 m-1 mr-4 h-72">
-      <h1 className="text-2xl text-center">Select By Range</h1>
-      <div className="container m-auto max-w-md">
-        <div className="p-2 rounded-[20px]">
-          <div className="flex items-center justify-center m-2">
-            <MyDateRangePicker
-              label="Game Dates"
-              selectRange={selectRange}
-              onChange={(selectRange) => {
-                setSelectRange(selectRange);
-              }}
-            />
-          </div>
-          <div className="flex justify-center">
-            <button
-              className="bg-gray-400 hover:bg-blue-500 text-white py-2 px-4 m-2 rounded-xl"
-              type="submit"
-              onClick={() => onClick()}
-            >
-              Generate Chart
-            </button>
-          </div>
-          <div className="flex justify-center">
-            <div
-              className={`${
-                invalidRange
-                  ? "border text-red-400 border-red-400 rounded-md"
-                  : ""
-              } flex items-center bg-white-500 p-1 sm:m-3`}
-            >
-              {invalidRange ? (
-                <>
-                  <HiOutlineExclamation className="flex-shrink-0 m-1" />
-                  <p>Invalid Range. Please Try Again.</p>
-                </>
-              ) : (
-                ""
-              )}
-            </div>
-          </div>
-        </div>
+    <SelectionCard>
+      <h1 className="text-2xl mb-2">Select By Range</h1>
+
+      <div className="p-1 rounded-[20px]">
+        <MyDateRangePicker
+          label="Game Dates"
+          selectRange={selectRange}
+          onChange={(selectRange) => {
+            setSelectRange(selectRange);
+          }}
+        />
       </div>
-    </div>
+
+      <button
+        className="bg-gray-400 hover:bg-blue-500 text-white py-2 px-4 m-3 rounded-xl"
+        type="submit"
+        onClick={() => onClick()}
+      >
+        Generate Chart
+      </button>
+
+      <div className="h-8">
+        {invalidRange && (
+          <div className="flex border border-red-400 text-red-400 rounded-md items-center justify-center">
+            <HiOutlineExclamation className="flex-shrink-0 m-1" />
+            <p className="m-1">Invalid Range. Please Try Again.</p>
+          </div>
+        )}
+      </div>
+    </SelectionCard>
   );
 };
 

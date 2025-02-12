@@ -103,6 +103,7 @@ app.get("/api/shotchartdetail", async (req, res) => {
   const { dateFrom } = req.query || "";
   const { dateTo } = req.query || "";
   const { season } = req.query || "";
+  const { seasonType } = req.query || "";
 
   const params = new URLSearchParams({
     ContextMeasure: "FGA",
@@ -116,6 +117,7 @@ app.get("/api/shotchartdetail", async (req, res) => {
     DateFrom: dateFrom,
     DateTo: dateTo,
     season: season,
+    SeasonType: seasonType,
   });
 
   const queryString = params.toString();

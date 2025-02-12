@@ -1,8 +1,9 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import SelectRecentGames from "./SelectRecentGames";
-import SelectByGameID from "./SelectByGameID";
 import SelectByRange from "./SelectByRange";
+import SelectBySeason from "./SelectBySeason";
+import SelectByGameID from "./SelectByGameID";
 
 const SelectGamesContainer = ({ onSelect, data }) => {
   const [textColor, setTextColor] = useState(false);
@@ -11,6 +12,7 @@ const SelectGamesContainer = ({ onSelect, data }) => {
   const [resetRecent, setResetRecent] = useState(false);
   const [resetRange, setResetRange] = useState(false);
   const [resetID, setResetID] = useState(false);
+  const [resetSeason, setResetSeason] = useState("");
 
   useEffect(() => {
     if (data) {
@@ -66,11 +68,15 @@ const SelectGamesContainer = ({ onSelect, data }) => {
               handleReset={resetRangeAndID}
               resetRecent={resetRecent}
             />
-            <div className="grid grid-cols-2 mt-1 p-3 items-center">
+            <div className="grid grid-cols-3 p-3">
               <SelectByRange
                 onSelect={onSelect}
                 handleReset={resetRecentAndID}
-                resetRange={resetRange}
+              />
+              <SelectBySeason
+                onSelect={onSelect}
+                handleReset={resetRecentAndID}
+                resetSeason={resetSeason}
               />
               <SelectByGameID
                 onSelect={onSelect}

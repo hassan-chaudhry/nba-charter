@@ -28,12 +28,19 @@ const ShotChartHeader = ({ data, headerInfo }) => {
       : teams[data.resultSets[0].rowSet[0][22]];
   const date = data.resultSets[0].rowSet[0][21];
 
-  const header =
-    headerInfo[0] !== ""
-      ? `${playerName} ${"\n"} from ${formatDate(
-          headerInfo[0]
-        )} to ${formatDate(headerInfo[1])}`
-      : `${playerName} ${"\n"} vs. ${opponentTeam} on ${formatDate(date)}`;
+  let header;
+
+  if (headerInfo[0] === "range") {
+    // prettier-ignore
+    header = `${playerName} ${"\n"} from ${formatDate(headerInfo[1])} to ${formatDate(headerInfo[2])}`; // range of games
+  } else if (headerInfo[0] === "season") {
+    headerInfo[1] = headerInfo[1].replace("+", " ");
+    headerInfo[2] = headerInfo[2].replace("+", " ");
+    // prettier-ignore
+    header = `${playerName} ${"\n"} during the ${headerInfo[1]} ${headerInfo[2]}`; // season of games
+  } else {
+    header = `${playerName} ${"\n"} vs. ${opponentTeam} on ${formatDate(date)}`; // single game
+  }
 
   const playerID = data.resultSets[0].rowSet[0][3];
   const useDefaultPic = (e) => {

@@ -13,7 +13,7 @@ const SelectRecentGames = ({ onSelect, data, handleReset, resetRecent }) => {
   }, [resetRecent]);
 
   const onClick = (gameID) => {
-    onSelect(gameID, "", "", "");
+    onSelect(gameID, "", "", "", "");
     setSelectRecent(gameID);
 
     handleReset(); // reset Range and Game ID selections
@@ -42,7 +42,7 @@ const SelectRecentGames = ({ onSelect, data, handleReset, resetRecent }) => {
 
   return (
     <div
-      className={`bg-white-500 border-4 border-gray-300 hover:border-blue-400 rounded-[20px] p-3 m-5`}
+      className={`bg-white-500 border-4 border-gray-300 hover:border-blue-400 rounded-[20px] p-3 mx-5 mb-2`}
     >
       <h1 className="text-2xl text-center mb-3">Recent Games</h1>
       <div className="max-w-[95%] mx-auto h-[275px] overflow-y-auto p-3 mb-3">
@@ -62,7 +62,7 @@ const SelectRecentGames = ({ onSelect, data, handleReset, resetRecent }) => {
                     selectRecent === gameID
                       ? "outline outline-white outline-offset-[-7px]"
                       : ""
-                  } text-white text-m text-center px-10 py-5 rounded-[20px] mr-1 ml-1 mb-3`}
+                  } text-white text-center text-m rounded-[20px] px-10 py-5 mx-1 mb-3`}
                   style={{
                     background: `linear-gradient(to right, rgb(${homeTeamColor}), rgb(${visitTeamColor}))`,
                   }}

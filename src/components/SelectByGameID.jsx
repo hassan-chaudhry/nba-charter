@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import SelectionCard from "./SelectionCard";
 import { BsExclamationCircleFill } from "react-icons/bs";
 import { Tooltip } from "react-tooltip";
 import gameIDPic from "../assets/images/game-id-url.png";
@@ -16,7 +17,7 @@ const SelectByGameID = ({ onSelect, handleReset, resetID }) => {
     if (e.key === "Enter") {
       e.preventDefault();
       if (selectID.length !== 0) {
-        onSelect(selectID, "", "", "");
+        onSelect(selectID, "", "", "", "");
 
         handleReset(); // reset Recent and Range selections
       }
@@ -24,8 +25,8 @@ const SelectByGameID = ({ onSelect, handleReset, resetID }) => {
   };
 
   return (
-    <div className="bg-white-500 border-4 border-gray-300 hover:border-blue-400 rounded-[20px] p-5 py-16 sm:py-20 h-72 m-1 ml-4">
-      <div className="flex items-center justify-center mb-3">
+    <SelectionCard>
+      <div className="flex mb-2">
         <h1 className="text-2xl">Select by Game ID</h1>
         <a
           data-tooltip-id="GameIDTip"
@@ -38,22 +39,21 @@ const SelectByGameID = ({ onSelect, handleReset, resetID }) => {
             </div>`}
           data-tooltip-place="top"
         >
-          <BsExclamationCircleFill className="m-2 text-lg" />
+          <BsExclamationCircleFill className="text-lg m-1.5" />
         </a>
         <Tooltip id="GameIDTip" />
       </div>
-      <div className="m-auto max-w-2xl">
-        <input
-          className="border border-gray-500 focus:outline-none focus:ring-0 focus:border-blue-500 w-full p-3 rounded-[20px]"
-          placeholder="Enter game ID"
-          value={selectID}
-          onChange={(selectID) => {
-            setSelectID(selectID.target.value);
-          }}
-          onKeyDown={(e) => onEnter(e)}
-        />
-      </div>
-    </div>
+
+      <input
+        className="border border-gray-500 focus:outline-none focus:ring-0 focus:border-blue-500 w-full p-3 rounded-[20px]"
+        placeholder="Enter game ID"
+        value={selectID}
+        onChange={(selectID) => {
+          setSelectID(selectID.target.value);
+        }}
+        onKeyDown={(e) => onEnter(e)}
+      />
+    </SelectionCard>
   );
 };
 
