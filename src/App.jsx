@@ -33,7 +33,7 @@ function App() {
       console.log(data);
       setPlayerGameLogData(data);
     } catch (error) {
-      console.log("You made a big mistake pal", error);
+      console.log("Could not fetch player", error);
     }
   };
 
@@ -66,7 +66,7 @@ function App() {
         refShotChart.current?.scrollIntoView({ behavior: "smooth" });
       }, 15);
     } catch (error) {
-      console.log("You made a big mistake pal", error);
+      console.log("Could not fetch shot chart", error);
     }
   };
 

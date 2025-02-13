@@ -17,7 +17,6 @@ const SearchBar = ({ onSearch, suggestion }) => {
     onSearch(suggestion);
     setQuery(suggestion);
     setShowSuggestion(false);
-    onScroll();
   };
 
   useEffect(() => {
@@ -26,7 +25,6 @@ const SearchBar = ({ onSearch, suggestion }) => {
 
   let suggestionBarHeader, suggestionBarName;
   if (showSuggestion) {
-    console.log("show suggestion");
     suggestionBarHeader = "Did you mean: ";
     suggestionBarName = suggestion;
   } else {
