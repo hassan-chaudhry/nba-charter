@@ -46,13 +46,11 @@ function App() {
   ) => {
     if (dateFrom && dateTo) {
       setHeaderInfo(["range", dateFrom, dateTo]);
-    } else if (season) {
+    } else if (season && seasonType) {
       setHeaderInfo(["season", season, seasonType]);
     } else {
       setHeaderInfo([]);
     }
-
-    console.log(seasonType);
 
     try {
       const response = await fetch(

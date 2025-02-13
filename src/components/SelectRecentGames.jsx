@@ -42,7 +42,7 @@ const SelectRecentGames = ({ onSelect, data, handleReset, resetRecent }) => {
 
   return (
     <div
-      className={`bg-white-500 border-4 border-gray-300 hover:border-blue-400 rounded-[20px] p-3 mx-5 mb-2`}
+      className={`bg-white-500 border-4 border-gray-300 hover:border-blue-400 rounded-[20px] p-3 mx-5`}
     >
       <h1 className="text-2xl text-center mb-3">Recent Games</h1>
       <div className="max-w-[95%] mx-auto h-[275px] overflow-y-auto p-3 mb-3">

@@ -1,58 +1,62 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import SelectionCard from "./SelectionCard";
+import Select from "react-select";
 
-const SelectBySeason = ({ onSelect, handleReset, resetSeason }) => {
-  const [selectSeasonType, setSelectSeasonType] = useState("Regular Season");
-  const [selectSeason, setSelectSeason] = useState("2024-25");
-
-  useEffect(() => {
-    if (resetSeason) {
-      setSelectSeason("Regular Season");
-      setSelectSeasonType("2024-25");
-    }
-  }, [resetSeason]);
-
-  const handleSeasonTypeChange = (e) => {
-    setSelectSeasonType(e.target.value);
-  };
-
-  const handleSeasonChange = (e) => {
-    setSelectSeason(e.target.value);
-  };
+const SelectBySeason = ({ onSelect, handleReset }) => {
+  const [selectSeasonType, setSelectSeasonType] = useState({
+    value: "Regular+Season",
+    label: "Regular Season",
+  });
+  const [selectSeason, setSelectSeason] = useState({
+    value: "2024-25",
+    label: "2024-25",
+  });
 
   const onClick = () => {
-    onSelect("", "", "", selectSeason, selectSeasonType);
+    onSelect("", "", "", selectSeason.value, selectSeasonType.value);
 
     handleReset(); // reset Recent and Game ID selections
   };
+
+  const optionsSeasonType = [
+    { value: "Pre+Season", label: "Pre Season" },
+    { value: "Regular+Season", label: "Regular Season" },
+    { value: "Playoffs", label: "Playoffs" },
+  ];
+
+  const optionsSeason = [
+    { value: "2024-25", label: "2024-25" },
+    { value: "2023-24", label: "2023-24" },
+    { value: "2022-23", label: "2022-23" },
+    { value: "2021-22", label: "2021-22" },
+    { value: "2020-21", label: "2020-21" },
+  ];
 
   return (
     <SelectionCard>
       <h1 className="text-2xl mb-2">Select By Season</h1>
 
       <div className="m-2">
-        <label className="m-1">Season Type</label>
-        <select
-          value={selectSeasonType}
-          onChange={handleSeasonTypeChange}
-          className=""
-        >
-          <option value="Pre+Season">Pre Season</option>
-          <option value="Regular+Season">Regular Season</option>
-          <option value="Playoffs">Playoffs</option>
-        </select>
+        Season Type
+        <Select
+          className="border border-gray-500 hover:border-blue-500 rounded-md"
+          options={optionsSeasonType}
+          value={optionsSeasonType.value}
+          defaultValue={selectSeasonType}
+          onChange={setSelectSeasonType}
+        />
       </div>
 
       <div className="m-2">
-        <label className="m-1">Season</label>
-        <select value={selectSeason} onChange={handleSeasonChange} className="">
-          <option value="2024-25">2024-25</option>
-          <option value="2023-24">2023-24</option>
-          <option value="2022-23">2022-23</option>
-          <option value="2021-22">2021-22</option>
-          <option value="2020-21">2020-21</option>
-        </select>
+        Season
+        <Select
+          className="border border-gray-500 hover:border-blue-500 rounded-md"
+          options={optionsSeason}
+          value={optionsSeason.value}
+          defaultValue={selectSeason}
+          onChange={setSelectSeason}
+        />
       </div>
 
       <button

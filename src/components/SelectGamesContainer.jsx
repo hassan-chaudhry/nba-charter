@@ -10,7 +10,6 @@ const SelectGamesContainer = ({ onSelect, data }) => {
   const [showSelection, setShowSelection] = useState(false);
 
   const [resetRecent, setResetRecent] = useState(false);
-  const [resetRange, setResetRange] = useState(false);
   const [resetID, setResetID] = useState(false);
   const [resetSeason, setResetSeason] = useState("");
 
@@ -24,22 +23,19 @@ const SelectGamesContainer = ({ onSelect, data }) => {
     }
   }, [data]);
 
-  const resetRangeAndID = () => {
-    setResetRange(true);
-    setResetID(true);
-    setResetRecent(false);
-  };
-
   const resetRecentAndID = () => {
     setResetRecent(true);
     setResetID(true);
-    setResetRange(false);
   };
 
-  const resetRecentAndRange = () => {
+  const resetRecentOnly = () => {
     setResetRecent(true);
-    setResetRange(true);
     setResetID(false);
+  };
+
+  const resetIDOnly = () => {
+    setResetID(true);
+    setResetRecent(false);
   };
 
   return (
@@ -65,10 +61,10 @@ const SelectGamesContainer = ({ onSelect, data }) => {
             <SelectRecentGames
               onSelect={onSelect}
               data={data}
-              handleReset={resetRangeAndID}
+              handleReset={resetIDOnly}
               resetRecent={resetRecent}
             />
-            <div className="grid grid-cols-3 p-3">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 p-3">
               <SelectByRange
                 onSelect={onSelect}
                 handleReset={resetRecentAndID}
@@ -80,7 +76,7 @@ const SelectGamesContainer = ({ onSelect, data }) => {
               />
               <SelectByGameID
                 onSelect={onSelect}
-                handleReset={resetRecentAndRange}
+                handleReset={resetRecentOnly}
                 resetID={resetID}
               />
             </div>

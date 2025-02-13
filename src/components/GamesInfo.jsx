@@ -17,9 +17,12 @@ const GamesInfo = ({ data }) => {
     return finalDate;
   };
 
-  let allGames = [];
-  let game = {};
+  let allGamesSorted = [];
+
   if (data) {
+    let allGames = [];
+    let game = {};
+
     for (let i = 0; i < numOfShots; i++) {
       let gameID = data.resultSets[0].rowSet[i][1];
       if (!allGames.some((game) => game.gameID === gameID)) {
@@ -32,22 +35,26 @@ const GamesInfo = ({ data }) => {
         allGames.push(game);
       }
     }
-  }
 
-  if (allGames.length === 1) {
-    return <div className="bg-white-500 adjust-center p-5"></div>;
+    allGamesSorted = [...allGames].sort(
+      (a, b) => Number(a.gameDate) - Number(b.gameDate)
+    );
   }
 
   return (
-    <div className="bg-white-500 adjust-center p-3 mt-1">
-      <div className="bg-gray-100 m-5 p-5 rounded-[20px] whitespace-pre-line">
-        {`The data for the chart above comes from the following games: ${"\n\n"}`}
-        {allGames.map(({ gameID, gameDate, homeTeam, visitTeam }) => (
-          <div key={gameID} className="text-m">
-            • {homeTeam} vs. {visitTeam} - {formatDate(gameDate)}
+    <div className="bg-white-500">
+      {allGamesSorted.length > 1 && (
+        <div className="bg-gray-100 m-5 p-5 rounded-[20px] whitespace-pre-line">
+          {`The data for the chart above comes from the following games: ${"\n\n"}`}
+          <div className="grid grid-cols-1 md:grid-cols-2">
+            {allGamesSorted.map(({ gameID, gameDate, homeTeam, visitTeam }) => (
+              <div key={gameID} className="text-s sm:text-m">
+                • {homeTeam} vs. {visitTeam} - {formatDate(gameDate)}
+              </div>
+            ))}
           </div>
-        ))}
-      </div>
+        </div>
+      )}
     </div>
   );
 };
