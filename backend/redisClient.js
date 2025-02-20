@@ -45,8 +45,8 @@ const loadPlayers = (players) => {
 const loadAllData = (data) => {
   if (data.players) loadPlayers(data.players);
   else console.log("Error loading NBA player data into Redis");
-  if (data.wnba_players) loadPlayers(data.wnba_players);
-  else console.log("Error loading WNBA player data into Redis");
+  // if (data.wnba_players) loadPlayers(data.wnba_players);
+  // else console.log("Error loading WNBA player data into Redis");
 
   console.log("All data loaded into Redis");
 };
