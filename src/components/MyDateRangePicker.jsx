@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   Button,
   CalendarCell,
@@ -22,6 +23,7 @@ function MyDateRangePicker({
   firstDayOfWeek,
   ...props
 }) {
+  const [calIconClicked, setCalIconClicked] = useState(false);
   return (
     <DateRangePicker className="relative" {...props}>
       <Label className="flex justify-center text-lg">{label}</Label>
@@ -34,7 +36,15 @@ function MyDateRangePicker({
           {(segment) => <DateSegment segment={segment} />}
         </DateInput>
         <Button className="text-2xl p-1">
-          <BiCalendar />
+          <BiCalendar
+            className={`${calIconClicked ? "text-gray-400" : "text-black"}`}
+            onPointerDown={() => {
+              setCalIconClicked(true);
+            }}
+            onPointerUp={() => {
+              setCalIconClicked(false);
+            }}
+          />
         </Button>
       </Group>
       <Popover>

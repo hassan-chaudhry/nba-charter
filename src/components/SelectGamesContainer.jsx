@@ -37,16 +37,14 @@ const SelectGamesContainer = ({ onSelect, data }) => {
   };
 
   return (
-    <>
+    <div className="bg-white-500 p-3">
       {data && (
-        <div className="bg-white-500 p-3">
-          <motion.div
-            className="flex flex-col items-center m-5"
-            onHoverStart={() => setHovered(true)}
-            onHoverEnd={() => setHovered(false)}
-          >
-            <h1
-              className="text-2xl text-black text-center font-bold relative"
+        <>
+          <div className="flex flex-col items-center m-5">
+            <motion.div
+              className="text-2xl text-black text-center font-bold relative cursor-default"
+              onHoverStart={() => setHovered(true)}
+              onHoverEnd={() => setHovered(false)}
               onClick={() => {
                 if (data) {
                   setShowSelection((prevState) => !prevState);
@@ -57,10 +55,10 @@ const SelectGamesContainer = ({ onSelect, data }) => {
               <div
                 className={`absolute left-0 h-1 bg-blue-500 rounded-xl transition-all duration-300 ease-in-out ${
                   hovered ? "w-full" : "w-0"
-                }`}
+                } ${showSelection ? "w-full" : "w-0"}`}
               ></div>
-            </h1>
-          </motion.div>
+            </motion.div>
+          </div>
 
           {showSelection && (
             <>
@@ -87,9 +85,9 @@ const SelectGamesContainer = ({ onSelect, data }) => {
               </div>
             </>
           )}
-        </div>
+        </>
       )}
-    </>
+    </div>
   );
 };
 

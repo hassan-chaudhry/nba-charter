@@ -46,30 +46,28 @@ const ShotChartContainer = forwardRef((props, ref) => {
   };
 
   return (
-    <>
+    <div ref={ref} className="bg-white-500 p-3">
       {data && (
-        <div ref={ref} className="bg-white-500 p-3">
-          <motion.div
-            className="flex flex-col items-center m-5"
-            onHoverStart={() => setHovered(true)}
-            onHoverEnd={() => setHovered(false)}
-          >
-            <h1
-              className="text-2xl text-black text-center font-bold relative"
+        <>
+          <div className="flex flex-col items-center m-5">
+            <motion.div
+              className="text-2xl text-black text-center font-bold relative cursor-default"
+              onHoverStart={() => setHovered(true)}
+              onHoverEnd={() => setHovered(false)}
               onClick={() => {
                 if (data) {
                   setShowChart((prevState) => !prevState);
                 }
               }}
             >
-              Select Games
+              Shot Chart
               <div
                 className={`absolute left-0 h-1 bg-blue-500 rounded-xl transition-all duration-300 ease-in-out ${
                   hovered ? "w-full" : "w-0"
-                }`}
+                } ${showChart ? "w-full" : "w-0"}`}
               ></div>
-            </h1>
-          </motion.div>
+            </motion.div>
+          </div>
 
           {showChart &&
             (data.resultSets[0].rowSet.length !== 0 ? (
@@ -109,9 +107,9 @@ const ShotChartContainer = forwardRef((props, ref) => {
                 </div>
               </div>
             ))}
-        </div>
+        </>
       )}
-    </>
+    </div>
   );
 });
 
