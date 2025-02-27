@@ -1,17 +1,25 @@
+require("dotenv").config({ path: "../.env" });
 const express = require("express");
-const fs = require("fs");
 const fetch = require("node-fetch");
 const cors = require("cors");
-const { redisClient, loadAllData } = require("./redisClient");
 
 const app = express();
 app.use(express.json());
 app.use(cors());
 
-// load all data into Redis
-const rawData = fs.readFileSync("./data.json");
-const data = JSON.parse(rawData);
-loadAllData(data);
+// set up firebase connection
+const admin = require("firebase-admin");
+const serviceAccount = JSON.parse(
+  Buffer.from(process.env.FIREBASE_SERVICE_ACCOUNT_BASE64, "base64").toString(
+    "utf8"
+  )
+);
+
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount),
+  databaseURL: "https://nba-shot-chart-default-rtdb.firebaseio.com",
+});
+const db = admin.database();
 
 // find closest matching player name ot user's query
 const levenshtein = (queryName, dbName) => {
@@ -42,8 +50,15 @@ const levenshtein = (queryName, dbName) => {
 };
 
 const getBestMatch = async (queryName) => {
-  // const firstLetter = queryName.charAt(0).toUpperCase();
-  const candidates = await redisClient.sMembers("player_names:");
+  // get all players from database
+  const snapshot = await db.ref("players").once("value");
+  if (!snapshot.exists()) {
+    return res
+      .status(404)
+      .json({ error: "No players were found in the database" });
+  }
+
+  const candidates = snapshot.val().map((candidate) => candidate.full_name);
 
   let bestMatch = "";
   let minLength = 30;
@@ -92,12 +107,25 @@ app.get("/api/shotchartdetail", async (req, res) => {
   }
 
   playerName = playerName.trim().toLowerCase();
-  const playerID = await redisClient.get(`player:full_name:${playerName}`);
-  if (!playerID) {
+
+  // get player ID from database
+  const snapshot = await db.ref("players").once("value");
+  if (!snapshot.exists()) {
+    return res
+      .status(404)
+      .json({ error: "No players were found in the database" });
+  }
+
+  const allPlayers = snapshot.val();
+  const foundPlayer = allPlayers.find(
+    (player) => player.full_name.toLowerCase() === playerName
+  );
+  if (!foundPlayer) {
     return res.status(404).json({
       error: "Player ID not found",
     });
   }
+  const playerID = foundPlayer.id;
 
   const { gameID } = req.query || "";
   const { dateFrom } = req.query || "";
@@ -160,16 +188,28 @@ app.get("/api/playergamelog", async (req, res) => {
       error: "Valid player name is required",
     });
   }
-
   playerName = playerName.trim().toLowerCase();
-  const playerID = await redisClient.get(`player:full_name:${playerName}`);
-  if (!playerID) {
+
+  // get player ID from database
+  const snapshot = await db.ref("players").once("value");
+  if (!snapshot) {
+    return res
+      .status(404)
+      .json({ error: "No players were found in the database" });
+  }
+
+  const allPlayers = snapshot.val();
+  const foundPlayer = allPlayers.find(
+    (player) => player.full_name.toLowerCase() === playerName
+  );
+  if (!foundPlayer) {
     const bestMatch = await getBestMatch(playerName);
     return res.status(404).json({
       error: "Player ID not found",
       bestMatch: bestMatch,
     });
   }
+  const playerID = foundPlayer.id;
 
   // get current active NBA season
   const season = getCurrentSeason();
