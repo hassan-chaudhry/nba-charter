@@ -93,8 +93,8 @@ const ShotChartContainer = forwardRef((props, ref) => {
                   <div className="flex items-center justify-center bg-white-500 border-2 border-orange-400 text-xl text-center text-orange-400 border-orange-400 rounded-md mb-5 p-2 w-5/6">
                     <HiOutlineExclamation className="m-2 flex-shrink-0" />
                     <h1>
-                      The data for this game is not yet available. Check back
-                      after the game is over!
+                      The data for this game is not yet available. If the game
+                      is still being played, check back after it's over!
                     </h1>
                   </div>
                 </div>

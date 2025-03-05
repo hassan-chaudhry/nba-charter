@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react";
 import SelectionCard from "./SelectionCard";
 import { BsExclamationCircleFill } from "react-icons/bs";
+import { HiOutlineExclamation } from "react-icons/hi";
 import { Tooltip } from "react-tooltip";
 import gameIDPic from "../assets/images/game-id-url.png";
 
 const SelectByGameID = ({ onSelect, handleReset, resetID }) => {
   const [selectID, setSelectID] = useState("");
+  const [invalidID, setInvalidID] = useState(false);
 
   useEffect(() => {
     if (resetID) {
@@ -13,12 +15,17 @@ const SelectByGameID = ({ onSelect, handleReset, resetID }) => {
     }
   }, [resetID]);
 
-  const onEnter = (e) => {
+  const onEnter = async (e) => {
     if (e.key === "Enter") {
       e.preventDefault();
       if (selectID.length !== 0) {
-        onSelect(selectID, "", "", "", "");
-
+        const result = await onSelect(selectID, "", "", "", "");
+        if (result) {
+          setInvalidID(false);
+        } else {
+          setInvalidID(true);
+          setSelectID("");
+        }
         handleReset(); // reset Recent and Range selections
       }
     }
@@ -53,6 +60,15 @@ const SelectByGameID = ({ onSelect, handleReset, resetID }) => {
         }}
         onKeyDown={(e) => onEnter(e)}
       />
+
+      <div className="h-8">
+        {invalidID && (
+          <div className="flex border border-red-400 text-red-400 rounded-md items-center justify-center m-3">
+            <HiOutlineExclamation className="flex-shrink-0 m-1" />
+            <p className="m-1">Invalid Game ID. Please Try Again.</p>
+          </div>
+        )}
+      </div>
     </SelectionCard>
   );
 };

@@ -2,8 +2,8 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { FaSearch } from "react-icons/fa";
 
-const SearchBar = ({ onSearch, suggestion }) => {
-  const [query, setQuery] = useState("jalen brunson");
+const SearchBar = ({ onSearch, suggestion, userQuery }) => {
+  const [query, setQuery] = useState(userQuery);
   const [showSuggestion, setShowSuggestion] = useState(false);
 
   const onEnter = (e) => {

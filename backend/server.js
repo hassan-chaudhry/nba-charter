@@ -21,7 +21,7 @@ admin.initializeApp({
 });
 const db = admin.database();
 
-// find closest matching player name ot user's query
+// find closest matching player name to user's query
 const levenshtein = (queryName, dbName) => {
   const m = queryName.length;
   const n = dbName.length;

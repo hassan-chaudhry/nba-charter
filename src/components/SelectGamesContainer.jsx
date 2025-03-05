@@ -14,6 +14,7 @@ const SelectGamesContainer = ({ onSelect, data }) => {
   const [resetID, setResetID] = useState(false);
 
   useEffect(() => {
+    resetRecentAndID();
     if (data) {
       setShowSelection(true);
     } else {
