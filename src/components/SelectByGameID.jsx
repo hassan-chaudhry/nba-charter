@@ -12,6 +12,7 @@ const SelectByGameID = ({ onSelect, handleReset, resetID }) => {
   useEffect(() => {
     if (resetID) {
       setSelectID("");
+      setInvalidID(false);
     }
   }, [resetID]);
 
