@@ -7,7 +7,7 @@ import {
   RouterProvider,
 } from "react-router-dom";
 import HomePage from "./pages/HomePage";
-import ResultsPage from "./ResultsPage";
+import ResultsPage from "./pages/ResultsPage";
 import NotFoundPage from "./pages/NotFoundPage";
 
 const App = () => {

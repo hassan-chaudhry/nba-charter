@@ -1,17 +1,23 @@
 import React from "react";
-import logo from "/src/assets/images/temp-logo.png";
+import { useNavigate } from "react-router-dom";
+import logo from "/src/assets/images/logo-title.png";
 
 const Navbar = () => {
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    navigate("/");
+  };
+
   return (
-    <nav className="bg-blue-500 text-white rounded-[20px] p-5 m-5">
+    <nav className="bg-gradient-to-r from-purple-500 to-indigo-500 text-white rounded-[20px] py-2 m-5">
       <div className="flex">
         <img
-          className="mr-1"
+          className="h-16 w-auto cursor-pointer"
           src={logo}
           alt="NBA Charter"
-          style={{ width: "40px", height: "35px" }}
+          onClick={handleClick}
         />
-        <div className="text-2xl">NBA Charter</div>
       </div>
     </nav>
   );

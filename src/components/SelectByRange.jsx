@@ -99,7 +99,7 @@ const SelectByRange = ({ onSelect, handleReset }) => {
       </div>
 
       <button
-        className="bg-gray-400 hover:bg-blue-500 text-white py-2 px-4 m-3 rounded-xl"
+        className="bg-gray-400 hover:bg-purple-500 text-white py-2 px-4 m-3 rounded-xl"
         type="submit"
         onClick={() => onClick()}
       >

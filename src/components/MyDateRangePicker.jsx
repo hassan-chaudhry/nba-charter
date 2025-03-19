@@ -74,8 +74,8 @@ function MyDateRangePicker({
                   }) =>
                     `m-1 ${
                       isOutsideMonth ? "opacity-0 pointer-events-none" : ""
-                    } ${isHovered ? "text-blue-500" : "text-black-500"} ${
-                      isSelected ? "text-blue-500" : "text-black-500"
+                    } ${isHovered ? "text-indigo-600" : "text-black-500"} ${
+                      isSelected ? "text-indigo-600" : "text-black-500"
                     } ${isDisabled ? "text-gray-500" : "text-black-500"}`
                   }
                 />

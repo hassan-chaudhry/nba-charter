@@ -5,9 +5,11 @@ import SelectRecentGames from "./SelectRecentGames";
 import SelectByRange from "./SelectByRange";
 import SelectBySeason from "./SelectBySeason";
 import SelectByGameID from "./SelectByGameID";
+import Loader from "./Loader.jsx";
 
-const SelectGamesContainer = ({ onSelect, data }) => {
+const SelectGamesContainer = ({ onSelect, data, suggestion }) => {
   const [showSelection, setShowSelection] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [hovered, setHovered] = useState(false);
 
   const [resetRecent, setResetRecent] = useState(false);
@@ -16,11 +18,16 @@ const SelectGamesContainer = ({ onSelect, data }) => {
   useEffect(() => {
     resetRecentAndID();
     if (data) {
+      setLoading(false);
       setShowSelection(true);
     } else {
       setShowSelection(false);
     }
-  }, [data]);
+
+    if (suggestion) {
+      setLoading(false);
+    }
+  }, [data, suggestion]);
 
   const resetRecentAndID = () => {
     setResetRecent(true);
@@ -37,9 +44,13 @@ const SelectGamesContainer = ({ onSelect, data }) => {
     setResetRecent(false);
   };
 
+  if (loading) {
+    return <Loader />;
+  }
+
   return (
     <div className="bg-white-500 p-3">
-      {data && (
+      {data ? (
         <>
           <div className="flex flex-col items-center m-5">
             <motion.div
@@ -54,7 +65,7 @@ const SelectGamesContainer = ({ onSelect, data }) => {
             >
               Select Games
               <div
-                className={`absolute left-0 h-1 bg-blue-500 rounded-xl transition-all duration-300 ease-in-out ${
+                className={`absolute left-0 h-1 bg-purple-500 rounded-xl transition-all duration-300 ease-in-out ${
                   hovered ? "w-full" : "w-0"
                 } ${showSelection ? "w-full" : "w-0"}`}
               ></div>
@@ -87,6 +98,12 @@ const SelectGamesContainer = ({ onSelect, data }) => {
             </>
           )}
         </>
+      ) : (
+        <div className="flex flex-col items-center m-5">
+          <div className="text-2xl text-purple-500 text-center">
+            Unable to find player.
+          </div>
+        </div>
       )}
     </div>
   );

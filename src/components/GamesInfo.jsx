@@ -44,7 +44,7 @@ const GamesInfo = ({ data }) => {
   return (
     <div className="bg-white-500">
       {allGamesSorted.length > 1 && (
-        <div className="bg-gray-100 m-5 p-5 rounded-[20px] whitespace-pre-line">
+        <div className="bg-indigo-200 m-5 p-5 rounded-[20px] whitespace-pre-line">
           {`The data for the chart above comes from the following games: ${"\n\n"}`}
           <div className="grid grid-cols-1 md:grid-cols-2">
             {allGamesSorted.map(({ gameID, gameDate, homeTeam, visitTeam }) => (

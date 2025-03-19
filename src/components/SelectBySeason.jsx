@@ -40,7 +40,7 @@ const SelectBySeason = ({ onSelect, handleReset }) => {
       <div className="m-2">
         Season Type
         <Select
-          className="border border-gray-500 hover:border-blue-500 rounded-md"
+          className="border border-gray-500 hover:border-purple-500 rounded-md"
           options={optionsSeasonType}
           value={optionsSeasonType.value}
           defaultValue={selectSeasonType}
@@ -51,7 +51,7 @@ const SelectBySeason = ({ onSelect, handleReset }) => {
       <div className="m-2">
         Season
         <Select
-          className="border border-gray-500 hover:border-blue-500 rounded-md"
+          className="border border-gray-500 hover:border-purple-500 rounded-md"
           options={optionsSeason}
           value={optionsSeason.value}
           defaultValue={selectSeason}
@@ -60,7 +60,7 @@ const SelectBySeason = ({ onSelect, handleReset }) => {
       </div>
 
       <button
-        className="bg-gray-400 hover:bg-blue-500 text-white py-2 px-4 m-3 rounded-xl"
+        className="bg-gray-400 hover:bg-purple-500 text-white py-2 px-4 m-3 rounded-xl"
         type="submit"
         onClick={() => onClick()}
       >

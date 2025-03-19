@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import SearchBar from "../components/SearchBar";
-import logo from "/src/assets/images/temp-logo.png";
+import logo from "/src/assets/images/logo-title.png";
 
 const HomePage = () => {
   const navigate = useNavigate();
@@ -11,17 +11,24 @@ const HomePage = () => {
   };
 
   return (
-    <div className="items-center">
-      <div className="flex justify-center items-center m-5">
-        <img
-          className="mr-1"
-          src={logo}
-          alt="NBA Charter"
-          style={{ width: "40px", height: "35px" }}
-        />
-        <div className="text-2xl">NBA Charter</div>
+    <div
+      className={
+        "bg-gradient-to-r from-purple-500 to-indigo-500 bg-cover rounded-[20px] m-5"
+      }
+    >
+      <div className="h-[calc(100vh-40px)] flex justify-center sm:pt-6 md:pt-16 lg:pt-36">
+        <div>
+          <div className="flex justify-center items-center m-5">
+            <img
+              className="mr-1 w-[50vw] sm:w-[400px] md:w-[500px] lg:w-[600px] h-auto"
+              src={logo}
+              alt="NBA Charter"
+            />
+            <div className=""></div>
+          </div>
+          <SearchBar onSearch={handleEnter} suggestion={""} userQuery={""} />
+        </div>
       </div>
-      <SearchBar onSearch={handleEnter} suggestion={""} userQuery={""} />
     </div>
   );
 };

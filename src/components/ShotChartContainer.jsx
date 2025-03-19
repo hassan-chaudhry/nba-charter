@@ -62,7 +62,7 @@ const ShotChartContainer = forwardRef((props, ref) => {
             >
               Shot Chart
               <div
-                className={`absolute left-0 h-1 bg-blue-500 rounded-xl transition-all duration-300 ease-in-out ${
+                className={`absolute left-0 h-1 bg-purple-500 rounded-xl transition-all duration-300 ease-in-out ${
                   hovered ? "w-full" : "w-0"
                 } ${showChart ? "w-full" : "w-0"}`}
               ></div>

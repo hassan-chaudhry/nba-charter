@@ -9,7 +9,9 @@ const SearchBar = ({ onSearch, suggestion, userQuery }) => {
   const onEnter = (e) => {
     if (e.key === "Enter") {
       e.preventDefault();
-      onSearch(query);
+      if (query !== "") {
+        onSearch(query);
+      }
     }
   };
 
@@ -33,8 +35,8 @@ const SearchBar = ({ onSearch, suggestion, userQuery }) => {
   }
 
   return (
-    <div className="bg-white m-auto max-w-md sm:max-w-xl md:max-w-3xl">
-      <div className="flex items-center border border-gray-500 focus-within:border-blue-500 focus-within:text-blue-500 p-4 rounded-[20px]">
+    <div className="m-auto max-w-md sm:max-w-xl md:max-w-3xl">
+      <div className="flex bg-white items-center border border-gray-500 focus-within:border-purple-500 focus-within:text-purple-500 p-4 rounded-[20px]">
         <FaSearch className="mr-3" />
         <input
           className="focus:outline-none focus:ring-0 w-full text-black"

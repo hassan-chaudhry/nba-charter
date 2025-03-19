@@ -1,9 +1,9 @@
 import { useState, useEffect, useRef } from "react";
 import { useLocation } from "react-router-dom";
-import Navbar from "./components/Navbar";
-import SearchBar from "./components/SearchBar";
-import SelectGamesContainer from "./components/SelectGamesContainer";
-import ShotChartContainer from "./components/ShotChartContainer";
+import Navbar from "../components/Navbar";
+import SearchBar from "../components/SearchBar";
+import SelectGamesContainer from "../components/SelectGamesContainer";
+import ShotChartContainer from "../components/ShotChartContainer";
 import "react-tooltip/dist/react-tooltip.css";
 
 function ResultsPage() {
@@ -91,6 +91,7 @@ function ResultsPage() {
       <SelectGamesContainer
         onSelect={fetchShotChartData}
         data={playerGameLogData}
+        suggestion={suggestion}
       />
       <ShotChartContainer
         ref={refShotChart}
