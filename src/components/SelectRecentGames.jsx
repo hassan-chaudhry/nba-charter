@@ -12,7 +12,7 @@ const SelectRecentGames = ({ onSelect, data, handleReset, resetRecent }) => {
     }
   }, [resetRecent]);
 
-  const onClick = (gameID) => {
+  const handleClick = (gameID) => {
     onSelect(gameID, "", "", "", "");
     setSelectRecent(gameID);
 
@@ -67,7 +67,7 @@ const SelectRecentGames = ({ onSelect, data, handleReset, resetRecent }) => {
                     background: `linear-gradient(to right, rgb(${homeTeamColor}), rgb(${visitTeamColor}))`,
                   }}
                   onClick={() => {
-                    onClick(gameID);
+                    handleClick(gameID);
                   }}
                 >
                   {gameMatchup}

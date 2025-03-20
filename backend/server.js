@@ -98,6 +98,10 @@ const getCurrentSeason = () => {
   return season;
 };
 
+/////////////////////
+// SHOT CHART API  //
+/////////////////////
+
 app.get("/api/shotchartdetail", async (req, res) => {
   let { playerName } = req.query;
   if (!playerName) {
@@ -180,6 +184,10 @@ app.get("/api/shotchartdetail", async (req, res) => {
     res.status(500).json({ error: "Failed to fetch data from NBA API" });
   }
 });
+
+/////////////////////////
+// PLAYER GAME LOG API //
+/////////////////////////
 
 app.get("/api/playergamelog", async (req, res) => {
   let { playerName, dateFrom, dateTo } = req.query;
@@ -274,6 +282,19 @@ app.get("/image/playerpic", async (req, res) => {
   } catch (error) {
     res.status(500).send("Failed to fetch image");
   }
+});
+
+app.get("/database/allplayers", async (req, res) => {
+  const snapshot = await db.ref("players").once("value");
+  if (!snapshot) {
+    return res
+      .status(404)
+      .json({ error: "No players were found in the database" });
+  }
+
+  const allPlayers = snapshot.val();
+
+  res.json({ players: allPlayers });
 });
 
 app.get("/", (req, res) => {
