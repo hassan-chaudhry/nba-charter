@@ -32,14 +32,15 @@ const SearchBar = ({ onSearch, suggestion, userQuery }) => {
     const input = e.target.value;
     setQuery(input);
 
-    if (input.length > 1) {
+    if (input.length > 2) {
       const filteredPlayers = allPlayers
         .map((player) => player.full_name)
         .filter((player) => {
-          return player.toLowerCase().startsWith(input.toLowerCase());
+          return player.toLowerCase().includes(input.toLowerCase());
         });
       setSuggestionsList(filteredPlayers);
     } else {
+      console.log("Resetting list");
       setSuggestionsList([]);
     }
   };
@@ -79,20 +80,21 @@ const SearchBar = ({ onSearch, suggestion, userQuery }) => {
   }
 
   return (
-    <div className="m-auto max-w-md sm:max-w-xl md:max-w-3xl">
-      <div className="flex bg-white items-center border border-gray-500 focus-within:border-purple-500 focus-within:text-purple-500 p-4 rounded-[20px]">
-        <FaSearch className="mr-3" />
-        <input
-          className="focus:outline-none focus:ring-0 w-full text-black"
-          placeholder="Type a player's name and press 'Enter'"
-          value={query}
-          onChange={handleInputChange}
-          onKeyDown={(e) => onEnter(e)}
-        />
-      </div>
-      <div className="flex justify-center">
-        {suggestionsList.length > 1 && (
-          <ul className="bg-white rounded-lg h-[200px] w-1/2 absolute overflow-y-auto p-1 m-1">
+    <div className="m-auto max-w-md sm:max-w-xl md:max-w-3xl relative">
+      <div className="grid grid-col-1">
+        <div className="flex bg-white items-center border border-gray-500 focus-within:border-purple-500 focus-within:text-purple-500 p-4 rounded-[20px]">
+          <FaSearch className="mr-3" />
+          <input
+            className="focus:outline-none focus:ring-0 w-full text-black"
+            placeholder="Type a player's name and press 'Enter'"
+            value={query}
+            onChange={handleInputChange}
+            onKeyDown={(e) => onEnter(e)}
+          />
+        </div>
+
+        {suggestionsList.length > 0 && (
+          <ul className="bg-white max-h-60 rounded-lg overflow-y-auto p-2 border border-purple-500 absolute w-full top-3/4 mt-1 z-10">
             {suggestionsList.map((player, index) => (
               <li
                 key={index}
@@ -104,13 +106,13 @@ const SearchBar = ({ onSearch, suggestion, userQuery }) => {
             ))}
           </ul>
         )}
-      </div>
 
-      <div className="flex text-blue-500 m-2">
-        <h1 className="mr-1 cursor-default">{suggestionBarHeader}</h1>
-        <h1 className="hover:underline cursor-pointer" onClick={updateQuery}>
-          {suggestionBarName}
-        </h1>
+        <div className="flex text-blue-500 m-2">
+          <h1 className="mr-1 cursor-default">{suggestionBarHeader}</h1>
+          <h1 className="hover:underline cursor-pointer" onClick={updateQuery}>
+            {suggestionBarName}
+          </h1>
+        </div>
       </div>
     </div>
   );
