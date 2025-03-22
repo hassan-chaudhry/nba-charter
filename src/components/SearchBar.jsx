@@ -1,12 +1,27 @@
 import React from "react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { FaSearch } from "react-icons/fa";
 
 const SearchBar = ({ onSearch, suggestion, userQuery }) => {
   const [query, setQuery] = useState(userQuery);
   const [allPlayers, setAllPlayers] = useState([]);
   const [suggestionsList, setSuggestionsList] = useState([]);
-  const [showSuggestion, setShowSuggestion] = useState(false);
+  const [showBestMatch, setShowBestMatch] = useState(false);
+  const searchRef = useRef(null);
+  const debounceRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutsideSearchBar = (e) => {
+      if (searchRef.current && !searchRef.current.contains(e.target)) {
+        setSuggestionsList([]);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutsideSearchBar);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutsideSearchBar);
+    };
+  }, []);
 
   useEffect(() => {
     const fetchPlayers = async () => {
@@ -32,17 +47,22 @@ const SearchBar = ({ onSearch, suggestion, userQuery }) => {
     const input = e.target.value;
     setQuery(input);
 
-    if (input.length > 2) {
-      const filteredPlayers = allPlayers
-        .map((player) => player.full_name)
-        .filter((player) => {
-          return player.toLowerCase().includes(input.toLowerCase());
-        });
-      setSuggestionsList(filteredPlayers);
-    } else {
-      console.log("Resetting list");
-      setSuggestionsList([]);
+    if (debounceRef.current) {
+      clearTimeout(debounceRef.current);
     }
+
+    debounceRef.current = setTimeout(() => {
+      if (input.length > 1) {
+        const filteredPlayers = allPlayers
+          .map((player) => player.full_name)
+          .filter((player) => {
+            return player.toLowerCase().includes(input.toLowerCase());
+          });
+        setSuggestionsList(filteredPlayers);
+      } else {
+        setSuggestionsList([]);
+      }
+    }, 250);
   };
 
   const handleSuggestionClick = (playerName) => {
@@ -61,17 +81,18 @@ const SearchBar = ({ onSearch, suggestion, userQuery }) => {
   };
 
   const updateQuery = () => {
+    // after clicking best match suggestion
     onSearch(suggestion);
     setQuery(suggestion);
-    setShowSuggestion(false);
+    setShowBestMatch(false);
   };
 
   useEffect(() => {
-    setShowSuggestion(suggestion !== "");
+    setShowBestMatch(suggestion !== "");
   }, [suggestion]);
 
   let suggestionBarHeader, suggestionBarName;
-  if (showSuggestion) {
+  if (showBestMatch) {
     suggestionBarHeader = "Did you mean: ";
     suggestionBarName = suggestion;
   } else {
@@ -80,7 +101,10 @@ const SearchBar = ({ onSearch, suggestion, userQuery }) => {
   }
 
   return (
-    <div className="m-auto max-w-md sm:max-w-xl md:max-w-3xl relative">
+    <div
+      className="m-auto max-w-md sm:max-w-xl md:max-w-3xl relative"
+      ref={searchRef}
+    >
       <div className="grid grid-col-1">
         <div className="flex bg-white items-center border border-gray-500 focus-within:border-purple-500 focus-within:text-purple-500 p-4 rounded-[20px]">
           <FaSearch className="mr-3" />
@@ -89,7 +113,7 @@ const SearchBar = ({ onSearch, suggestion, userQuery }) => {
             placeholder="Type a player's name and press 'Enter'"
             value={query}
             onChange={handleInputChange}
-            onKeyDown={(e) => onEnter(e)}
+            onKeyDown={onEnter}
           />
         </div>
 

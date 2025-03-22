@@ -105,7 +105,7 @@ const ShotChartDisplay = ({ data }) => {
           </svg>
           <div className="flex justify-between mt-1">
             <h1>Data Source: stats.nba.com</h1>
-            <h1>◯ = made, X = miss</h1>
+            <h1>◯ = make, X = miss</h1>
           </div>
         </div>
       </div>
