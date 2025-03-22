@@ -53,7 +53,7 @@ const SelectByGameID = ({ onSelect, handleReset, resetID }) => {
       </div>
 
       <input
-        className="border border-gray-500 focus:outline-none focus:ring-0 focus:border-purple-500 w-full p-3 rounded-[20px]"
+        className="border border-gray-500 focus:outline-none focus:ring-0 focus:border-purple-500 hover:border-purple-500 w-full p-3 rounded-[20px]"
         placeholder="Enter game ID"
         value={selectID}
         onChange={(selectID) => {

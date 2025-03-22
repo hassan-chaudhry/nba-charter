@@ -90,7 +90,7 @@ const ShotChartContainer = forwardRef((props, ref) => {
             ) : (
               <div className="bg-white-500 p-10">
                 <div className="flex items-center justify-center">
-                  <div className="flex items-center justify-center bg-white-500 border-2 border-orange-400 text-xl text-center text-orange-400 border-orange-400 rounded-md mb-5 p-2 w-5/6">
+                  <div className="flex items-center justify-center bg-white-500 border-2 border-orange-400 text-xl text-center text-orange-400 rounded-md mb-5 p-2 w-5/6">
                     <HiOutlineExclamation className="m-2 flex-shrink-0" />
                     <h1>
                       The data for this game is not yet available. If the game

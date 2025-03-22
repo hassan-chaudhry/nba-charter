@@ -78,9 +78,11 @@ const SelectRecentGames = ({ onSelect, data, handleReset, resetRecent }) => {
             )}
           </div>
         ) : (
-          <div className="flex items-center justify-center text-xl mt-5">
-            <HiOutlineExclamation className="mr-2 flex-shrink-0" />
-            No recent games found!
+          <div className="flex items-center justify-center m-5">
+            <div className="flex items-center justify-center text-xl text-orange-400 border border-orange-400 rounded-md w-1/3 p-1 justify-center">
+              <HiOutlineExclamation className="mr-2 flex-shrink-0" />
+              No recent games found!
+            </div>
           </div>
         )}
       </div>

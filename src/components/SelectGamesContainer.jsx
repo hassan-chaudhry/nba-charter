@@ -6,6 +6,7 @@ import SelectByRange from "./SelectByRange";
 import SelectBySeason from "./SelectBySeason";
 import SelectByGameID from "./SelectByGameID";
 import Loader from "./Loader.jsx";
+import { HiOutlineExclamation } from "react-icons/hi";
 
 const SelectGamesContainer = ({ onSelect, data, suggestion }) => {
   const [showSelection, setShowSelection] = useState(false);
@@ -99,9 +100,10 @@ const SelectGamesContainer = ({ onSelect, data, suggestion }) => {
           )}
         </>
       ) : (
-        <div className="flex flex-col items-center m-5">
-          <div className="text-2xl text-purple-500 text-center">
-            Unable to find player.
+        <div className="flex items-center justify-center m-5">
+          <div className="flex items-center text-orange-500 border border-orange-500 rounded-md p-1 text-2xl">
+            <HiOutlineExclamation className="m-2 flex-shrink-0" />
+            No player found.
           </div>
         </div>
       )}

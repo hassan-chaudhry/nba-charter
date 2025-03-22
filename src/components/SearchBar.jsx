@@ -69,6 +69,7 @@ const SearchBar = ({ onSearch, suggestion, userQuery }) => {
     setQuery(playerName);
     setSuggestionsList([]);
     onSearch(playerName);
+    setShowBestMatch(false);
   };
 
   const onEnter = (e) => {
@@ -118,7 +119,7 @@ const SearchBar = ({ onSearch, suggestion, userQuery }) => {
         </div>
 
         {suggestionsList.length > 0 && (
-          <ul className="bg-white max-h-60 rounded-lg overflow-y-auto p-2 border border-purple-500 absolute w-full top-3/4 mt-1 z-10">
+          <ul className="bg-white max-h-60 rounded-lg overflow-y-auto p-2 border border-purple-500 absolute w-full top-14 mt-1 z-10">
             {suggestionsList.map((player, index) => (
               <li
                 key={index}
