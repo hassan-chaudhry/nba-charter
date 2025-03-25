@@ -58,6 +58,13 @@ const SelectBySeason = ({ onSelect, handleReset }) => {
   ];
 
   const customStyles = {
+    control: (provided, state) => ({
+      ...provided,
+      boxShadow: "none",
+      borderColor: state.isFocused ? "#a854f4" : "gray",
+      outlineColor: state.isFocused ? "#a854f4" : "gray",
+      "&:hover": { borderColor: "#a854f4", outlineColor: "#a854f4" },
+    }),
     option: (provided, state) => ({
       ...provided,
       backgroundColor: state.isSelected
@@ -77,7 +84,7 @@ const SelectBySeason = ({ onSelect, handleReset }) => {
       <div className="m-2">
         Season Type
         <Select
-          className="border border-gray-500 hover:border-purple-500 rounded-md"
+          className="rounded-md"
           styles={customStyles}
           options={optionsSeasonType}
           value={optionsSeasonType.value}
@@ -89,7 +96,7 @@ const SelectBySeason = ({ onSelect, handleReset }) => {
       <div className="m-2">
         Season
         <Select
-          className="border border-gray-500 hover:border-purple-500 rounded-md"
+          className="rounded-md"
           styles={customStyles}
           options={optionsSeason}
           value={optionsSeason.value}

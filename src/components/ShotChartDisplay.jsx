@@ -2,12 +2,15 @@ import React from "react";
 import { teams, colors } from "../constants/constants.jsx";
 import court from "../assets/images/court.png";
 
-const ShotChartDisplay = ({ data }) => {
+const ShotChartDisplay = ({ data, showMakes, showMisses, showTeamColors }) => {
   const playerTeamFullName = data.resultSets[0].rowSet[0][6];
 
-  let teamPrimaryColor = "0,122,51";
-  let teamSecondaryColor = "134,0,56";
+  // set default color values
+  let primaryColor = "7,107,237";
+  let secondaryColor = "237,49,7";
 
+  let teamPrimaryColor;
+  let teamSecondaryColor;
   try {
     const playerTeam = Object.keys(teams).find(
       (key) => teams[key] === playerTeamFullName
@@ -24,6 +27,11 @@ const ShotChartDisplay = ({ data }) => {
     console.error(
       "The player's team could not be found. This usually occurs when the team has changed names, relocated, or is no longer active in the NBA."
     );
+  }
+
+  if (showTeamColors) {
+    primaryColor = teamPrimaryColor;
+    secondaryColor = teamSecondaryColor;
   }
 
   let allShots = [];
@@ -68,38 +76,40 @@ const ShotChartDisplay = ({ data }) => {
                 fill="red"
               /> */}
             {allShots.map(({ LOC_X, LOC_Y, SHOT_MADE_FLAG }, index) =>
-              SHOT_MADE_FLAG === 1 ? (
+              showMakes && SHOT_MADE_FLAG === 1 ? ( // makes
                 <circle
                   key={index}
                   className="opacity-75"
                   cx={LOC_X}
                   cy={LOC_Y}
                   r="4"
-                  stroke={`rgb(${teamPrimaryColor})`}
+                  stroke={`rgb(${primaryColor})`}
                   strokeWidth="2"
                   fill="none"
                 />
               ) : (
-                <g key={`${index} - 0`} className="opacity-75">
-                  <line
-                    key={`${index} - 1`}
-                    x1={LOC_X - 4.5}
-                    y1={LOC_Y - 4.5}
-                    x2={LOC_X + 4.5}
-                    y2={LOC_Y + 4.5}
-                    stroke={`rgb(${teamSecondaryColor})`}
-                    strokeWidth="3"
-                  />
-                  <line
-                    key={`${index} - 2`}
-                    x1={LOC_X - 4.5}
-                    y1={LOC_Y + 4.5}
-                    x2={LOC_X + 4.5}
-                    y2={LOC_Y - 4.5}
-                    stroke={`rgb(${teamSecondaryColor})`}
-                    strokeWidth="3"
-                  />
-                </g>
+                showMisses && ( // misses
+                  <g key={`${index} - 0`} className="opacity-75">
+                    <line
+                      key={`${index} - 1`}
+                      x1={LOC_X - 4.5}
+                      y1={LOC_Y - 4.5}
+                      x2={LOC_X + 4.5}
+                      y2={LOC_Y + 4.5}
+                      stroke={`rgb(${secondaryColor})`}
+                      strokeWidth="3"
+                    />
+                    <line
+                      key={`${index} - 2`}
+                      x1={LOC_X - 4.5}
+                      y1={LOC_Y + 4.5}
+                      x2={LOC_X + 4.5}
+                      y2={LOC_Y - 4.5}
+                      stroke={`rgb(${secondaryColor})`}
+                      strokeWidth="3"
+                    />
+                  </g>
+                )
               )
             )}
           </svg>

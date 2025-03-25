@@ -47,7 +47,7 @@ function MyDateRangePicker({
           />
         </Button>
       </Group>
-      <Popover>
+      <Popover className="shadow-lg">
         <Dialog>
           <RangeCalendar
             className="bg-white border border-gray-500 rounded-md p-3"

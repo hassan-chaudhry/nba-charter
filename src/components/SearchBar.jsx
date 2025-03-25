@@ -119,7 +119,7 @@ const SearchBar = ({ onSearch, suggestion, userQuery }) => {
         </div>
 
         {suggestionsList.length > 0 && (
-          <ul className="bg-white max-h-60 rounded-lg overflow-y-auto p-2 border border-purple-500 absolute w-full top-14 mt-1 z-10">
+          <ul className="bg-white max-h-20 sm:max-h-40 md:max-h-60 rounded-lg overflow-y-auto p-2 border border-purple-500 shadow-xl absolute w-full top-14 mt-1 z-10">
             {suggestionsList.map((player, index) => (
               <li
                 key={index}
