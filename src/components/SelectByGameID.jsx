@@ -22,7 +22,6 @@ const SelectByGameID = ({ onSelect, handleReset, resetID }) => {
       if (selectID.length !== 0) {
         const result = await onSelect(selectID, "", "", "", "");
         if (result) {
-          // console.log(result);
           setInvalidID(false);
         } else {
           setInvalidID(true);

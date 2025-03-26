@@ -2,7 +2,9 @@ import React from "react";
 import { useState } from "react";
 import SelectionCard from "./SelectionCard";
 import MyDateRangePicker from "./MyDateRangePicker";
+import { BsExclamationCircleFill } from "react-icons/bs";
 import { HiOutlineExclamation } from "react-icons/hi";
+import { Tooltip } from "react-tooltip";
 
 const SelectByRange = ({ onSelect, handleReset }) => {
   const [selectRange, setSelectRange] = useState({
@@ -30,6 +32,7 @@ const SelectByRange = ({ onSelect, handleReset }) => {
   };
 
   const isValidSeason = (startDate, endDate) => {
+    // check if range is within a single NBA season
     let startYear = startDate.year;
     let endYear = endDate.year;
 
@@ -68,6 +71,7 @@ const SelectByRange = ({ onSelect, handleReset }) => {
   };
 
   const convertDateToYMD = (date) => {
+    // convert date from "MM/DD/YYYY" to "YYYY-MM-DD"
     let month = date.month;
     let day = date.day;
     let year = date.year;
@@ -86,7 +90,23 @@ const SelectByRange = ({ onSelect, handleReset }) => {
 
   return (
     <SelectionCard>
-      <h1 className="text-2xl mb-2">Select By Range</h1>
+      <div className="flex mb-2">
+        <h1 className="text-2xl mb-2">Select By Range</h1>
+        <a
+          data-tooltip-id="GameRangeTip"
+          data-tooltip-html={`
+                  <div class="flex flex-col items-center text-center">
+                    <p>
+                      Select a range of dates within a single NBA season.
+                    </p>
+                  
+                  </div>`}
+          data-tooltip-place="top"
+        >
+          <BsExclamationCircleFill className="text-lg m-1.5" />
+        </a>
+        <Tooltip id="GameRangeTip" />
+      </div>
 
       <div className="p-1 rounded-[20px]">
         <MyDateRangePicker

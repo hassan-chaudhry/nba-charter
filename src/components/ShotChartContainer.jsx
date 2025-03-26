@@ -124,6 +124,7 @@ const ShotChartContainer = forwardRef((props, ref) => {
                       className="text-lg mt-1 absolute mt-12"
                     >
                       <div className="grid grid-cols-1 bg-white border border-black shadow-md rounded-md p-2 w-56">
+                        <div className="text-center underline">Options</div>
                         <div className="text-left">
                           <input
                             type="checkbox"
