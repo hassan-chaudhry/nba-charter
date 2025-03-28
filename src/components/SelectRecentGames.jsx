@@ -62,7 +62,7 @@ const SelectRecentGames = ({ onSelect, data, handleReset, resetRecent }) => {
                     selectRecent === gameID
                       ? "outline outline-white outline-offset-[-7px]"
                       : ""
-                  } text-white text-center text-m rounded-[20px] px-10 py-5 mx-1 mb-3 cursor-pointer`}
+                  } hover:scale-[1.05] text-white text-center text-m rounded-[20px] px-10 py-5 mx-1 mb-3 cursor-pointer`}
                   style={{
                     background: `linear-gradient(to right, rgb(${homeTeamColor}), rgb(${visitTeamColor}))`,
                   }}

@@ -19,11 +19,7 @@ const HomePage = () => {
       <div className="h-[calc(100vh-40px)] flex justify-center sm:pt-6 md:pt-16 lg:pt-36">
         <div>
           <div className="flex justify-center items-center m-5">
-            <img
-              className="mr-1 w-[50vw] sm:w-[400px] md:w-[500px] lg:w-[600px] h-auto"
-              src={logo}
-              alt="NBA Charter"
-            />
+            <img className="mr-1 w-[50vw]" src={logo} alt="NBA Charter" />
             <div className=""></div>
           </div>
           <SearchBar onSearch={handleEnter} suggestion={""} userQuery={""} />

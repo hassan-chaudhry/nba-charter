@@ -1,7 +1,8 @@
 import React, { forwardRef, useRef, useState, useEffect } from "react";
 import { motion } from "motion/react";
 import ShotChartHeader from "./ShotChartHeader";
-import ShotChartDisplay from "./ShotChartDisplay";
+import ShotChartRegular from "./ShotChartRegular";
+import ShotChartHexbin from "./ShotChartHexbin";
 import html2canvas from "html2canvas-pro";
 import GamesInfo from "./GamesInfo";
 import errorPic from "../assets/images/shot-chart-unavailable.jpg";
@@ -164,12 +165,13 @@ const ShotChartContainer = forwardRef((props, ref) => {
                 </div>
                 <div ref={shotChartRef}>
                   <ShotChartHeader data={data} headerInfo={headerInfo} />
-                  <ShotChartDisplay
+                  <ShotChartRegular
                     data={data}
                     showMakes={makesChecked}
                     showMisses={missesChecked}
                     showTeamColors={colorsChecked}
                   />
+                  {/* <ShotChartHexbin data={data} /> */}
                   <div className="mb-1"></div>
                 </div>
                 <GamesInfo data={data} />
@@ -180,8 +182,8 @@ const ShotChartContainer = forwardRef((props, ref) => {
                   <div className="flex items-center justify-center bg-white-500 border-2 border-orange-400 text-xl text-center text-orange-400 rounded-md mb-5 p-2 w-5/6">
                     <HiOutlineExclamation className="m-2 flex-shrink-0" />
                     <h1>
-                      The data for this game is not yet available. If the game
-                      is still being played, check back after it's over!
+                      The data for this game is not available. If the game is
+                      still being played, check back after it's over!
                     </h1>
                   </div>
                 </div>

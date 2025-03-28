@@ -2,7 +2,7 @@ import React from "react";
 import { teams, colors } from "../constants/constants.jsx";
 import court from "../assets/images/court.png";
 
-const ShotChartDisplay = ({ data, showMakes, showMisses, showTeamColors }) => {
+const ShotChartRegular = ({ data, showMakes, showMisses, showTeamColors }) => {
   const playerTeamFullName = data.resultSets[0].rowSet[0][6];
 
   // set default color values
@@ -67,14 +67,14 @@ const ShotChartDisplay = ({ data, showMakes, showMisses, showTeamColors }) => {
             preserveAspectRatio="none"
           >
             {/* <circle // center of basket should be at (0,0)
-                className="opacity-75"
-                cx="0"
-                cy="0"
-                r="4"
-                stroke="red"
-                strokeWidth="5"
-                fill="red"
-              /> */}
+              className="opacity-75"
+              cx="0"
+              cy="0"
+              r="4"
+              stroke="red"
+              strokeWidth="5"
+              fill="red"
+            /> */}
             {allShots.map(({ LOC_X, LOC_Y, SHOT_MADE_FLAG }, index) =>
               showMakes && SHOT_MADE_FLAG === 1 ? ( // makes
                 <circle
@@ -122,4 +122,4 @@ const ShotChartDisplay = ({ data, showMakes, showMisses, showTeamColors }) => {
   );
 };
 
-export default ShotChartDisplay;
+export default ShotChartRegular;

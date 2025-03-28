@@ -67,7 +67,7 @@ function ResultsPage() {
       setShotChartData(data);
       setTimeout(() => {
         refShotChart.current?.scrollIntoView({ behavior: "smooth" });
-      }, 5);
+      }, 25);
       return data;
     } catch (error) {
       console.log("Could not fetch shot chart", error);

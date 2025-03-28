@@ -123,7 +123,7 @@ const SearchBar = ({ onSearch, suggestion, userQuery }) => {
             {suggestionsList.map((player, index) => (
               <li
                 key={index}
-                className="hover:bg-purple-100 cursor-default"
+                className="px-1 hover:bg-purple-100 hover:rounded-md cursor-default"
                 onClick={() => handleSuggestionClick(player)}
               >
                 {player}

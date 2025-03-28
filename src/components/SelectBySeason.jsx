@@ -70,9 +70,9 @@ const SelectBySeason = ({ onSelect, handleReset }) => {
     option: (provided, state) => ({
       ...provided,
       backgroundColor: state.isSelected
-        ? "#a854f4" // selected color
+        ? "#4e46e5" // selected color
         : state.isFocused
-        ? "#d8b4fc" // hover color
+        ? "#e1e4fc" // hover color
         : "white", // default color
       color: state.isSelected ? "white" : "black", // text color
       cursor: "pointer",
@@ -108,7 +108,7 @@ const SelectBySeason = ({ onSelect, handleReset }) => {
       </div>
 
       <button
-        className="bg-gray-400 hover:bg-purple-500 text-white py-2 px-4 m-3 rounded-xl"
+        className="bg-indigo-400 hover:bg-indigo-600 text-white py-2 px-4 m-3 rounded-xl"
         type="submit"
         onClick={() => onClick()}
       >

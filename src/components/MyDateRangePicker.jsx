@@ -15,6 +15,8 @@ import {
 } from "react-aria-components";
 import { today, getLocalTimeZone } from "@internationalized/date";
 import { BiCalendar } from "react-icons/bi";
+import { IoIosArrowDropleft } from "react-icons/io";
+import { IoIosArrowDropright } from "react-icons/io";
 
 function MyDateRangePicker({
   label,
@@ -37,7 +39,7 @@ function MyDateRangePicker({
         </DateInput>
         <Button className="text-2xl p-1">
           <BiCalendar
-            className={`${calIconClicked ? "text-gray-400" : "text-black"}`}
+            className={`${calIconClicked ? "text-indigo-500" : "text-black"}`}
             onPointerDown={() => {
               setCalIconClicked(true);
             }}
@@ -53,13 +55,13 @@ function MyDateRangePicker({
             className="bg-white border border-gray-500 rounded-md p-3"
             maxValue={today(getLocalTimeZone())}
           >
-            <header className="flex items-center justify-between w-full">
-              <Button className="m-1" slot="previous">
-                ◀
+            <header className="flex items-center justify-between w-full text-lg mb-1">
+              <Button className="m-1 text-xl" slot="previous">
+                <IoIosArrowDropleft />
               </Button>
               <Heading />
-              <Button className="m-1" slot="next">
-                ▶
+              <Button className="m-1 text-xl" slot="next">
+                <IoIosArrowDropright />
               </Button>
             </header>
             <CalendarGrid>
@@ -72,11 +74,17 @@ function MyDateRangePicker({
                     isSelected,
                     isDisabled,
                   }) =>
-                    `m-1 ${
+                    `p-1 ${
                       isOutsideMonth ? "opacity-0 pointer-events-none" : ""
-                    } ${isHovered ? "text-indigo-600" : "text-black-500"} ${
-                      isSelected ? "text-indigo-600" : "text-black-500"
-                    } ${isDisabled ? "text-gray-500" : "text-black-500"}`
+                    } ${
+                      isHovered
+                        ? "bg-indigo-300 rounded-md text-white"
+                        : "text-black"
+                    } ${
+                      isSelected
+                        ? "bg-indigo-500 rounded-md text-white"
+                        : "text-black"
+                    } ${isDisabled ? "text-gray-500" : "text-black"}`
                   }
                 />
               )}
