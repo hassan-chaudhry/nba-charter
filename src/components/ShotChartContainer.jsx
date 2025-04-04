@@ -171,7 +171,7 @@ const ShotChartContainer = forwardRef((props, ref) => {
                     showMisses={missesChecked}
                     showTeamColors={colorsChecked}
                   />
-                  {/* <ShotChartHexbin data={data} /> */}
+                  <ShotChartHexbin data={data} />
                   <div className="mb-1"></div>
                 </div>
                 <GamesInfo data={data} />
