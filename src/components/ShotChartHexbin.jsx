@@ -178,6 +178,29 @@ const ShotChartHexbin = ({ data }) => {
   // less than 8 ft
   let lessThan8Player = [];
 
+  const playerFieldGoals = {
+    aboveTheBreak3CenterPlayer: [
+      aboveTheBreak3CenterPlayer,
+      aboveTheBreak3CenterLA,
+    ],
+    aboveTheBreak3LeftPlayer: [aboveTheBreak3LeftPlayer, aboveTheBreak3LeftLA],
+    aboveTheBreak3RightPlayer: [
+      aboveTheBreak3RightPlayer,
+      aboveTheBreak3RightLA,
+    ],
+    leftCorner3Player: [leftCorner3Player, leftCorner3LA],
+    rightCorner3Player: [rightCorner3Player, rightCorner3LA],
+    center16to24Player: [center16to24Player, center16to24LA],
+    leftCenter16to24Player: [leftCenter16to24Player, leftCenter16to24LA],
+    rightCenter16to24Player: [rightCenter16to24Player, rightCenter16to24LA],
+    left16to24Player: [left16to24Player, left16to24LA],
+    right16to24Player: [right16to24Player, right16to24LA],
+    center8to16Player: [center8to16Player, center8to16LA],
+    left8to16Player: [left8to16Player, left8to16LA],
+    right8to16Player: [right8to16Player, right8to16LA],
+    lessThan8Player: [lessThan8Player, lessThan8LA],
+  };
+
   let allShots = [];
   for (let i = 0; i < data.resultSets[0].rowSet.length; i++) {
     let shot = {
@@ -298,24 +321,57 @@ const ShotChartHexbin = ({ data }) => {
     }
   }
 
-  let aboveTheBreak3CenterPlayerFGPercent = 0;
-  let aboveTheBreak3CenterPlayerShotsMade = 0;
+  for (const entry in playerFieldGoals) {
+    const shots = playerFieldGoals[entry][0];
+    const shotsLA = playerFieldGoals[entry][1];
+    let fieldGoalPercent = 0;
+    let shotsMade = 0;
 
-  for (let i = 0; i < aboveTheBreak3CenterPlayer.length; i++) {
-    if (aboveTheBreak3CenterPlayer[i].SHOT_MADE_FLAG === 1) {
-      aboveTheBreak3CenterPlayerShotsMade += 1;
+    for (let j = 0; j < shots.length; j++) {
+      if (shots[j].SHOT_MADE_FLAG === 1) {
+        shotsMade += 1;
+      }
     }
+
+    shots.length > 0 ? (fieldGoalPercent = shotsMade / shots.length) : 0;
+
+    console.log(
+      entry,
+      fieldGoalPercent,
+      "{",
+      shotsMade,
+      "of",
+      shots.length,
+      "}",
+      "|",
+      shotsLA.length === 7 ? shotsLA[6] : (shotsLA[0][6] + shotsLA[1][6]) / 2
+    );
   }
 
-  aboveTheBreak3CenterPlayerFGPercent =
-    aboveTheBreak3CenterPlayerShotsMade / aboveTheBreak3CenterPlayer.length;
+  // let aboveTheBreak3CenterPlayerFGPercent = 0;
+  // let aboveTheBreak3CenterPlayerShotsMade = 0;
 
-  console.log("FG% vs. LA");
-  console.log(
-    "Above The Break 3 - Center (Player, LA):",
-    aboveTheBreak3CenterPlayerFGPercent,
-    aboveTheBreak3CenterLA[6]
-  );
+  // for (let i = 0; i < aboveTheBreak3CenterPlayer.length; i++) {
+  //   if (aboveTheBreak3CenterPlayer[i].SHOT_MADE_FLAG === 1) {
+  //     aboveTheBreak3CenterPlayerShotsMade += 1;
+  //   }
+  // }
+
+  // aboveTheBreak3CenterPlayerFGPercent =
+  //   aboveTheBreak3CenterPlayerShotsMade / aboveTheBreak3CenterPlayer.length;
+
+  // console.log("FG% vs. LA");
+  // console.log(
+  //   "Above The Break 3 - Center (Player, LA):",
+  //   aboveTheBreak3CenterPlayerFGPercent,
+  //   "{",
+  //   aboveTheBreak3CenterPlayerShotsMade,
+  //   "of",
+  //   aboveTheBreak3CenterPlayer.length,
+  //   "}",
+  //   "|",
+  //   aboveTheBreak3CenterLA[6]
+  // );
 
   // console.log("Player Shot Chart Location Specifics:");
 
