@@ -6,7 +6,10 @@ import ShotChartHexbin from "./ShotChartHexbin";
 import html2canvas from "html2canvas-pro";
 import GamesInfo from "./GamesInfo";
 import errorPic from "../assets/images/shot-chart-unavailable.jpg";
+import { Tooltip } from "react-tooltip";
 import { HiOutlineExclamation } from "react-icons/hi";
+import { ImCancelCircle } from "react-icons/im";
+import { BsFillHexagonFill } from "react-icons/bs";
 import { MdDownload } from "react-icons/md";
 import { CgOptions } from "react-icons/cg";
 
@@ -18,6 +21,8 @@ const ShotChartContainer = forwardRef((props, ref) => {
   const [makesChecked, setMakesChecked] = useState(true);
   const [missesChecked, setMissesChecked] = useState(true);
   const [colorsChecked, setColorsChecked] = useState(true);
+  const [showRegChart, setShowRegChart] = useState(true);
+  const [showHexbinChart, setShowHexbinChart] = useState(false);
   const shotChartRef = useRef(null);
   const optionsButtonRef = useRef(null);
   const optionsPopoverRef = useRef(null);
@@ -30,6 +35,15 @@ const ShotChartContainer = forwardRef((props, ref) => {
       setShowChart(false);
     }
   }, [data]);
+
+  const handleRegChartSwitch = () => {
+    setShowRegChart(true);
+    setShowHexbinChart(false);
+  };
+  const handleHexbinChartSwitch = () => {
+    setShowRegChart(false);
+    setShowHexbinChart(true);
+  };
 
   const handleDownload = async () => {
     const element = shotChartRef.current;
@@ -111,67 +125,109 @@ const ShotChartContainer = forwardRef((props, ref) => {
           {showChart &&
             (data.resultSets[0].rowSet.length !== 0 ? (
               <div className="grid items-center justify-center">
-                <div className="flex justify-end mr-3 gap-1">
-                  <button
-                    ref={optionsButtonRef}
-                    className="bg-white-500 text-3xl border border-black rounded-md p-1 hover:bg-gray-100 relative"
-                    onClick={handleOptions}
-                  >
-                    <CgOptions />
-                  </button>
-                  {showOptions && (
-                    <div
-                      ref={optionsPopoverRef}
-                      className="text-lg mt-1 absolute mt-12"
+                <div className="flex justify-between">
+                  <div className="border border-black rounded-md text-3xl ml-3">
+                    <button
+                      className={`${
+                        showRegChart ? "bg-purple-400" : "bg-white-500"
+                      } flex items-center rounded-md hover:bg-purple-200 p-1`}
                     >
-                      <div className="grid grid-cols-1 bg-white border border-black shadow-md rounded-md p-2 w-56">
-                        <div className="text-center underline">Options</div>
-                        <div className="text-left">
-                          <input
-                            type="checkbox"
-                            className="m-2"
-                            checked={makesChecked}
-                            onChange={handleMakesChange}
-                          />
-                          Makes
-                        </div>
-                        <div className="text-left">
-                          <input
-                            type="checkbox"
-                            className="m-2"
-                            checked={missesChecked}
-                            onChange={handleMissesChange}
-                          />
-                          Misses
-                        </div>
-                        <div className="text-left">
-                          <input
-                            type="checkbox"
-                            className="m-2"
-                            checked={colorsChecked}
-                            onChange={handleColorsChange}
-                          />
-                          Team Colors
+                      <a
+                        data-tooltip-id="RegChartTip"
+                        data-tooltip-html={`<p class="text-lg"> Makes & Misses chart</p>`}
+                        data-tooltip-place="right"
+                      >
+                        <ImCancelCircle
+                          onClick={handleRegChartSwitch}
+                          className="items-center"
+                        />
+                      </a>
+                      <Tooltip id="RegChartTip" />
+                    </button>
+                    <button
+                      className={`${
+                        showHexbinChart ? "bg-purple-400" : "bg-white-500"
+                      } flex items-center rounded-md hover:bg-purple-200 p-1`}
+                    >
+                      <a
+                        data-tooltip-id="RegChartTip"
+                        data-tooltip-html={`<p class="text-lg"> Field Goal % vs. League Average chart </p>`}
+                        data-tooltip-place="right"
+                      >
+                        <BsFillHexagonFill
+                          onClick={handleHexbinChartSwitch}
+                          className="items-center"
+                        />
+                      </a>
+                      <Tooltip id="HexbinChartTip" />
+                    </button>
+                  </div>
+
+                  <div className="mr-3">
+                    <button
+                      ref={optionsButtonRef}
+                      className="bg-white-500 text-3xl border border-black rounded-md p-1 hover:bg-gray-100 relative mr-1"
+                      onClick={handleOptions}
+                    >
+                      <CgOptions />
+                    </button>
+                    {showOptions && (
+                      <div
+                        ref={optionsPopoverRef}
+                        className="text-lg mt-1 absolute mt-12"
+                      >
+                        <div className="grid grid-cols-1 bg-white border border-black shadow-md rounded-md p-2 w-56">
+                          <div className="text-center underline">Options</div>
+                          <div className="text-left">
+                            <input
+                              type="checkbox"
+                              className="m-2"
+                              checked={makesChecked}
+                              onChange={handleMakesChange}
+                            />
+                            Makes
+                          </div>
+                          <div className="text-left">
+                            <input
+                              type="checkbox"
+                              className="m-2"
+                              checked={missesChecked}
+                              onChange={handleMissesChange}
+                            />
+                            Misses
+                          </div>
+                          <div className="text-left">
+                            <input
+                              type="checkbox"
+                              className="m-2"
+                              checked={colorsChecked}
+                              onChange={handleColorsChange}
+                            />
+                            Team Colors
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  )}
-                  <button
-                    className="bg-white-500 text-3xl border border-black rounded-md p-1 hover:bg-gray-100"
-                    onClick={handleDownload}
-                  >
-                    <MdDownload />
-                  </button>
+                    )}
+                    <button
+                      className="bg-white-500 text-3xl border border-black rounded-md p-1 hover:bg-gray-100"
+                      onClick={handleDownload}
+                    >
+                      <MdDownload />
+                    </button>
+                  </div>
                 </div>
                 <div ref={shotChartRef}>
                   <ShotChartHeader data={data} headerInfo={headerInfo} />
-                  <ShotChartRegular
-                    data={data}
-                    showMakes={makesChecked}
-                    showMisses={missesChecked}
-                    showTeamColors={colorsChecked}
-                  />
-                  <ShotChartHexbin data={data} />
+                  {showRegChart ? (
+                    <ShotChartRegular
+                      data={data}
+                      showMakes={makesChecked}
+                      showMisses={missesChecked}
+                      showTeamColors={colorsChecked}
+                    />
+                  ) : (
+                    <ShotChartHexbin data={data} />
+                  )}
                   <div className="mb-1"></div>
                 </div>
                 <GamesInfo data={data} />

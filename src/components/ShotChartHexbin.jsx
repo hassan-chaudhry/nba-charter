@@ -2,8 +2,13 @@ import React from "react";
 import * as d3 from "d3";
 import * as d3Hexbin from "d3-hexbin";
 import court from "../assets/images/court.png";
+import { BsFillHexagonFill } from "react-icons/bs";
+import { FaMinus, FaPlus } from "react-icons/fa6";
 
 const ShotChartHexbin = ({ data }) => {
+  //
+  //    LEAGUE AVERAGES
+  //
   const leagueAvgs = data.resultSets[1].rowSet;
 
   // threes - 22-24 ft
@@ -156,6 +161,12 @@ const ShotChartHexbin = ({ data }) => {
 
   // console.log("lessThan8LA:", lessThan8LA);
 
+  let placeHolder; // delete later
+
+  //
+  //    PLAYER AVERAGES
+  //
+
   // threes - 22-24 ft
   let aboveTheBreak3CenterPlayer = [];
   let aboveTheBreak3LeftPlayer = [];
@@ -178,29 +189,6 @@ const ShotChartHexbin = ({ data }) => {
   // less than 8 ft
   let lessThan8Player = [];
 
-  const playerFieldGoals = {
-    aboveTheBreak3CenterPlayer: [
-      aboveTheBreak3CenterPlayer,
-      aboveTheBreak3CenterLA,
-    ],
-    aboveTheBreak3LeftPlayer: [aboveTheBreak3LeftPlayer, aboveTheBreak3LeftLA],
-    aboveTheBreak3RightPlayer: [
-      aboveTheBreak3RightPlayer,
-      aboveTheBreak3RightLA,
-    ],
-    leftCorner3Player: [leftCorner3Player, leftCorner3LA],
-    rightCorner3Player: [rightCorner3Player, rightCorner3LA],
-    center16to24Player: [center16to24Player, center16to24LA],
-    leftCenter16to24Player: [leftCenter16to24Player, leftCenter16to24LA],
-    rightCenter16to24Player: [rightCenter16to24Player, rightCenter16to24LA],
-    left16to24Player: [left16to24Player, left16to24LA],
-    right16to24Player: [right16to24Player, right16to24LA],
-    center8to16Player: [center8to16Player, center8to16LA],
-    left8to16Player: [left8to16Player, left8to16LA],
-    right8to16Player: [right8to16Player, right8to16LA],
-    lessThan8Player: [lessThan8Player, lessThan8LA],
-  };
-
   let allShots = [];
   for (let i = 0; i < data.resultSets[0].rowSet.length; i++) {
     let shot = {
@@ -219,24 +207,29 @@ const ShotChartHexbin = ({ data }) => {
       shot.SHOT_ZONE_BASIC === "Above the Break 3" &&
       shot.SHOT_ZONE_AREA === "Center(C)"
     ) {
+      shot["SHOT_HEX_ZONE"] = "aboveTheBreak3Center";
       aboveTheBreak3CenterPlayer.push(shot);
     } else if (
       shot.SHOT_ZONE_BASIC === "Above the Break 3" &&
       shot.SHOT_ZONE_AREA === "Left Side Center(LC)"
     ) {
+      shot["SHOT_HEX_ZONE"] = "aboveTheBreak3Left";
       aboveTheBreak3LeftPlayer.push(shot);
     } else if (
       shot.SHOT_ZONE_BASIC === "Above the Break 3" &&
       shot.SHOT_ZONE_AREA === "Right Side Center(RC)"
     ) {
+      shot["SHOT_HEX_ZONE"] = "aboveTheBreak3Right";
       aboveTheBreak3RightPlayer.push(shot);
     }
     // left corner 3
     else if (shot.SHOT_ZONE_BASIC === "Left Corner 3") {
+      shot["SHOT_HEX_ZONE"] = "leftCorner3";
       leftCorner3Player.push(shot);
     }
     // right corner 3
     else if (shot.SHOT_ZONE_BASIC === "Right Corner 3") {
+      shot["SHOT_HEX_ZONE"] = "rightCorner3";
       rightCorner3Player.push(shot);
     }
     // 16 to 24 ft - center
@@ -245,6 +238,7 @@ const ShotChartHexbin = ({ data }) => {
       shot.SHOT_ZONE_AREA === "Center(C)" &&
       shot.SHOT_ZONE_RANGE === "16-24 ft."
     ) {
+      shot["SHOT_HEX_ZONE"] = "center16to24";
       center16to24Player.push(shot);
     }
     // 16 to 24 - left center
@@ -253,6 +247,7 @@ const ShotChartHexbin = ({ data }) => {
       shot.SHOT_ZONE_AREA === "Left Side Center(LC)" &&
       shot.SHOT_ZONE_RANGE === "16-24 ft."
     ) {
+      shot["SHOT_HEX_ZONE"] = "leftCenter16to24";
       leftCenter16to24Player.push(shot);
     }
     // 16 to 24 - right center
@@ -261,6 +256,7 @@ const ShotChartHexbin = ({ data }) => {
       shot.SHOT_ZONE_AREA === "Right Side Center(RC)" &&
       shot.SHOT_ZONE_RANGE === "16-24 ft."
     ) {
+      shot["SHOT_HEX_ZONE"] = "rightCenter16to24";
       rightCenter16to24Player.push(shot);
     }
     // 16 to 24 ft - left
@@ -269,6 +265,7 @@ const ShotChartHexbin = ({ data }) => {
       shot.SHOT_ZONE_AREA === "Left Side(L)" &&
       shot.SHOT_ZONE_RANGE === "16-24 ft."
     ) {
+      shot["SHOT_HEX_ZONE"] = "left16to24";
       left16to24Player.push(shot);
     }
     // 16 to 24 ft - right
@@ -277,6 +274,7 @@ const ShotChartHexbin = ({ data }) => {
       shot.SHOT_ZONE_AREA === "Right Side(R)" &&
       shot.SHOT_ZONE_RANGE === "16-24 ft."
     ) {
+      shot["SHOT_HEX_ZONE"] = "right16to24";
       right16to24Player.push(shot);
     }
     // 8 to 16 ft - center
@@ -288,6 +286,7 @@ const ShotChartHexbin = ({ data }) => {
         shot.SHOT_ZONE_AREA === "Center(C)" &&
         shot.SHOT_ZONE_RANGE === "8-16 ft.")
     ) {
+      shot["SHOT_HEX_ZONE"] = "center8to16";
       center8to16Player.push(shot);
     }
     // 8 to 16 ft - left
@@ -298,6 +297,7 @@ const ShotChartHexbin = ({ data }) => {
         shot.SHOT_ZONE_AREA === "Left Side(L)" &&
         shot.SHOT_ZONE_RANGE === "8-16 ft.")
     ) {
+      shot["SHOT_HEX_ZONE"] = "left8to16";
       left8to16Player.push(shot);
     }
     // 8 to 16 ft - right
@@ -308,6 +308,7 @@ const ShotChartHexbin = ({ data }) => {
         shot.SHOT_ZONE_AREA === "Right Side(R)" &&
         shot.SHOT_ZONE_RANGE === "8-16 ft.")
     ) {
+      shot["SHOT_HEX_ZONE"] = "right8to16";
       right8to16Player.push(shot);
     }
     // less than 8 ft
@@ -317,14 +318,39 @@ const ShotChartHexbin = ({ data }) => {
         shot.SHOT_ZONE_RANGE === "Less Than 8 ft.") ||
       shot.SHOT_ZONE_BASIC === "Restricted Area"
     ) {
+      shot["SHOT_HEX_ZONE"] = "lessThan8";
       lessThan8Player.push(shot);
     }
   }
 
-  for (const entry in playerFieldGoals) {
-    const shots = playerFieldGoals[entry][0];
-    const shotsLA = playerFieldGoals[entry][1];
-    let fieldGoalPercent = 0;
+  const zoneAverages = {
+    aboveTheBreak3Center: [aboveTheBreak3CenterPlayer, aboveTheBreak3CenterLA],
+    aboveTheBreak3Left: [aboveTheBreak3LeftPlayer, aboveTheBreak3LeftLA],
+    aboveTheBreak3Right: [aboveTheBreak3RightPlayer, aboveTheBreak3RightLA],
+    leftCorner3: [leftCorner3Player, leftCorner3LA],
+    rightCorner3: [rightCorner3Player, rightCorner3LA],
+    center16to24: [center16to24Player, center16to24LA],
+    leftCenter16to24: [leftCenter16to24Player, leftCenter16to24LA],
+    rightCenter16to24: [rightCenter16to24Player, rightCenter16to24LA],
+    left16to24: [left16to24Player, left16to24LA],
+    right16to24: [right16to24Player, right16to24LA],
+    center8to16: [center8to16Player, center8to16LA],
+    left8to16: [left8to16Player, left8to16LA],
+    right8to16: [right8to16Player, right8to16LA],
+    lessThan8: [lessThan8Player, lessThan8LA],
+  };
+
+  const hexColors = {};
+  const greatlyAboveAverageColor = "#350048";
+  const aboveAverageColor = "#770f9d";
+  const averageColor = "#bd00ff";
+  const belowAverageColor = "#de80ff";
+  const greatlyBelowAverageColor = "#e94cf6";
+
+  for (const entry in zoneAverages) {
+    const shots = zoneAverages[entry][0];
+    const shotsLA = zoneAverages[entry][1];
+    let playerFGPercent = 0;
     let shotsMade = 0;
 
     for (let j = 0; j < shots.length; j++) {
@@ -333,19 +359,47 @@ const ShotChartHexbin = ({ data }) => {
       }
     }
 
-    shots.length > 0 ? (fieldGoalPercent = shotsMade / shots.length) : 0;
+    shots.length > 0 ? (playerFGPercent = shotsMade / shots.length) : 0;
 
-    console.log(
-      entry,
-      fieldGoalPercent,
-      "{",
-      shotsMade,
-      "of",
-      shots.length,
-      "}",
-      "|",
-      shotsLA.length === 7 ? shotsLA[6] : (shotsLA[0][6] + shotsLA[1][6]) / 2
-    );
+    let leagueAvgFGPercent;
+    shotsLA.length === 7
+      ? (leagueAvgFGPercent = shotsLA[6])
+      : (leagueAvgFGPercent = (shotsLA[0][6] + shotsLA[1][6]) / 2);
+
+    const fgDifference = playerFGPercent - leagueAvgFGPercent;
+    let color;
+
+    if (fgDifference >= 0.1) {
+      color = greatlyAboveAverageColor; // fgGrade = "Greatly Above Average";
+    } else if (0.1 > fgDifference && fgDifference > 0.05) {
+      color = aboveAverageColor; // fgGrade = "Above Average";
+    } else if (0.05 >= fgDifference && fgDifference >= -0.05) {
+      color = averageColor; // fgGrade = "Average";
+    } else if (fgDifference < -0.05 && fgDifference > -0.1) {
+      color = belowAverageColor; // fgGrade = "Below Average";
+    } else if (fgDifference <= -0.1) {
+      color = greatlyBelowAverageColor; // fgGrade = "Greatly Below Average";
+    }
+
+    hexColors[entry] = color;
+
+    // console.log(
+    //   entry,
+    //   "P:",
+    //   playerFGPercent.toFixed(3),
+    //   // "(",
+    //   // shotsMade,
+    //   // "of",
+    //   // shots.length,
+    //   // ")",
+    //   "|",
+    //   "L:",
+    //   leagueAvgFGPercent
+    // );
+
+    // console.log("Diff:", fgDifference.toFixed(3), "(", fgGrade, ")");
+
+    // console.log("-----");
   }
 
   // let aboveTheBreak3CenterPlayerFGPercent = 0;
@@ -403,24 +457,43 @@ const ShotChartHexbin = ({ data }) => {
 
   // Group shots into hexagonal bins
   const hexShots = hexbin(
-    allShots.map((shot) => [shot.LOC_X, shot.LOC_Y, shot.SHOT_MADE_FLAG])
+    allShots.map((shot) => [
+      shot.LOC_X,
+      shot.LOC_Y,
+      shot.SHOT_MADE_FLAG,
+      shot.SHOT_HEX_ZONE,
+    ])
   ).map((hex) => {
     // Calculate efficiency: shots made / total shots
     const totalShots = hex.length;
     const madeShots = hex.filter((shot) => shot[2] === 1).length; // check if shot made
     const efficiency = totalShots > 0 ? madeShots / totalShots : 0;
 
+    const zone = hex[0][3]; // get SHOT_HEX_ZONE
+    let color = hexColors[zone];
+
     return {
       ...hex,
       totalShots, // Store shot count
       efficiency, // Store efficiency
+      color,
     };
   });
 
-  console.log("Hexbin Data:", hexShots);
+  const maxCount = d3.max(hexShots, (hex) => hex.totalShots);
 
-  // Scale for color (efficiency)
-  const colorScale = d3.scaleSequential(d3.interpolatePurples).domain([0, 1]); // low efficiency = light purple , high efficiency = dark purple
+  const quarterMaxCount = maxCount / 4;
+  const percentile25 = quarterMaxCount;
+  const percentile50 = quarterMaxCount * 2;
+
+  const customSizeScale = (count) => {
+    if (count === 0) return 0;
+    if (count <= 3) return 3;
+    if (count <= 10) return 7;
+    if (count < percentile25) return 8;
+    if (count < percentile50) return 9;
+    return 10;
+  };
 
   return (
     <div className="bg-white-500 p-3">
@@ -446,17 +519,29 @@ const ShotChartHexbin = ({ data }) => {
             {hexShots.map((hex, index) => (
               <path
                 key={index}
-                d={`M${hex.x},${hex.y}` + hexbin.hexagon()}
-                fill={colorScale(hex.efficiency)} // Color based on efficiency
+                d={
+                  `M${hex.x},${hex.y}` +
+                  hexbin.hexagon(customSizeScale(hex.totalShots))
+                }
+                fill={hex.color} // Color based on efficiency
                 opacity={0.8}
               />
             ))}
           </svg>
-
-          <div className="flex justify-center mt-1">
-            <h1>FG% vs. League Average</h1>
-          </div>
         </div>
+      </div>
+
+      <div className="grid grid-cols-1 mt-2">
+        <div className="flex justify-center items-center text-3xl mb-1">
+          <FaMinus className="text-lg" />
+          <BsFillHexagonFill color={greatlyBelowAverageColor} />
+          <BsFillHexagonFill color={belowAverageColor} />
+          <BsFillHexagonFill color={averageColor} />
+          <BsFillHexagonFill color={aboveAverageColor} />
+          <BsFillHexagonFill color={greatlyAboveAverageColor} />
+          <FaPlus className="text-lg" />
+        </div>
+        <h1 className="text-center">FG% vs. League Average</h1>
       </div>
     </div>
   );
