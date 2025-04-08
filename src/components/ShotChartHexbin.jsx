@@ -1,4 +1,5 @@
 import React from "react";
+import { useState } from "react";
 import * as d3 from "d3";
 import * as d3Hexbin from "d3-hexbin";
 import court from "../assets/images/court.png";
@@ -6,9 +7,19 @@ import { BsFillHexagonFill } from "react-icons/bs";
 import { FaMinus, FaPlus } from "react-icons/fa6";
 
 const ShotChartHexbin = ({ data }) => {
-  //
-  //    LEAGUE AVERAGES
-  //
+  const [hoveredHex, setHoveredHex] = useState(null);
+
+  const handleHexHoverEnter = (hex) => {
+    setHoveredHex(hex);
+  };
+  const handleHexHoverLeave = () => {
+    setHoveredHex(null);
+  };
+
+  /////////////////////////////////////////
+  //  GROUP LEAGUE AVERAGES INTO ZONES   //
+  /////////////////////////////////////////
+
   const leagueAvgs = data.resultSets[1].rowSet;
 
   // threes - 22-24 ft
@@ -141,7 +152,7 @@ const ShotChartHexbin = ({ data }) => {
     }
   }
 
-  // console.log("League Avgs:", leagueAvgs);
+  // console.log("League Avgs");
 
   // console.log("aboveTheBreak3CenterLA:", aboveTheBreak3CenterLA);
   // console.log("aboveTheBreak3LeftLA:", aboveTheBreak3LeftLA);
@@ -161,11 +172,11 @@ const ShotChartHexbin = ({ data }) => {
 
   // console.log("lessThan8LA:", lessThan8LA);
 
-  let placeHolder; // delete later
+  let placeHolder1; // delete later
 
-  //
-  //    PLAYER AVERAGES
-  //
+  //////////////////////////////////////
+  //  GROUP PLAYER SHOTS INTO ZONES  ///
+  //////////////////////////////////////
 
   // threes - 22-24 ft
   let aboveTheBreak3CenterPlayer = [];
@@ -323,111 +334,7 @@ const ShotChartHexbin = ({ data }) => {
     }
   }
 
-  const zoneAverages = {
-    aboveTheBreak3Center: [aboveTheBreak3CenterPlayer, aboveTheBreak3CenterLA],
-    aboveTheBreak3Left: [aboveTheBreak3LeftPlayer, aboveTheBreak3LeftLA],
-    aboveTheBreak3Right: [aboveTheBreak3RightPlayer, aboveTheBreak3RightLA],
-    leftCorner3: [leftCorner3Player, leftCorner3LA],
-    rightCorner3: [rightCorner3Player, rightCorner3LA],
-    center16to24: [center16to24Player, center16to24LA],
-    leftCenter16to24: [leftCenter16to24Player, leftCenter16to24LA],
-    rightCenter16to24: [rightCenter16to24Player, rightCenter16to24LA],
-    left16to24: [left16to24Player, left16to24LA],
-    right16to24: [right16to24Player, right16to24LA],
-    center8to16: [center8to16Player, center8to16LA],
-    left8to16: [left8to16Player, left8to16LA],
-    right8to16: [right8to16Player, right8to16LA],
-    lessThan8: [lessThan8Player, lessThan8LA],
-  };
-
-  const hexColors = {};
-  const greatlyAboveAverageColor = "#350048";
-  const aboveAverageColor = "#770f9d";
-  const averageColor = "#bd00ff";
-  const belowAverageColor = "#de80ff";
-  const greatlyBelowAverageColor = "#e94cf6";
-
-  for (const entry in zoneAverages) {
-    const shots = zoneAverages[entry][0];
-    const shotsLA = zoneAverages[entry][1];
-    let playerFGPercent = 0;
-    let shotsMade = 0;
-
-    for (let j = 0; j < shots.length; j++) {
-      if (shots[j].SHOT_MADE_FLAG === 1) {
-        shotsMade += 1;
-      }
-    }
-
-    shots.length > 0 ? (playerFGPercent = shotsMade / shots.length) : 0;
-
-    let leagueAvgFGPercent;
-    shotsLA.length === 7
-      ? (leagueAvgFGPercent = shotsLA[6])
-      : (leagueAvgFGPercent = (shotsLA[0][6] + shotsLA[1][6]) / 2);
-
-    const fgDifference = playerFGPercent - leagueAvgFGPercent;
-    let color;
-
-    if (fgDifference >= 0.1) {
-      color = greatlyAboveAverageColor; // fgGrade = "Greatly Above Average";
-    } else if (0.1 > fgDifference && fgDifference > 0.05) {
-      color = aboveAverageColor; // fgGrade = "Above Average";
-    } else if (0.05 >= fgDifference && fgDifference >= -0.05) {
-      color = averageColor; // fgGrade = "Average";
-    } else if (fgDifference < -0.05 && fgDifference > -0.1) {
-      color = belowAverageColor; // fgGrade = "Below Average";
-    } else if (fgDifference <= -0.1) {
-      color = greatlyBelowAverageColor; // fgGrade = "Greatly Below Average";
-    }
-
-    hexColors[entry] = color;
-
-    // console.log(
-    //   entry,
-    //   "P:",
-    //   playerFGPercent.toFixed(3),
-    //   // "(",
-    //   // shotsMade,
-    //   // "of",
-    //   // shots.length,
-    //   // ")",
-    //   "|",
-    //   "L:",
-    //   leagueAvgFGPercent
-    // );
-
-    // console.log("Diff:", fgDifference.toFixed(3), "(", fgGrade, ")");
-
-    // console.log("-----");
-  }
-
-  // let aboveTheBreak3CenterPlayerFGPercent = 0;
-  // let aboveTheBreak3CenterPlayerShotsMade = 0;
-
-  // for (let i = 0; i < aboveTheBreak3CenterPlayer.length; i++) {
-  //   if (aboveTheBreak3CenterPlayer[i].SHOT_MADE_FLAG === 1) {
-  //     aboveTheBreak3CenterPlayerShotsMade += 1;
-  //   }
-  // }
-
-  // aboveTheBreak3CenterPlayerFGPercent =
-  //   aboveTheBreak3CenterPlayerShotsMade / aboveTheBreak3CenterPlayer.length;
-
-  // console.log("FG% vs. LA");
-  // console.log(
-  //   "Above The Break 3 - Center (Player, LA):",
-  //   aboveTheBreak3CenterPlayerFGPercent,
-  //   "{",
-  //   aboveTheBreak3CenterPlayerShotsMade,
-  //   "of",
-  //   aboveTheBreak3CenterPlayer.length,
-  //   "}",
-  //   "|",
-  //   aboveTheBreak3CenterLA[6]
-  // );
-
-  // console.log("Player Shot Chart Location Specifics:");
+  // console.log("Player Shots by Zone);
 
   // console.log("aboveTheBreak3CenterPlayer:", aboveTheBreak3CenterPlayer);
   // console.log("aboveTheBreak3LeftPlayer:", aboveTheBreak3LeftPlayer);
@@ -447,6 +354,113 @@ const ShotChartHexbin = ({ data }) => {
 
   // console.log("lessThan8Player:", lessThan8Player);
 
+  let placeHolder2; // delete later
+
+  ///////////////////////////////////////////////
+  //   GET PLAYER FIELD GOAL % FOR EACH ZONE   //
+  ///////////////////////////////////////////////
+
+  let zoneAverages = {};
+  const zonesInfo = {
+    aboveTheBreak3Center: [aboveTheBreak3CenterPlayer, aboveTheBreak3CenterLA],
+    aboveTheBreak3Left: [aboveTheBreak3LeftPlayer, aboveTheBreak3LeftLA],
+    aboveTheBreak3Right: [aboveTheBreak3RightPlayer, aboveTheBreak3RightLA],
+    leftCorner3: [leftCorner3Player, leftCorner3LA],
+    rightCorner3: [rightCorner3Player, rightCorner3LA],
+    center16to24: [center16to24Player, center16to24LA],
+    leftCenter16to24: [leftCenter16to24Player, leftCenter16to24LA],
+    rightCenter16to24: [rightCenter16to24Player, rightCenter16to24LA],
+    left16to24: [left16to24Player, left16to24LA],
+    right16to24: [right16to24Player, right16to24LA],
+    center8to16: [center8to16Player, center8to16LA],
+    left8to16: [left8to16Player, left8to16LA],
+    right8to16: [right8to16Player, right8to16LA],
+    lessThan8: [lessThan8Player, lessThan8LA],
+  };
+
+  for (const zone in zonesInfo) {
+    // get player fg% for zone
+    const shotsPlayer = zonesInfo[zone][0];
+    let playerFGPercent = 0;
+    const shotsTotal = shotsPlayer.length;
+    let shotsMade = 0;
+
+    for (let j = 0; j < shotsTotal; j++) {
+      if (shotsPlayer[j].SHOT_MADE_FLAG === 1) {
+        shotsMade += 1;
+      }
+    }
+    shotsTotal > 0 ? (playerFGPercent = shotsMade / shotsTotal) : 0;
+
+    // get league average for zone
+    const shotsLA = zonesInfo[zone][1];
+    let leagueAvgFGPercent;
+    shotsLA.length === 7
+      ? (leagueAvgFGPercent = shotsLA[6])
+      : (leagueAvgFGPercent = (shotsLA[0][6] + shotsLA[1][6]) / 2); // for zones that are grouped together
+
+    // compile player fg%, shots made / shots total, and league average into dictionary
+    zoneAverages[zone] = [
+      playerFGPercent,
+      shotsMade + " of " + shotsTotal,
+      leagueAvgFGPercent,
+    ];
+
+    // console.log(
+    //   zone,
+    //   "P:",
+    //   playerFGPercent.toFixed(3),
+    //   // "(",
+    //   // shotsMade,
+    //   // "of",
+    //   // shots.length,
+    //   // ")",
+    //   "|",
+    //   "L:",
+    //   leagueAvgFGPercent
+    // );
+    // console.log("Diff:", fgDifference.toFixed(3), "(", fgGrade, ")");
+  }
+
+  /////////////////////////////////
+  //   GET COLOR FOR EACH ZONE   //
+  /////////////////////////////////
+
+  const zoneColors = {};
+  const colorScale = {
+    greatlyAboveAverageColor: "#350048",
+    aboveAverageColor: "#770f9d",
+    averageColor: "#bd00ff",
+    belowAverageColor: "#e482ff",
+    greatlyBelowAverageColor: "#f503fc",
+  };
+
+  for (const zone in zoneAverages) {
+    // use player fg% and league average to determine color for zone
+    let color;
+    const playerFGPercent = zoneAverages[zone][0];
+    const leagueAvgFGPercent = zoneAverages[zone][2];
+    const fgDifference = playerFGPercent - leagueAvgFGPercent;
+
+    if (fgDifference >= 0.1) {
+      color = colorScale["greatlyAboveAverageColor"]; // Greatly Above Average: player fg% 10%+ better than league avg
+    } else if (0.1 > fgDifference && fgDifference > 0.05) {
+      color = colorScale["aboveAverageColor"]; // Above Average: player fg% 5%+ better than league avg
+    } else if (0.05 >= fgDifference && fgDifference >= -0.05) {
+      color = colorScale["averageColor"]; // Average: player fg% around 5% of league avg
+    } else if (fgDifference < -0.05 && fgDifference > -0.1) {
+      color = colorScale["belowAverageColor"]; // Below Average: player fg% 5%+ worse than league avg
+    } else if (fgDifference <= -0.1) {
+      color = colorScale["greatlyBelowAverageColor"]; // Greatly Below Average: player fg% 10%+ worse than league avg
+    }
+
+    zoneColors[zone] = color;
+  }
+
+  /////////////////////////
+  //   CREATE HEXBINS   ///
+  /////////////////////////
+
   const hexbin = d3Hexbin
     .hexbin()
     .radius(10)
@@ -455,45 +469,45 @@ const ShotChartHexbin = ({ data }) => {
       [500, 470],
     ]);
 
-  // Group shots into hexagonal bins
+  // group shots into hexagonal bins
   const hexShots = hexbin(
-    allShots.map((shot) => [
-      shot.LOC_X,
-      shot.LOC_Y,
-      shot.SHOT_MADE_FLAG,
-      shot.SHOT_HEX_ZONE,
-    ])
+    allShots.map((shot) => [shot.LOC_X, shot.LOC_Y, shot.SHOT_HEX_ZONE])
   ).map((hex) => {
-    // Calculate efficiency: shots made / total shots
-    const totalShots = hex.length;
-    const madeShots = hex.filter((shot) => shot[2] === 1).length; // check if shot made
-    const efficiency = totalShots > 0 ? madeShots / totalShots : 0;
-
-    const zone = hex[0][3]; // get SHOT_HEX_ZONE
-    let color = hexColors[zone];
+    const shotsTotal = hex.length;
+    let color = zoneColors[hex[0][2]];
 
     return {
       ...hex,
-      totalShots, // Store shot count
-      efficiency, // Store efficiency
+      shotsTotal,
       color,
     };
   });
 
-  const maxCount = d3.max(hexShots, (hex) => hex.totalShots);
-
-  const quarterMaxCount = maxCount / 4;
-  const percentile25 = quarterMaxCount;
-  const percentile50 = quarterMaxCount * 2;
-
-  const customSizeScale = (count) => {
-    if (count === 0) return 0;
-    if (count <= 3) return 3;
-    if (count <= 10) return 7;
-    if (count < percentile25) return 8;
-    if (count < percentile50) return 9;
+  // dynamically set hex size based on how many shots player takes
+  const customSizeScale = (shots) => {
+    if (shots === 0) return 0;
+    if (shots <= 1) return 3;
+    if (shots <= 5) return 5;
+    if (shots <= 10) return 7;
+    if (shots <= 20) return 9;
     return 10;
   };
+
+  // scale hex size based off the most shots taken in a single hex
+  // const maxCount = d3.max(hexShots, (hex) => hex.shotsTotal);
+
+  // const quarterMaxCount = maxCount / 4;
+  // const percentile25 = quarterMaxCount;
+  // const percentile50 = quarterMaxCount * 2;
+
+  // const customSizeScale = (shots) => {
+  //   if (shots === 0) return 0;
+  //   if (shots <= 3) return 3;
+  //   if (shots <= 10) return 7;
+  //   if (shots < percentile25) return 8;
+  //   if (shots < percentile50) return 9;
+  //   return 10;
+  // };
 
   return (
     <div className="bg-white-500 p-3">
@@ -511,7 +525,7 @@ const ShotChartHexbin = ({ data }) => {
               left: 0,
               width: "100%",
               height: "100%",
-              pointerEvents: "none",
+              pointerEvents: "auto",
             }}
             viewBox="-250 -47.5 500 470"
             preserveAspectRatio="none"
@@ -521,24 +535,39 @@ const ShotChartHexbin = ({ data }) => {
                 key={index}
                 d={
                   `M${hex.x},${hex.y}` +
-                  hexbin.hexagon(customSizeScale(hex.totalShots))
+                  hexbin.hexagon(customSizeScale(hex.shotsTotal))
                 }
-                fill={hex.color} // Color based on efficiency
-                opacity={0.8}
+                fill={hex.color}
+                opacity={0.9}
+                onMouseEnter={(e) => handleHexHoverEnter(hex, e)}
+                onMouseLeave={() => handleHexHoverLeave()}
               />
             ))}
           </svg>
+
+          {/* zone popover with player fg% and league average */}
+          {hoveredHex && (
+            <div className="absolute bottom-0 bg-white border border-black rounded-md p-2 m-1 text-sm">
+              <h1>{hoveredHex[0][3]}</h1>
+              <h1 className="text-2xl text-purple-500">
+                {zoneAverages[hoveredHex[0][2]][0].toFixed(3)}
+              </h1>
+              <h1>{zoneAverages[hoveredHex[0][2]][1]}</h1>
+              <h1>League: {zoneAverages[hoveredHex[0][2]][2]}</h1>
+            </div>
+          )}
         </div>
       </div>
 
+      {/* hex legend */}
       <div className="grid grid-cols-1 mt-2">
         <div className="flex justify-center items-center text-3xl mb-1">
           <FaMinus className="text-lg" />
-          <BsFillHexagonFill color={greatlyBelowAverageColor} />
-          <BsFillHexagonFill color={belowAverageColor} />
-          <BsFillHexagonFill color={averageColor} />
-          <BsFillHexagonFill color={aboveAverageColor} />
-          <BsFillHexagonFill color={greatlyAboveAverageColor} />
+          <BsFillHexagonFill color={colorScale["greatlyBelowAverageColor"]} />
+          <BsFillHexagonFill color={colorScale["belowAverageColor"]} />
+          <BsFillHexagonFill color={colorScale["averageColor"]} />
+          <BsFillHexagonFill color={colorScale["aboveAverageColor"]} />
+          <BsFillHexagonFill color={colorScale["greatlyAboveAverageColor"]} />
           <FaPlus className="text-lg" />
         </div>
         <h1 className="text-center">FG% vs. League Average</h1>

@@ -1,6 +1,8 @@
 import React from "react";
 import { teams, colors } from "../constants/constants.jsx";
 import court from "../assets/images/court.png";
+import { FaRegCircle } from "react-icons/fa6";
+import { VscChromeClose } from "react-icons/vsc";
 
 const ShotChartRegular = ({ data, showMakes, showMisses, showTeamColors }) => {
   const playerTeamFullName = data.resultSets[0].rowSet[0][6];
@@ -113,8 +115,13 @@ const ShotChartRegular = ({ data, showMakes, showMisses, showTeamColors }) => {
               )
             )}
           </svg>
-          <div className="flex justify-center mt-1">
-            <h1>◯ = make, X = miss</h1>
+          <div className="grid grid-cols-1 mt-1">
+            <div className="flex justify-center items-center gap-1">
+              <FaRegCircle /> Make
+            </div>
+            <div className="flex justify-center items-center gap-1">
+              <VscChromeClose /> Miss
+            </div>
           </div>
         </div>
       </div>

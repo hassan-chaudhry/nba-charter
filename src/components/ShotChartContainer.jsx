@@ -6,10 +6,11 @@ import ShotChartHexbin from "./ShotChartHexbin";
 import html2canvas from "html2canvas-pro";
 import GamesInfo from "./GamesInfo";
 import errorPic from "../assets/images/shot-chart-unavailable.jpg";
+import xoPic from "../assets/images/xo-icon.png";
 import { Tooltip } from "react-tooltip";
 import { HiOutlineExclamation } from "react-icons/hi";
 import { ImCancelCircle } from "react-icons/im";
-import { BsFillHexagonFill } from "react-icons/bs";
+import { TbHexagons } from "react-icons/tb";
 import { MdDownload } from "react-icons/md";
 import { CgOptions } from "react-icons/cg";
 
@@ -99,7 +100,7 @@ const ShotChartContainer = forwardRef((props, ref) => {
   }, []);
 
   return (
-    <div ref={ref} className="bg-white-500 p-3">
+    <div ref={ref} className="bg-white">
       {data && (
         <>
           <div className="flex flex-col items-center m-5">
@@ -126,55 +127,61 @@ const ShotChartContainer = forwardRef((props, ref) => {
             (data.resultSets[0].rowSet.length !== 0 ? (
               <div className="grid items-center justify-center">
                 <div className="flex justify-between">
-                  <div className="border border-black rounded-md text-3xl ml-3">
+                  <div className="flex bg-white border border-black rounded-md text-3xl ml-3">
                     <button
                       className={`${
-                        showRegChart ? "bg-purple-400" : "bg-white-500"
-                      } flex items-center rounded-md hover:bg-purple-200 p-1`}
+                        showRegChart ? "bg-purple-500" : ""
+                      } flex items-center rounded-md hover:bg-purple-300 p-1`}
                     >
                       <a
                         data-tooltip-id="RegChartTip"
                         data-tooltip-html={`<p class="text-lg"> Makes & Misses chart</p>`}
-                        data-tooltip-place="right"
+                        data-tooltip-place="bottom"
                       >
-                        <ImCancelCircle
+                        <img
+                          src={xoPic}
+                          alt="xo"
+                          className="w-8 items-center"
                           onClick={handleRegChartSwitch}
-                          className="items-center"
                         />
                       </a>
                       <Tooltip id="RegChartTip" />
                     </button>
                     <button
                       className={`${
-                        showHexbinChart ? "bg-purple-400" : "bg-white-500"
-                      } flex items-center rounded-md hover:bg-purple-200 p-1`}
+                        showHexbinChart ? "bg-purple-500" : ""
+                      } flex items-center rounded-md hover:bg-purple-300 p-1`}
                     >
                       <a
                         data-tooltip-id="RegChartTip"
                         data-tooltip-html={`<p class="text-lg"> Field Goal % vs. League Average chart </p>`}
-                        data-tooltip-place="right"
+                        data-tooltip-place="bottom"
                       >
-                        <BsFillHexagonFill
+                        <TbHexagons
                           onClick={handleHexbinChartSwitch}
-                          className="items-center"
+                          className="w-8 items-center"
                         />
                       </a>
                       <Tooltip id="HexbinChartTip" />
                     </button>
                   </div>
 
-                  <div className="mr-3">
-                    <button
-                      ref={optionsButtonRef}
-                      className="bg-white-500 text-3xl border border-black rounded-md p-1 hover:bg-gray-100 relative mr-1"
-                      onClick={handleOptions}
-                    >
-                      <CgOptions />
-                    </button>
+                  <div className="mr-3 relative">
+                    {showRegChart && (
+                      <button
+                        ref={optionsButtonRef}
+                        className={`${
+                          showOptions ? "bg-purple-500" : "bg-white"
+                        } text-3xl border border-black rounded-md p-1 hover:bg-purple-300 mr-1`}
+                        onClick={handleOptions}
+                      >
+                        <CgOptions />
+                      </button>
+                    )}
                     {showOptions && (
                       <div
                         ref={optionsPopoverRef}
-                        className="text-lg mt-1 absolute mt-12"
+                        className="text-lg mt-1 absolute top-10 right-0"
                       >
                         <div className="grid grid-cols-1 bg-white border border-black shadow-md rounded-md p-2 w-56">
                           <div className="text-center underline">Options</div>
@@ -209,7 +216,7 @@ const ShotChartContainer = forwardRef((props, ref) => {
                       </div>
                     )}
                     <button
-                      className="bg-white-500 text-3xl border border-black rounded-md p-1 hover:bg-gray-100"
+                      className="bg-white text-3xl border border-black rounded-md p-1 hover:bg-purple-300"
                       onClick={handleDownload}
                     >
                       <MdDownload />
