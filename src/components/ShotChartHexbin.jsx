@@ -543,7 +543,7 @@ const ShotChartHexbin = ({ data }) => {
 
   return (
     <div className="bg-white-500 p-3">
-      <div className="flex items-center justify-center">
+      <div className="grid grid-cols-1 items-center justify-center">
         <div className="relative w-full max-w-[750px] aspect-[500/470]">
           <img
             src={court}
@@ -581,7 +581,7 @@ const ShotChartHexbin = ({ data }) => {
           {/* zone popover with player fg% and league average */}
           {hoveredZone && (
             <div
-              className="absolute bottom-0 bg-white border-2 rounded-md p-2 m-2"
+              className="absolute bottom-0 bg-white border-2 rounded-md p-2 m-5"
               style={{ borderColor: zoneColors[hoveredZone] }}
             >
               <h1>{hoveredZone[0][3]}</h1>
@@ -591,27 +591,27 @@ const ShotChartHexbin = ({ data }) => {
               >
                 {decimalToPercent(zoneAverages[hoveredZone][0])}
               </h1>
-              <h1 className="text-sm">({zoneAverages[hoveredZone][1]})</h1>
-              <h1 className="text-base">
+              <h1 className="text-base">({zoneAverages[hoveredZone][1]})</h1>
+              <h1 className="text-lg">
                 League: {decimalToPercent(zoneAverages[hoveredZone][2])}
               </h1>
             </div>
           )}
         </div>
-      </div>
 
-      {/* hex legend */}
-      <div className="grid grid-cols-1 mt-2">
-        <div className="flex justify-center items-center text-3xl mb-1">
-          <FaMinus className="text-lg" />
-          <BsFillHexagonFill color={colorScale["greatlyBelowAverageColor"]} />
-          <BsFillHexagonFill color={colorScale["belowAverageColor"]} />
-          <BsFillHexagonFill color={colorScale["averageColor"]} />
-          <BsFillHexagonFill color={colorScale["aboveAverageColor"]} />
-          <BsFillHexagonFill color={colorScale["greatlyAboveAverageColor"]} />
-          <FaPlus className="text-lg" />
+        {/* hex legend */}
+        <div className="grid grid-cols-1 mt-2">
+          <div className="flex justify-center items-center text-3xl mb-1">
+            <FaMinus className="text-lg" />
+            <BsFillHexagonFill color={colorScale["greatlyBelowAverageColor"]} />
+            <BsFillHexagonFill color={colorScale["belowAverageColor"]} />
+            <BsFillHexagonFill color={colorScale["averageColor"]} />
+            <BsFillHexagonFill color={colorScale["aboveAverageColor"]} />
+            <BsFillHexagonFill color={colorScale["greatlyAboveAverageColor"]} />
+            <FaPlus className="text-lg" />
+          </div>
+          <h1 className="text-center">FG% vs. League Average</h1>
         </div>
-        <h1 className="text-center">FG% vs. League Average</h1>
       </div>
     </div>
   );

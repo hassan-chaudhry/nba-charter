@@ -49,7 +49,7 @@ const ShotChartRegular = ({ data, showMakes, showMisses, showTeamColors }) => {
 
   return (
     <div className="bg-white-500 p-3">
-      <div className="flex items-center justify-center">
+      <div className="grid grid-cols-1 items-center justify-center">
         <div className="relative w-full max-w-[750px] aspect-[500/470]">
           <img
             src={court}
@@ -115,14 +115,57 @@ const ShotChartRegular = ({ data, showMakes, showMisses, showTeamColors }) => {
               )
             )}
           </svg>
-          <div className="grid grid-cols-1 mt-1">
-            <div className="flex justify-center items-center gap-1">
-              <FaRegCircle /> Make
-            </div>
-            <div className="flex justify-center items-center gap-1">
-              <VscChromeClose /> Miss
-            </div>
+        </div>
+
+        {/* shots legend */}
+        <div className="grid grid-cols-1 mt-1">
+          <svg viewBox="0 0 100 7">
+            {/* make */}
+            <circle
+              key={"makeLegend"}
+              className="opacity-75"
+              cx={47}
+              cy={2}
+              r="1"
+              stroke={`rgb(${primaryColor})`}
+              strokeWidth="0.5"
+              fill="none"
+            />
+            <text x="49" y="2.755" style={{ fontSize: "2.5px" }}>
+              Make
+            </text>
+
+            {/* miss */}
+            <g key={"missLegend"} className="opacity-75">
+              <line
+                key={"missLegend1"}
+                x1={47 - 1}
+                y1={5 - 1}
+                x2={47 + 1}
+                y2={5 + 1}
+                stroke={`rgb(${secondaryColor})`}
+                strokeWidth="0.65"
+              />
+              <line
+                key={"missLegend2"}
+                x1={47 - 1}
+                y1={5 + 1}
+                x2={47 + 1}
+                y2={5 - 1}
+                stroke={`rgb(${secondaryColor})`}
+                strokeWidth="0.65"
+              />
+            </g>
+            <text x="49" y="5.755" style={{ fontSize: "2.5px" }}>
+              Miss
+            </text>
+          </svg>
+          {/* <div className="flex justify-center items-center gap-1">
+            <FaRegCircle style={{ color: primaryColor }} /> Make
           </div>
+          <div className="flex justify-center items-center gap-1">
+            <VscChromeClose style={{ color: secondaryColor }} /> Miss
+          </div> */}
         </div>
       </div>
     </div>

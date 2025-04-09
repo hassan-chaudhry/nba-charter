@@ -59,7 +59,7 @@ const SelectBySeason = ({ onSelect, handleReset }) => {
   ];
 
   const customStyles = {
-    // change styles for react-select component
+    // apply custom style for react-select component
     control: (provided, state) => ({
       ...provided,
       boxShadow: "none",
@@ -100,6 +100,7 @@ const SelectBySeason = ({ onSelect, handleReset }) => {
         <Select
           className="rounded-md"
           styles={customStyles}
+          maxMenuHeight={200}
           options={optionsSeason}
           value={optionsSeason.value}
           defaultValue={selectSeason}

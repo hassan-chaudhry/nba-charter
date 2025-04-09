@@ -101,7 +101,7 @@ const ShotChartContainer = forwardRef((props, ref) => {
 
   return (
     <div ref={ref} className="bg-white">
-      {data && (
+      {data ? (
         <>
           <div className="flex flex-col items-center m-5">
             <motion.div
@@ -260,6 +260,8 @@ const ShotChartContainer = forwardRef((props, ref) => {
               </div>
             ))}
         </>
+      ) : (
+        <div className="py-10"></div>
       )}
     </div>
   );
