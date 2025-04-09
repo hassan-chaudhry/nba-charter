@@ -1,5 +1,5 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import * as d3 from "d3";
 import * as d3Hexbin from "d3-hexbin";
 import court from "../assets/images/court.png";
@@ -7,13 +7,11 @@ import { BsFillHexagonFill } from "react-icons/bs";
 import { FaMinus, FaPlus } from "react-icons/fa6";
 
 const ShotChartHexbin = ({ data }) => {
-  const [hoveredHex, setHoveredHex] = useState(null);
+  const [hoveredZone, setHoveredZone] = useState(null);
+  const svgRef = useRef(null);
 
-  const handleHexHoverEnter = (hex) => {
-    setHoveredHex(hex);
-  };
-  const handleHexHoverLeave = () => {
-    setHoveredHex(null);
+  const decimalToPercent = (decimal) => {
+    return (decimal * 100).toFixed(1) + "%";
   };
 
   /////////////////////////////////////////
@@ -475,11 +473,13 @@ const ShotChartHexbin = ({ data }) => {
   ).map((hex) => {
     const shotsTotal = hex.length;
     let color = zoneColors[hex[0][2]];
+    const opacity = 0.9;
 
     return {
       ...hex,
       shotsTotal,
       color,
+      opacity,
     };
   });
 
@@ -493,21 +493,53 @@ const ShotChartHexbin = ({ data }) => {
     return 10;
   };
 
-  // scale hex size based off the most shots taken in a single hex
-  // const maxCount = d3.max(hexShots, (hex) => hex.shotsTotal);
+  //////////////////////////////
+  //   HANDLE ZONE POPOVERS   //
+  //////////////////////////////
 
-  // const quarterMaxCount = maxCount / 4;
-  // const percentile25 = quarterMaxCount;
-  // const percentile50 = quarterMaxCount * 2;
+  useEffect(() => {
+    const handleMouseMove = (e) => {
+      // convert mouse cooridnates to SVG coordinates
+      let pt = svgRef.current.createSVGPoint();
+      pt.x = e.clientX;
+      pt.y = e.clientY;
+      pt = pt.matrixTransform(svgRef.current.getScreenCTM().inverse());
 
-  // const customSizeScale = (shots) => {
-  //   if (shots === 0) return 0;
-  //   if (shots <= 3) return 3;
-  //   if (shots <= 10) return 7;
-  //   if (shots < percentile25) return 8;
-  //   if (shots < percentile50) return 9;
-  //   return 10;
-  // };
+      // get closest hex to mouse
+      let minDistance = Infinity;
+      let closestHex = null;
+
+      hexShots.map((hex) => {
+        const dx = pt.x - hex.x;
+        const dy = pt.y - hex.y;
+        const distance = dx * dx + dy * dy;
+        if (distance < minDistance) {
+          minDistance = distance;
+          closestHex = hex;
+        }
+      });
+
+      // display zone popover for closest hex
+      if (closestHex && minDistance < 500) {
+        setHoveredZone(closestHex[0][2]);
+      } else {
+        setHoveredZone(null);
+      }
+    };
+
+    // handle event listeners
+    window.addEventListener("mousemove", handleMouseMove);
+    window.addEventListener("mouseleave", () => {
+      setHoveredZone(null);
+    });
+
+    return () => {
+      window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener("mouseleave", () => {
+        setHoveredZone(null);
+      });
+    };
+  }, [hexShots]);
 
   return (
     <div className="bg-white-500 p-3">
@@ -519,6 +551,7 @@ const ShotChartHexbin = ({ data }) => {
             style={{ width: "100%", height: "100%" }}
           />
           <svg
+            ref={svgRef}
             style={{
               position: "absolute",
               top: 0,
@@ -538,22 +571,30 @@ const ShotChartHexbin = ({ data }) => {
                   hexbin.hexagon(customSizeScale(hex.shotsTotal))
                 }
                 fill={hex.color}
-                opacity={0.9}
-                onMouseEnter={(e) => handleHexHoverEnter(hex, e)}
-                onMouseLeave={() => handleHexHoverLeave()}
+                opacity={
+                  hoveredZone ? (hex[0][2] === hoveredZone ? 1 : 0.3) : 1
+                }
               />
             ))}
           </svg>
 
           {/* zone popover with player fg% and league average */}
-          {hoveredHex && (
-            <div className="absolute bottom-0 bg-white border border-black rounded-md p-2 m-1 text-sm">
-              <h1>{hoveredHex[0][3]}</h1>
-              <h1 className="text-2xl text-purple-500">
-                {zoneAverages[hoveredHex[0][2]][0].toFixed(3)}
+          {hoveredZone && (
+            <div
+              className="absolute bottom-0 bg-white border-2 rounded-md p-2 m-2"
+              style={{ borderColor: zoneColors[hoveredZone] }}
+            >
+              <h1>{hoveredZone[0][3]}</h1>
+              <h1
+                className="text-2xl"
+                style={{ color: zoneColors[hoveredZone] }}
+              >
+                {decimalToPercent(zoneAverages[hoveredZone][0])}
               </h1>
-              <h1>{zoneAverages[hoveredHex[0][2]][1]}</h1>
-              <h1>League: {zoneAverages[hoveredHex[0][2]][2]}</h1>
+              <h1 className="text-sm">({zoneAverages[hoveredZone][1]})</h1>
+              <h1 className="text-base">
+                League: {decimalToPercent(zoneAverages[hoveredZone][2])}
+              </h1>
             </div>
           )}
         </div>
