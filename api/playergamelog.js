@@ -115,29 +115,51 @@ export default async function handler(req, res) {
     });
     const queryString = params.toString().replace("%2B", "+");
 
-    const response = await fetch(
-      `https://stats.nba.com/stats/playergamelog?${queryString}`,
-      {
-        method: "GET",
-        headers: {
-          Host: "stats.nba.com",
-          "User-Agent":
-            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36",
-          Referer: "https://www.nba.com",
-          Origin: "https://www.nba.com",
-          "Cache-Control": "no-cache",
-          Accept: "application/json, text/plain, */*",
-        },
-      }
+    console.log("📡 Starting NBA API fetch...");
+    console.time("⏱️ nba-fetch");
+
+    const nbaTimeout = new Promise((_, reject) =>
+      setTimeout(
+        () => reject(new Error("🕒 NBA API fetch timeout after 8s")),
+        8000
+      )
     );
 
+    let response;
+
+    try {
+      response = await Promise.race([
+        fetch(`https://stats.nba.com/stats/playergamelog?${queryString}`, {
+          method: "GET",
+          headers: {
+            Host: "stats.nba.com",
+            "User-Agent":
+              "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36",
+            Referer: "https://www.nba.com",
+            Origin: "https://www.nba.com",
+            "Cache-Control": "no-cache",
+            Accept: "application/json, text/plain, */*",
+          },
+        }),
+        nbaTimeout,
+      ]);
+    } catch (err) {
+      console.timeEnd("⏱️ nba-fetch");
+      console.error("❌ NBA API fetch failed:", err.message);
+      return res
+        .status(500)
+        .json({ error: "NBA API request failed or timed out" });
+    }
+
+    console.timeEnd("⏱️ nba-fetch");
+
     if (!response.ok) {
-      console.error("❌ NBA API error:", response.statusText);
+      console.error("❌ NBA API responded with non-200:", response.statusText);
       return res.status(response.status).json({ error: response.statusText });
     }
 
     const data = await response.json();
-    console.log("✅ NBA data fetched successfully");
+    console.log("✅ NBA API data successfully fetched");
     return res.json(data);
   } catch (err) {
     console.error("🔥 Error in /api/playergamelog:", err);
