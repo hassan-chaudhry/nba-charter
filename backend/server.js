@@ -151,8 +151,6 @@ app.get("/api/playergamelog", async (req, res) => {
   });
   const queryString = params.toString().replace("%2B", "+");
 
-  console.log(queryString);
-
   // get player game log data from NBA API
   try {
     const response = await fetch(
