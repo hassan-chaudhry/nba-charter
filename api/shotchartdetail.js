@@ -1,5 +1,5 @@
 // set up firebase connection
-import db from "./firebase-admin.config.js";
+import db from "./firebase.config.js";
 
 ///////////////////////////
 //    SHOT CHART API     //

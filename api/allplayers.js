@@ -1,5 +1,5 @@
 // set up firebase connection
-import db from "./firebase-admin.config.js";
+import db from "./firebase.config.js";
 
 // get all players from Firebase database
 export default async function handler(req, res) {

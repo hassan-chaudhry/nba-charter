@@ -14,9 +14,9 @@ if (!admin.apps.length) {
       credential: admin.credential.cert(serviceAccount),
       databaseURL: "https://nba-shot-chart-default-rtdb.firebaseio.com",
     });
-  } catch (error) {
-    console.error("Firebase config error:", error);
-    throw new Error("Firebase Admin initialization failed.");
+  } catch (err) {
+    console.error("Firebase initialization error", err);
+    throw new Error("Firebase initialization error");
   }
 }
 const db = admin.database();

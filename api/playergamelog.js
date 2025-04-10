@@ -1,5 +1,5 @@
 // set up firebase connection
-import db from "./firebase-admin.config.js";
+import db from "./firebase.config.js";
 
 // find closest matching player name to user's query
 const levenshtein = (queryName, dbName) => {
@@ -163,7 +163,7 @@ export default async function handler(req, res) {
       res.status(500).json({ error: "Failed to fetch data from NBA API" });
     }
   } catch (err) {
-    console.error("playergamelog error:", err);
-    return res.status(500).json({ error: "Server failed in playergamelog." });
+    console.error("Error getting player game log", err);
+    return res.status(500).json({ error: "Error getting player game log" });
   }
 }
