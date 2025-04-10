@@ -28,11 +28,12 @@ function ResultsPage() {
     setPlayerName(name);
 
     const encodedName = encodeURIComponent(name);
-    console.log(`${baseURL}/playergamelog?playerName=${encodedName}`);
+
+    console.log(`${baseURL}/api/playergamelog?playerName=${encodedName}`);
 
     try {
       const response = await fetch(
-        `${baseURL}/playergamelog?playerName=${encodedName}`
+        `${baseURL}/api/playergamelog?playerName=${encodedName}`
       );
       if (response.status === 404) {
         const data = await response.json();
@@ -45,7 +46,7 @@ function ResultsPage() {
       // console.log("Raw response:", text);
       // const data = JSON.parse(text);
       const data = await response.json();
-      console.log(data);
+      // console.log(data);
       setPlayerGameLogData(data);
     } catch (error) {
       console.log("Could not fetch player", error);
@@ -81,7 +82,7 @@ function ResultsPage() {
 
     try {
       const response = await fetch(
-        `${baseURL}/shotchartdetail?${params.toString()}`
+        `${baseURL}/api/shotchartdetail?${params.toString()}`
       );
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);

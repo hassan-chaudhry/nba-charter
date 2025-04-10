@@ -51,11 +51,13 @@ const SearchBar = ({ onSearch, suggestion, userQuery }) => {
   };
 
   useEffect(() => {
+    const baseURL = import.meta.env.VITE_API_BASE_URL;
+
     // get player data from server on component mount
     const fetchPlayers = async () => {
       try {
         const response = await fetch(
-          "http://localhost:5000/database/allplayers" // call to backend server
+          `${baseURL}/database/allplayers` // call to backend server
         );
         if (!response.ok) {
           throw new Error("Failed to fetch players");

@@ -151,6 +151,8 @@ app.get("/api/playergamelog", async (req, res) => {
   });
   const queryString = params.toString().replace("%2B", "+");
 
+  console.log(`https://stats.nba.com/stats/playergamelog?${queryString}`);
+
   // get player game log data from NBA API
   try {
     const response = await fetch(
@@ -241,6 +243,8 @@ app.get("/api/shotchartdetail", async (req, res) => {
   });
   const queryString = params.toString().replace("%2B", "+");
 
+  console.log(`https://stats.nba.com/stats/shotchartdetail?${queryString}`);
+
   // fetch shot chart data from NBA API
   try {
     const response = await fetch(
@@ -317,5 +321,5 @@ app.get("/", (req, res) => {
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
-  console.log(`Backend server running on ${PORT}`);
+  console.log(`Backend server running on http://localhost:${PORT}`);
 });

@@ -54,11 +54,14 @@ const ShotChartHeader = ({ data, headerInfo }) => {
     e.target.src = blank_pfp;
   };
 
+  // connect to backend server to get player pic
+  const baseURL = import.meta.env.VITE_API_BASE_URL;
+
   return (
     <div className="bg-white-500 p-3">
       <div className="flex items-center justify-center">
         <img
-          src={`http://localhost:5000/image/playerpic?playerID=${playerID}`}
+          src={`${baseURL}/image/playerpic?playerID=${playerID}`}
           alt="Player Picture"
           crossOrigin="anonymous"
           onError={useDefaultPic} // if image fails to load, use default image
