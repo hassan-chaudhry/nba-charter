@@ -37,7 +37,7 @@ function ResultsPage() {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
       const data = await response.json();
-      console.log(data);
+      // console.log(data);
       setPlayerGameLogData(data);
     } catch (error) {
       console.log("Could not fetch player", error);
@@ -79,7 +79,7 @@ function ResultsPage() {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
       const data = await response.json();
-      console.log(data);
+      // console.log(data);
       setShotChartData(data);
       setTimeout(() => {
         refShotChart.current?.scrollIntoView({ behavior: "smooth" });

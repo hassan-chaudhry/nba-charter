@@ -3,7 +3,7 @@ import { motion } from "motion/react";
 import ShotChartHeader from "./ShotChartHeader";
 import ShotChartRegular from "./ShotChartRegular";
 import ShotChartHexbin from "./ShotChartHexbin";
-import html2canvas from "html2canvas-pro";
+import html2canvas from "html2canvas";
 import GamesInfo from "./GamesInfo";
 import errorPic from "../assets/images/shot-chart-unavailable.jpg";
 import xoPic from "../assets/images/xo-icon.png";
