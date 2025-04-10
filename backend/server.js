@@ -5,7 +5,7 @@ const cors = require("cors");
 
 const app = express();
 app.use(express.json());
-app.use(cors({ origin: "https://nba-shot-charts.vercel.app/" }));
+app.use(cors({ origin: "https://nba-shot-charts.vercel.app" }));
 
 // set up firebase connection
 const admin = require("firebase-admin");
