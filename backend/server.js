@@ -5,30 +5,7 @@ const cors = require("cors");
 
 const app = express();
 app.use(express.json());
-const allowedOrigins = [
-  "http://localhost:5000",
-  "https://nba-shot-charts.vercel.app",
-  /\.vercel\.app$/, // Optional: allow preview deployments
-];
-
-app.use(
-  cors({
-    origin: function (origin, callback) {
-      if (
-        !origin ||
-        allowedOrigins.some((o) => {
-          if (typeof o === "string") return o === origin;
-          if (o instanceof RegExp) return o.test(origin);
-          return false;
-        })
-      ) {
-        callback(null, true);
-      } else {
-        callback(new Error("Not allowed by CORS"));
-      }
-    },
-  })
-);
+app.use(cors({ origin: "https://nba-shot-charts.vercel.app/" }));
 
 // set up firebase connection
 const admin = require("firebase-admin");
