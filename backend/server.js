@@ -53,9 +53,7 @@ const getBestMatch = async (queryName) => {
   // get all players from database
   const snapshot = await db.ref("players").once("value");
   if (!snapshot.exists()) {
-    return res
-      .status(404)
-      .json({ error: "No players were found in the database" });
+    return null;
   }
 
   const candidates = snapshot.val().map((candidate) => candidate.full_name);
@@ -181,10 +179,10 @@ app.get("/api/shotchartdetail", async (req, res) => {
       return res.status(res.status).json({ error: res.statusText });
     }
     const data = await response.json();
-    res.json(data);
+    return res.json(data);
   } catch (error) {
     console.error("Error fetching data: ", error);
-    res.status(500).json({ error: "Failed to fetch data from NBA API" });
+    return res.status(500).json({ error: "Failed to fetch data from NBA API" });
   }
 });
 
@@ -206,7 +204,7 @@ app.get("/api/playergamelog", async (req, res) => {
 
   // get player ID from database
   const snapshot = await db.ref("players").once("value");
-  if (!snapshot) {
+  if (!snapshot.exists()) {
     return res
       .status(404)
       .json({ error: "No players were found in the database" });
@@ -217,6 +215,11 @@ app.get("/api/playergamelog", async (req, res) => {
   );
   if (!foundPlayer) {
     const bestMatch = await getBestMatch(playerName);
+    if (!bestMatch) {
+      return res
+        .status(404)
+        .json({ error: "No players were found in the database" });
+    }
     return res.status(404).json({
       error: "Player ID not found",
       bestMatch: bestMatch,
@@ -231,7 +234,7 @@ app.get("/api/playergamelog", async (req, res) => {
   const params = new URLSearchParams({
     PlayerID: playerID.toString(),
     LeagueID: "00",
-    Season: "2024-25",
+    Season: season,
     SeasonType: "Regular Season",
     DateFrom: dateFrom,
     DateTo: dateTo,
@@ -263,10 +266,10 @@ app.get("/api/playergamelog", async (req, res) => {
       return res.status(response.status).json({ error: response.statusText });
     }
     const data = await response.json();
-    res.json(data);
+    return res.json(data);
   } catch (error) {
     console.error("Error fetching data: ", error);
-    res.status(500).json({ error: "Failed to fetch data from NBA API" });
+    return res.status(500).json({ error: "Failed to fetch data from NBA API" });
   }
 });
 
@@ -289,23 +292,23 @@ app.get("/image/playerpic", async (req, res) => {
 
     const buffer = await response.arrayBuffer();
     res.set("Content-Type", "image/png");
-    res.send(Buffer.from(buffer));
+    return res.send(Buffer.from(buffer));
   } catch (error) {
-    res.status(500).send("Failed to fetch image");
+    return res.status(500).send("Failed to fetch image");
   }
 });
 
-// get all players from MongoDB database
+// get all players from Firebase database
 app.get("/database/allplayers", async (req, res) => {
   const snapshot = await db.ref("players").once("value");
-  if (!snapshot) {
+  if (!snapshot.exists()) {
     return res
       .status(404)
       .json({ error: "No players were found in the database" });
   }
 
   const allPlayers = snapshot.val();
-  res.json({ players: allPlayers });
+  return res.json({ players: allPlayers });
 });
 
 app.get("/", (req, res) => {

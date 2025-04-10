@@ -16,6 +16,8 @@ function ResultsPage() {
   const { state } = useLocation();
   const [userQuery, setUserQuery] = useState(state.query || "");
 
+  const baseURL = import.meta.env.VITE_API_BASE_URL;
+
   //////////////////////////////
   //   PLAYER GAME LOG DATA   //
   //////////////////////////////
@@ -27,7 +29,7 @@ function ResultsPage() {
 
     try {
       const response = await fetch(
-        `http://localhost:5000/api/playergamelog?playerName=${name}`
+        `${baseURL}/playergamelog?playerName=${name}`
       );
       if (response.status === 404) {
         const data = await response.json();
@@ -73,7 +75,7 @@ function ResultsPage() {
 
     try {
       const response = await fetch(
-        `http://localhost:5000/api/shotchartdetail?${params.toString()}`
+        `${baseURL}/shotchartdetail?${params.toString()}`
       );
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);

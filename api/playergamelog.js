@@ -1,0 +1,164 @@
+// set up firebase connection
+import db from "./firebase-admin.config.js";
+
+// find closest matching player name to user's query
+const levenshtein = (queryName, dbName) => {
+  const m = queryName.length;
+  const n = dbName.length;
+
+  let dp = Array.from({ length: m + 1 }, () => Array(n + 1).fill(0));
+
+  for (let i = 0; i <= m; i++) {
+    dp[i][0] = i;
+  }
+  for (let j = 0; j <= n; j++) {
+    dp[0][j] = j;
+  }
+
+  for (let i = 1; i <= m; i++) {
+    for (let j = 1; j <= n; j++) {
+      if (queryName[i - 1] == dbName[j - 1]) {
+        dp[i][j] = dp[i - 1][j - 1];
+      } else {
+        dp[i][j] =
+          1 + Math.min(dp[i][j - 1], Math.min(dp[i - 1][j], dp[i - 1][j - 1]));
+      }
+    }
+  }
+
+  return dp[m][n];
+};
+
+const getBestMatch = async (queryName) => {
+  // get all players from database
+  const snapshot = await db.ref("players").once("value");
+  if (!snapshot.exists()) {
+    return null;
+  }
+
+  const candidates = snapshot.val().map((candidate) => candidate.full_name);
+
+  let bestMatch = "";
+  let minLength = 30;
+  candidates.forEach((candidate) => {
+    const levenshtein_score = levenshtein(
+      queryName.toLowerCase(),
+      candidate.toLowerCase()
+    );
+
+    if (levenshtein_score < minLength) {
+      minLength = levenshtein_score;
+      bestMatch = candidate;
+    }
+  });
+
+  return bestMatch;
+};
+
+const getCurrentSeason = () => {
+  const currentDate = new Date();
+
+  let month = currentDate.getMonth() + 1;
+  let year = currentDate.getFullYear();
+
+  let season;
+
+  if (month >= 10) {
+    const startYear = parseInt(year);
+    const endYear = parseInt(year) + 1;
+    season = startYear + "-" + endYear.toString().slice(2, 4);
+  } else {
+    const startYear = parseInt(year) - 1;
+    const endYear = parseInt(year);
+    season = startYear + "-" + endYear.toString().slice(2, 4);
+  }
+
+  return season;
+};
+
+///////////////////////////////
+//    PLAYER GAME LOG API    //
+///////////////////////////////
+
+export default async function handler(req, res) {
+  // get parameters from query
+  let { playerName, dateFrom = "", dateTo = "" } = req.query;
+
+  // verify player name
+  if (!playerName) {
+    return res.status(400).json({
+      error: "Valid player name is required",
+    });
+  }
+  playerName = playerName.trim().toLowerCase();
+
+  // get player ID from database
+  const snapshot = await db.ref("players").once("value");
+  if (!snapshot.exists()) {
+    return res
+      .status(404)
+      .json({ error: "No players were found in the database" });
+  }
+  const allPlayers = snapshot.val();
+  const foundPlayer = allPlayers.find(
+    (player) => player.full_name.toLowerCase() === playerName
+  );
+  if (!foundPlayer) {
+    const bestMatch = await getBestMatch(playerName);
+    if (!bestMatch) {
+      return res.status(404).json({
+        error: "No players were found in the database",
+      });
+    }
+    return res.status(404).json({
+      error: "Player ID not found",
+      bestMatch: bestMatch,
+    });
+  }
+  const playerID = foundPlayer.id;
+
+  // get current active NBA season
+  const season = getCurrentSeason();
+
+  // convert parameters to string
+  const params = new URLSearchParams({
+    PlayerID: playerID.toString(),
+    LeagueID: "00",
+    Season: season,
+    SeasonType: "Regular Season",
+    DateFrom: dateFrom,
+    DateTo: dateTo,
+  });
+  const queryString = params.toString().replace("%2B", "+");
+
+  // get player game log data from NBA API
+  try {
+    const response = await fetch(
+      `https://stats.nba.com/stats/playergamelog?${queryString}`,
+      {
+        method: "GET",
+        headers: {
+          Host: "stats.nba.com",
+          "User-Agent":
+            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36",
+          Referer: "https://www.nba.com",
+          Origin: "https://www.nba.com",
+          "Cache-Control": "no-cache",
+          Accept: "application/json, text/plain, */*",
+          "Accept-Encoding": "gzip, deflate, br",
+          "Accept-Language": "en-US,en;q=0.9",
+          Connection: "keep-alive",
+        },
+      }
+    );
+    if (!response.ok) {
+      console.error(`Error: ${res.statusText}`);
+      return res.status(response.status).json({ error: response.statusText });
+    }
+    const data = await response.json();
+    res.json(data);
+  } catch (error) {
+    console.error("Error fetching data: ", error);
+    res.status(500).json({ error: "Failed to fetch data from NBA API" });
+  }
+}
