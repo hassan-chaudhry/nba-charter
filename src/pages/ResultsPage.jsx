@@ -27,6 +27,8 @@ function ResultsPage() {
     const name = query.trim();
     setPlayerName(name);
 
+    console.log(`${baseURL}/playergamelog?playerName=${name}`);
+
     try {
       const response = await fetch(
         `${baseURL}/playergamelog?playerName=${name}`
@@ -38,7 +40,10 @@ function ResultsPage() {
         }
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
-      const data = await response.json();
+      const text = await response.text();
+      console.log("Raw response:", text);
+      const data = JSON.parse(text);
+      // const data = await response.json();
       // console.log(data);
       setPlayerGameLogData(data);
     } catch (error) {
