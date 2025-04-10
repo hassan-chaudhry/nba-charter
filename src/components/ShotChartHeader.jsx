@@ -3,13 +3,19 @@ import { teams } from "../constants/constants.jsx";
 import blank_pfp from "../assets/images/blank-profile-picture.png";
 
 const ShotChartHeader = ({ data, headerInfo }) => {
+  // get player name
   const playerName = JSON.stringify(
     data.resultSets[0].rowSet[0][4],
     null,
     2
-  ).replace(/"/g, "");
+  ).replace(/"/g, ""); // remove all double quotes
 
+  // get player ID
+  const playerID = data.resultSets[0].rowSet[0][3];
+
+  // get date(s)
   const formatDate = (date) => {
+    // format the date from YYYY-MM-DD to MM/DD/YYYY
     const formattedDate = date.replaceAll("-", "");
     const finalDate =
       formattedDate.slice(4, 6) +
@@ -21,6 +27,7 @@ const ShotChartHeader = ({ data, headerInfo }) => {
     return finalDate;
   };
 
+  // get the player team name and opponent team names
   const playerTeamFullName = data.resultSets[0].rowSet[0][6];
   const opponentTeam =
     teams[data.resultSets[0].rowSet[0][22]] == playerTeamFullName
@@ -28,8 +35,8 @@ const ShotChartHeader = ({ data, headerInfo }) => {
       : teams[data.resultSets[0].rowSet[0][22]];
   const date = data.resultSets[0].rowSet[0][21];
 
+  // compile header depending on whether a range of games, a season, or a single game is selected
   let header;
-
   if (headerInfo[0] === "range") {
     // prettier-ignore
     header = `${playerName} ${"\n"} from ${formatDate(headerInfo[1])} to ${formatDate(headerInfo[2])}`; // range of games
@@ -42,7 +49,7 @@ const ShotChartHeader = ({ data, headerInfo }) => {
     header = `${playerName} ${"\n"} vs. ${opponentTeam} on ${formatDate(date)}`; // single game
   }
 
-  const playerID = data.resultSets[0].rowSet[0][3];
+  // default profile picture if image fails to load
   const useDefaultPic = (e) => {
     e.target.src = blank_pfp;
   };
@@ -54,7 +61,7 @@ const ShotChartHeader = ({ data, headerInfo }) => {
           src={`http://localhost:5000/image/playerpic?playerID=${playerID}`}
           alt="Player Picture"
           crossOrigin="anonymous"
-          onError={useDefaultPic}
+          onError={useDefaultPic} // if image fails to load, use default image
           className="mr-3 w-48"
         />
         <p className="text-2xl whitespace-pre-line">{header}</p>

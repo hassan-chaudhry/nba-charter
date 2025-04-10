@@ -23,12 +23,12 @@ const SelectByRange = ({ onSelect, handleReset }) => {
       setInvalidRange(false);
       startDate = convertDateToYMD(startDate);
       endDate = convertDateToYMD(endDate);
-      onSelect("", startDate, endDate, season, "");
+      onSelect({ dateFrom: startDate, dateTo: endDate, season: season }); // call onSelect function to get game / shot chart data based on date range
     } else {
       setInvalidRange(true);
     }
 
-    handleReset(); // reset Recent and Game ID selections
+    handleReset(); // reset SelectRecentGames & SelectByGameID selections
   };
 
   const isValidSeason = (startDate, endDate) => {
@@ -48,8 +48,10 @@ const SelectByRange = ({ onSelect, handleReset }) => {
     if (startYear !== endYear) {
       season = startYear + "-" + endYear.toString().slice(2, 4);
     } else {
+      // if start year same as end year, then calculate start year
       const startMonth = startDate.month;
 
+      // find start year based off of start month (October to December = current year, January to April = previous year)
       if (startMonth >= 10) {
         endYear = parseInt(startYear) + 1;
         season = startYear + "-" + endYear.toString().slice(2, 4);
@@ -59,8 +61,8 @@ const SelectByRange = ({ onSelect, handleReset }) => {
       }
     }
 
-    const seasonStart = new Date(startYear + "-10-01");
-    const seasonEnd = new Date(endYear + "-04-30");
+    const seasonStart = new Date(startYear + "-10-01"); // NBA season starts in October
+    const seasonEnd = new Date(endYear + "-04-30"); // NBA season ends in April (playoffs not included)
 
     if (
       seasonStart <= rangeStart &&
@@ -112,6 +114,7 @@ const SelectByRange = ({ onSelect, handleReset }) => {
         <Tooltip id="GameRangeTip" />
       </div>
 
+      {/* date range picker */}
       <div className="p-1 rounded-[20px]">
         <MyDateRangePicker
           label="Game Dates"
@@ -130,6 +133,7 @@ const SelectByRange = ({ onSelect, handleReset }) => {
         Generate Chart
       </button>
 
+      {/* invalid message */}
       <div className="h-8">
         {invalidRange && (
           <div className="flex border border-red-400 text-red-400 rounded-md items-center justify-center">

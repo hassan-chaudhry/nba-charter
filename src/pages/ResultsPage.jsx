@@ -16,6 +16,10 @@ function ResultsPage() {
   const { state } = useLocation();
   const [userQuery, setUserQuery] = useState(state.query || "");
 
+  //////////////////////////////
+  //   PLAYER GAME LOG DATA   //
+  //////////////////////////////
+
   const fetchPlayerGameLogData = async (query) => {
     setShotChartData(null); // reset shot chart after user searches for new player
     const name = query.trim();
@@ -40,24 +44,36 @@ function ResultsPage() {
     }
   };
 
-  const fetchShotChartData = async (
-    gameID,
-    dateFrom,
-    dateTo,
-    season,
-    seasonType
-  ) => {
+  /////////////////////////
+  //   SHOT CHART DATA   //
+  /////////////////////////
+
+  const fetchShotChartData = async ({
+    gameID = "",
+    dateFrom = "",
+    dateTo = "",
+    season = "",
+    seasonType = "",
+  }) => {
     if (dateFrom && dateTo) {
-      setHeaderInfo(["range", dateFrom, dateTo]);
+      setHeaderInfo(["range", dateFrom, dateTo]); // set header info to date range
     } else if (season && seasonType) {
-      setHeaderInfo(["season", season, seasonType]);
+      setHeaderInfo(["season", season, seasonType]); // set header info to season and season type
     } else {
-      setHeaderInfo([]);
+      setHeaderInfo([]); // set header info to single game
     }
+
+    const params = new URLSearchParams();
+    if (playerName) params.append("playerName", playerName);
+    if (gameID) params.append("gameID", gameID);
+    if (dateFrom) params.append("dateFrom", dateFrom);
+    if (dateTo) params.append("dateTo", dateTo);
+    if (season) params.append("season", season);
+    if (seasonType) params.append("seasonType", seasonType);
 
     try {
       const response = await fetch(
-        `http://localhost:5000/api/shotchartdetail?playerName=${playerName}&gameID=${gameID}&dateFrom=${dateFrom}&dateTo=${dateTo}&season=${season}&seasonType=${seasonType}`
+        `http://localhost:5000/api/shotchartdetail?${params.toString()}`
       );
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);

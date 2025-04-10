@@ -98,18 +98,27 @@ const getCurrentSeason = () => {
   return season;
 };
 
-/////////////////////
-// SHOT CHART API  //
-/////////////////////
+///////////////////////////
+//    SHOT CHART API     //
+///////////////////////////
 
 app.get("/api/shotchartdetail", async (req, res) => {
-  let { playerName } = req.query;
+  // get parameters from query
+  let {
+    playerName,
+    gameID = "",
+    dateFrom = "",
+    dateTo = "",
+    season = "",
+    seasonType = "",
+  } = req.query;
+
+  // verify player name
   if (!playerName) {
     return res.status(400).json({
       error: "Valid player name is required",
     });
   }
-
   playerName = playerName.trim().toLowerCase();
 
   // get player ID from database
@@ -119,7 +128,6 @@ app.get("/api/shotchartdetail", async (req, res) => {
       .status(404)
       .json({ error: "No players were found in the database" });
   }
-
   const allPlayers = snapshot.val();
   const foundPlayer = allPlayers.find(
     (player) => player.full_name.toLowerCase() === playerName
@@ -131,12 +139,7 @@ app.get("/api/shotchartdetail", async (req, res) => {
   }
   const playerID = foundPlayer.id;
 
-  const { gameID } = req.query || "";
-  const { dateFrom } = req.query || "";
-  const { dateTo } = req.query || "";
-  const { season } = req.query || "";
-  const { seasonType } = req.query || "";
-
+  // convert parameters to string
   const params = new URLSearchParams({
     ContextMeasure: "FGA",
     LeagueID: "00",
@@ -151,9 +154,9 @@ app.get("/api/shotchartdetail", async (req, res) => {
     season: season,
     SeasonType: seasonType,
   });
+  const queryString = params.toString().replace("%2B", "+");
 
-  const queryString = params.toString();
-
+  // fetch shot chart data from NBA API
   try {
     const response = await fetch(
       `https://stats.nba.com/stats/shotchartdetail?${queryString}`,
@@ -185,12 +188,15 @@ app.get("/api/shotchartdetail", async (req, res) => {
   }
 });
 
-/////////////////////////
-// PLAYER GAME LOG API //
-/////////////////////////
+///////////////////////////////
+//    PLAYER GAME LOG API    //
+///////////////////////////////
 
 app.get("/api/playergamelog", async (req, res) => {
-  let { playerName, dateFrom, dateTo } = req.query;
+  // get parameters from query
+  let { playerName, dateFrom = "", dateTo = "" } = req.query;
+
+  // verify player name
   if (!playerName) {
     return res.status(400).json({
       error: "Valid player name is required",
@@ -205,7 +211,6 @@ app.get("/api/playergamelog", async (req, res) => {
       .status(404)
       .json({ error: "No players were found in the database" });
   }
-
   const allPlayers = snapshot.val();
   const foundPlayer = allPlayers.find(
     (player) => player.full_name.toLowerCase() === playerName
@@ -222,17 +227,18 @@ app.get("/api/playergamelog", async (req, res) => {
   // get current active NBA season
   const season = getCurrentSeason();
 
+  // convert parameters to string
   const params = new URLSearchParams({
     PlayerID: playerID.toString(),
     LeagueID: "00",
     Season: "2024-25",
     SeasonType: "Regular Season",
-    DateFrom: dateFrom || "",
-    DateTo: dateTo || "",
+    DateFrom: dateFrom,
+    DateTo: dateTo,
   });
+  const queryString = params.toString().replace("%2B", "+");
 
-  const queryString = params.toString().replace(/%2B/g, "+");
-
+  // get player game log data from NBA API
   try {
     const response = await fetch(
       `https://stats.nba.com/stats/playergamelog?${queryString}`,
@@ -264,6 +270,11 @@ app.get("/api/playergamelog", async (req, res) => {
   }
 });
 
+/////////////////////////
+//    HELPER ROUTES    //
+/////////////////////////
+
+// get player picture from web scraping
 app.get("/image/playerpic", async (req, res) => {
   const { playerID } = req.query;
 
@@ -284,6 +295,7 @@ app.get("/image/playerpic", async (req, res) => {
   }
 });
 
+// get all players from MongoDB database
 app.get("/database/allplayers", async (req, res) => {
   const snapshot = await db.ref("players").once("value");
   if (!snapshot) {
@@ -293,7 +305,6 @@ app.get("/database/allplayers", async (req, res) => {
   }
 
   const allPlayers = snapshot.val();
-
   res.json({ players: allPlayers });
 });
 

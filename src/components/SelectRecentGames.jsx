@@ -6,6 +6,7 @@ import { HiOutlineExclamation } from "react-icons/hi";
 const SelectRecentGames = ({ onSelect, data, handleReset, resetRecent }) => {
   const [selectRecent, setSelectRecent] = useState("");
 
+  // reset 'Recent Games' box when different selection method is used
   useEffect(() => {
     if (resetRecent) {
       setSelectRecent("");
@@ -13,12 +14,13 @@ const SelectRecentGames = ({ onSelect, data, handleReset, resetRecent }) => {
   }, [resetRecent]);
 
   const handleClick = (gameID) => {
-    onSelect(gameID, "", "", "", "");
+    onSelect({ gameID: gameID }); // call onSelect function to get game / shot chart data based on gameID
     setSelectRecent(gameID);
 
-    handleReset(); // reset Range and Game ID selections
+    handleReset(); // reset SelectByGameID selection
   };
 
+  // get regular season games played so far
   let allGames = [];
   const gamesSoFar = data.resultSets[0].rowSet.length;
 
@@ -78,6 +80,7 @@ const SelectRecentGames = ({ onSelect, data, handleReset, resetRecent }) => {
             )}
           </div>
         ) : (
+          // no recent games found message
           <div className="flex items-center justify-center m-5">
             <div className="flex items-center justify-center text-xl text-orange-400 border border-orange-400 rounded-md w-1/3 p-1 justify-center">
               <HiOutlineExclamation className="mr-2 flex-shrink-0" />

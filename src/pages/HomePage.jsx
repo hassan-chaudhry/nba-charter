@@ -7,6 +7,7 @@ const HomePage = () => {
   const navigate = useNavigate();
 
   const handleEnter = (query) => {
+    // navigate to results page with query
     navigate("/results", { state: { query: query } });
   };
 

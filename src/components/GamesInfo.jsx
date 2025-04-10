@@ -39,6 +39,7 @@ const GamesInfo = ({ data }) => {
     }
 
     allGamesSorted = [...allGames].sort(
+      // sort games in chronological order
       (a, b) => Number(a.gameDate) - Number(b.gameDate)
     );
   }

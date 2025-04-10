@@ -9,6 +9,7 @@ const SelectByGameID = ({ onSelect, handleReset, resetID }) => {
   const [selectID, setSelectID] = useState("");
   const [invalidID, setInvalidID] = useState(false);
 
+  // reset 'Select By GameID' box (including invalidID message) when different selection method is used
   useEffect(() => {
     if (resetID) {
       setSelectID("");
@@ -20,14 +21,14 @@ const SelectByGameID = ({ onSelect, handleReset, resetID }) => {
     if (e.key === "Enter") {
       e.preventDefault();
       if (selectID.length !== 0) {
-        const result = await onSelect(selectID, "", "", "", "");
+        const result = await onSelect({ gameID: selectID }); // call onSelect function to get game / shot chart data based on gameID
         if (result) {
           setInvalidID(false);
         } else {
           setInvalidID(true);
           setSelectID("");
         }
-        handleReset(); // reset Recent and Range selections
+        handleReset(); // reset SelectRecentGames selection
       }
     }
   };
@@ -62,6 +63,7 @@ const SelectByGameID = ({ onSelect, handleReset, resetID }) => {
         onKeyDown={(e) => onEnter(e)}
       />
 
+      {/* invalidID message */}
       <div className="h-8">
         {invalidID && (
           <div className="flex border border-red-400 text-red-400 rounded-md items-center justify-center m-3">

@@ -11,6 +11,7 @@ const ShotChartHexbin = ({ data }) => {
   const svgRef = useRef(null);
 
   const decimalToPercent = (decimal) => {
+    // convert decimal to percent
     return (decimal * 100).toFixed(1) + "%";
   };
 

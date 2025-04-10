@@ -25,6 +25,7 @@ function MyDateRangePicker({
   firstDayOfWeek,
   ...props
 }) {
+  // date range picker component: https://react-spectrum.adobe.com/react-aria/DateRangePicker.html
   const [calIconClicked, setCalIconClicked] = useState(false);
   return (
     <DateRangePicker className="relative" {...props}>
@@ -39,7 +40,7 @@ function MyDateRangePicker({
         </DateInput>
         <Button className="text-2xl p-1">
           <BiCalendar
-            className={`${calIconClicked ? "text-indigo-500" : "text-black"}`}
+            className={`${calIconClicked ? "text-indigo-500" : "text-black"}`} // set icon color based on click
             onPointerDown={() => {
               setCalIconClicked(true);
             }}
@@ -68,14 +69,9 @@ function MyDateRangePicker({
               {(date) => (
                 <CalendarCell
                   date={date}
-                  className={({
-                    isOutsideMonth,
-                    isHovered,
-                    isSelected,
-                    isDisabled,
-                  }) =>
+                  className={({ isOutsideMonth, isHovered, isSelected }) =>
                     `p-1 ${
-                      isOutsideMonth ? "opacity-0 pointer-events-none" : ""
+                      isOutsideMonth ? "opacity-0 pointer-events-none" : "" // hide days outside of month
                     } ${
                       isHovered
                         ? "bg-indigo-300 rounded-md text-white"
@@ -84,7 +80,7 @@ function MyDateRangePicker({
                       isSelected
                         ? "bg-indigo-500 rounded-md text-white"
                         : "text-black"
-                    } ${isDisabled ? "text-gray-500" : "text-black"}`
+                    }`
                   }
                 />
               )}

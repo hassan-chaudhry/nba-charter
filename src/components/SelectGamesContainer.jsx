@@ -16,6 +16,10 @@ const SelectGamesContainer = ({ onSelect, data, suggestion }) => {
   const [resetRecent, setResetRecent] = useState(false);
   const [resetID, setResetID] = useState(false);
 
+  ///////////////////////
+  //   HANDLE RESETS   //
+  ///////////////////////
+
   useEffect(() => {
     resetRecentAndID();
     if (data) {
@@ -44,6 +48,8 @@ const SelectGamesContainer = ({ onSelect, data, suggestion }) => {
     setResetID(true);
     setResetRecent(false);
   };
+
+  // LOADER
 
   if (loading) {
     return <Loader />;
@@ -100,6 +106,7 @@ const SelectGamesContainer = ({ onSelect, data, suggestion }) => {
           )}
         </>
       ) : (
+        // no player found message
         <div className="flex items-center justify-center m-5">
           <div className="flex items-center text-orange-500 border border-orange-500 rounded-md p-1 text-2xl">
             <HiOutlineExclamation className="m-2 flex-shrink-0" />

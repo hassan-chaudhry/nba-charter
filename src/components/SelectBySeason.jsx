@@ -14,9 +14,12 @@ const SelectBySeason = ({ onSelect, handleReset }) => {
   });
 
   const onClick = () => {
-    onSelect("", "", "", selectSeason.value, selectSeasonType.value);
+    onSelect({
+      season: selectSeason.value,
+      seasonType: selectSeasonType.value,
+    }); // call onSelect function to get game / shot chart data based on season
 
-    handleReset(); // reset Recent and Game ID selections
+    handleReset(); // reset SelectRecentGames & SelectByGameID selections
   };
 
   const optionsSeasonType = [

@@ -11,6 +11,7 @@ const ShotChartRegular = ({ data, showMakes, showMisses, showTeamColors }) => {
   let primaryColor = "7,107,237";
   let secondaryColor = "237,49,7";
 
+  // get team-specific colors for makes and misses
   let teamPrimaryColor;
   let teamSecondaryColor;
   try {
@@ -31,13 +32,16 @@ const ShotChartRegular = ({ data, showMakes, showMisses, showTeamColors }) => {
     );
   }
 
+  // toggle team colors
   if (showTeamColors) {
     primaryColor = teamPrimaryColor;
     secondaryColor = teamSecondaryColor;
   }
 
+  // get all shots from the data
   let allShots = [];
   for (let i = 0; i < data.resultSets[0].rowSet.length; i++) {
+    // for each shot, get x- and y- coordinates & shot made/attempted flags
     let shot = {
       LOC_X: data.resultSets[0].rowSet[i][17],
       LOC_Y: data.resultSets[0].rowSet[i][18],
@@ -160,12 +164,6 @@ const ShotChartRegular = ({ data, showMakes, showMisses, showTeamColors }) => {
               Miss
             </text>
           </svg>
-          {/* <div className="flex justify-center items-center gap-1">
-            <FaRegCircle style={{ color: primaryColor }} /> Make
-          </div>
-          <div className="flex justify-center items-center gap-1">
-            <VscChromeClose style={{ color: secondaryColor }} /> Miss
-          </div> */}
         </div>
       </div>
     </div>
