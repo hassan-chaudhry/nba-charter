@@ -1,4 +1,4 @@
-require("dotenv").config({ path: "../.env" });
+require("dotenv").config();
 const express = require("express");
 const fetch = require("node-fetch");
 const cors = require("cors");
@@ -325,7 +325,13 @@ app.get("/", (req, res) => {
   res.send("Welcome to the NBA Stats API Server");
 });
 
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log(`Backend server running on http://localhost:${PORT}`);
+const PORT = 3000;
+const HOST = "0.0.0.0";
+
+if (!PORT) {
+  throw new Error("PORT not set in environment");
+}
+
+app.listen(PORT, HOST, () => {
+  console.log(`Backend server running on http://${HOST}:${PORT}`);
 });
