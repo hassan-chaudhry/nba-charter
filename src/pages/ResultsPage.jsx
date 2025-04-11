@@ -29,7 +29,7 @@ function ResultsPage() {
 
     const encodedName = encodeURIComponent(name);
 
-    console.log(`${baseURL}/api/playergamelog?playerName=${encodedName}`);
+    // console.log(`${baseURL}/api/playergamelog?playerName=${encodedName}`);
 
     try {
       const response = await fetch(
@@ -42,9 +42,6 @@ function ResultsPage() {
         }
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
-      // const text = await response.text();
-      // console.log("Raw response:", text);
-      // const data = JSON.parse(text);
       const data = await response.json();
       // console.log(data);
       setPlayerGameLogData(data);

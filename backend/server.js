@@ -2,9 +2,11 @@ require("dotenv").config({ path: "../.env" });
 const express = require("express");
 const fetch = require("node-fetch");
 const cors = require("cors");
+const https = require("https");
 
 const app = express();
 app.use(express.json());
+// app.use(cors());
 app.use(cors({ origin: "https://nba-shot-charts.vercel.app" }));
 
 // set up firebase connection
@@ -20,6 +22,10 @@ admin.initializeApp({
   databaseURL: "https://nba-shot-chart-default-rtdb.firebaseio.com",
 });
 const db = admin.database();
+
+////////////////////////////
+//    HELPER FUNCTIONS    //
+////////////////////////////
 
 // find closest matching player name to user's query
 const levenshtein = (queryName, dbName) => {
@@ -151,7 +157,7 @@ app.get("/api/playergamelog", async (req, res) => {
   });
   const queryString = params.toString().replace("%2B", "+");
 
-  console.log(`https://stats.nba.com/stats/playergamelog?${queryString}`);
+  // console.log(`https://stats.nba.com/stats/playergamelog?${queryString}`);
 
   // get player game log data from NBA API
   try {
@@ -243,7 +249,7 @@ app.get("/api/shotchartdetail", async (req, res) => {
   });
   const queryString = params.toString().replace("%2B", "+");
 
-  console.log(`https://stats.nba.com/stats/shotchartdetail?${queryString}`);
+  // console.log(`https://stats.nba.com/stats/shotchartdetail?${queryString}`);
 
   // fetch shot chart data from NBA API
   try {

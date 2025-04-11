@@ -545,7 +545,7 @@ const ShotChartHexbin = ({ data }) => {
   return (
     <div className="bg-white-500 p-3">
       <div className="grid grid-cols-1 items-center justify-center">
-        <div className="relative w-full max-w-[750px] aspect-[500/470]">
+        <div className="relative w-full max-w-[800px] aspect-[500/470]">
           <img
             src={court}
             alt="NBA Half Court"
