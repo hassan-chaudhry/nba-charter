@@ -325,13 +325,9 @@ app.get("/", (req, res) => {
   res.send("Welcome to the NBA Stats API Server");
 });
 
-const PORT = 3000;
-const HOST = "0.0.0.0";
+const hostname = "0.0.0.0";
+const port = process.env.port || 3000;
 
-if (!PORT) {
-  throw new Error("PORT not set in environment");
-}
-
-app.listen(PORT, HOST, () => {
-  console.log(`Backend server running on http://${HOST}:${PORT}`);
+app.listen(port, hostname, () => {
+  console.log(`Server running at http://${hostname}:${port}/`);
 });
