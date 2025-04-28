@@ -1,13 +1,21 @@
-require("dotenv").config();
 const express = require("express");
 const fetch = require("node-fetch");
 const cors = require("cors");
 const https = require("https");
 
+require("dotenv").config({
+  path: require("path").resolve(__dirname, "../.env"),
+});
+
 const app = express();
 app.use(express.json());
-// app.use(cors());
-app.use(cors({ origin: "https://nba-shot-charts.vercel.app" }));
+
+const corsOptions =
+  process.env.NODE_ENV === "development"
+    ? {} // development
+    : { origin: "https://nba-shot-charts.vercel.app" }; // production
+
+app.use(cors(corsOptions));
 
 // set up firebase connection
 const admin = require("firebase-admin");
@@ -325,8 +333,8 @@ app.get("/", (req, res) => {
   res.send("Welcome to the NBA Stats API Server");
 });
 
-const hostname = "0.0.0.0";
-const port = process.env.port || 3000;
+const hostname = process.env.HOST || "0.0.0.0";
+const port = process.env.PORT || 3000;
 
 app.listen(port, hostname, () => {
   console.log(`Server running at http://${hostname}:${port}/`);
