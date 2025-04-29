@@ -582,18 +582,20 @@ const ShotChartHexbin = ({ data }) => {
           {/* zone popover with player fg% and league average */}
           {hoveredZone && (
             <div
-              className="absolute bottom-0 bg-white border-2 rounded-md p-2 m-5"
+              className="absolute bottom-0 bg-white border-2 rounded-md p-1 sm:p-2 m-2 sm:m-4"
               style={{ borderColor: zoneColors[hoveredZone] }}
             >
               <h1>{hoveredZone[0][3]}</h1>
               <h1
-                className="text-2xl"
+                className="text-xl sm:text-2xl"
                 style={{ color: zoneColors[hoveredZone] }}
               >
                 {decimalToPercent(zoneAverages[hoveredZone][0])}
               </h1>
-              <h1 className="text-base">({zoneAverages[hoveredZone][1]})</h1>
-              <h1 className="text-lg">
+              <h1 className="text-sm sm:text-base">
+                ({zoneAverages[hoveredZone][1]})
+              </h1>
+              <h1 className="text-m sm:text-lg">
                 League: {decimalToPercent(zoneAverages[hoveredZone][2])}
               </h1>
             </div>
@@ -602,16 +604,18 @@ const ShotChartHexbin = ({ data }) => {
 
         {/* hex legend */}
         <div className="grid grid-cols-1 mt-2">
-          <div className="flex justify-center items-center text-3xl mb-1">
-            <FaMinus className="text-lg" />
+          <div className="flex justify-center items-center text-xl sm:text-3xl mb-1">
+            <FaMinus className="text-sm sm:text-lg" />
             <BsFillHexagonFill color={colorScale["greatlyBelowAverageColor"]} />
             <BsFillHexagonFill color={colorScale["belowAverageColor"]} />
             <BsFillHexagonFill color={colorScale["averageColor"]} />
             <BsFillHexagonFill color={colorScale["aboveAverageColor"]} />
             <BsFillHexagonFill color={colorScale["greatlyAboveAverageColor"]} />
-            <FaPlus className="text-lg" />
+            <FaPlus className="text-sm sm:text-lg" />
           </div>
-          <h1 className="text-center">FG% vs. League Average</h1>
+          <h1 className="text-center text-m sm:text-xl">
+            FG% vs. League Average
+          </h1>
         </div>
       </div>
     </div>

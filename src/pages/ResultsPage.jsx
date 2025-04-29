@@ -66,7 +66,7 @@ function ResultsPage() {
     } else if (season && seasonType) {
       setHeaderInfo(["season", season, seasonType]); // set header info to season and season type
     } else {
-      setHeaderInfo([]); // set header info to single game
+      setHeaderInfo([]); // set header info to single game (default)
     }
 
     const params = new URLSearchParams();
@@ -88,7 +88,7 @@ function ResultsPage() {
       // console.log(data);
       setShotChartData(data);
       setTimeout(() => {
-        refShotChart.current?.scrollIntoView({ behavior: "smooth" });
+        refShotChart.current?.scrollIntoView({ behavior: "smooth" }); // scroll down to chart automatically
       }, 25);
       return data;
     } catch (error) {

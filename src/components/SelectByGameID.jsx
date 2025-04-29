@@ -40,7 +40,7 @@ const SelectByGameID = ({ onSelect, handleReset, resetID }) => {
         <a
           data-tooltip-id="GameIDTip"
           data-tooltip-html={`
-            <div class="flex flex-col items-center text-center">
+            <div class="flex flex-col items-center text-center h-auto w-[300px] sm:w-[500px]">
               <p class="mb-2">
                 Game IDs can be found at the end of the URLs for games on the official NBA website.
               </p>

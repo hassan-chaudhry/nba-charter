@@ -47,7 +47,7 @@ const SelectRecentGames = ({ onSelect, data, handleReset, resetRecent }) => {
       className={`bg-white-500 border-4 border-purple-300 hover:border-purple-500 rounded-[20px] p-3 mx-5`}
     >
       <h1 className="text-2xl text-center mb-3">Recent Games</h1>
-      <div className="max-w-[95%] mx-auto h-[275px] overflow-y-auto p-3 mb-3">
+      <div className="max-w-[95%] mx-auto h-[275px] overflow-y-auto p-1 mb-3">
         {allGames.length !== 0 ? (
           <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-1 justify-center">
             {allGames.map(
@@ -64,7 +64,7 @@ const SelectRecentGames = ({ onSelect, data, handleReset, resetRecent }) => {
                     selectRecent === gameID
                       ? "outline outline-white outline-offset-[-7px]"
                       : ""
-                  } hover:scale-[1.05] text-white text-center text-m rounded-[20px] px-10 py-5 mx-1 mb-3 cursor-pointer`}
+                  } hover:scale-[1.05] text-white text-center text-sm sm:text-m rounded-[20px] px-5 py-5 sm:px-10 mx-1 mb-2 cursor-pointer`}
                   style={{
                     background: `linear-gradient(to right, rgb(${homeTeamColor}), rgb(${visitTeamColor}))`,
                   }}

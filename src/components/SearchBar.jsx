@@ -128,16 +128,13 @@ const SearchBar = ({ onSearch, suggestion, userQuery }) => {
   }, []);
 
   return (
-    <div
-      className="m-auto max-w-md sm:max-w-xl md:max-w-3xl relative"
-      ref={searchRef}
-    >
+    <div className="m-auto w-[75vw] relative" ref={searchRef}>
       {/* search bar */}
       <div className="grid grid-col-1">
         <div className="flex bg-white items-center border border-gray-500 focus-within:border-purple-500 focus-within:text-purple-500 p-4 rounded-[20px]">
           <FaSearch className="mr-3" />
           <input
-            className="focus:outline-none focus:ring-0 w-full text-black"
+            className="focus:outline-none focus:ring-0 w-full text-black text-sm sm:text-lg"
             placeholder="Type a player's name and press 'Enter'"
             value={query}
             onChange={handleInputChange}
@@ -147,7 +144,7 @@ const SearchBar = ({ onSearch, suggestion, userQuery }) => {
 
         {/* suggestions list dropdown */}
         {suggestionsList.length > 0 && (
-          <ul className="bg-white max-h-20 sm:max-h-40 md:max-h-60 rounded-lg overflow-y-auto p-2 border border-purple-500 shadow-xl absolute w-full top-14 mt-1 z-10">
+          <ul className="bg-white max-h-60 rounded-lg overflow-y-auto p-2 border border-purple-500 shadow-xl absolute w-full top-14 sm:mt-2 z-10">
             {suggestionsList.map((player, index) => (
               <li
                 key={index}

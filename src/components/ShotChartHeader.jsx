@@ -65,9 +65,9 @@ const ShotChartHeader = ({ data, headerInfo }) => {
           alt="Player Picture"
           crossOrigin="anonymous"
           onError={useDefaultPic} // if image fails to load, use default image
-          className="mr-3 w-48"
+          className="mr-3 w-32 sm:w-48"
         />
-        <p className="text-2xl whitespace-pre-line">{header}</p>
+        <p className="text-xl sm:text-2xl whitespace-pre-line">{header}</p>
       </div>
     </div>
   );

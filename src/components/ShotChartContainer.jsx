@@ -138,7 +138,8 @@ const ShotChartContainer = forwardRef((props, ref) => {
                 {/* chart settings bar */}
                 <div className="flex justify-between">
                   {/* select chart */}
-                  <div className="flex bg-white border border-black rounded-md text-3xl ml-3">
+                  <div className="flex bg-white border border-black rounded-md ml-3 h-8 sm:h-10">
+                    {/* Select Regular Chart */}
                     <button
                       className={`${
                         showRegChart ? "bg-purple-500" : ""
@@ -146,18 +147,20 @@ const ShotChartContainer = forwardRef((props, ref) => {
                     >
                       <a
                         data-tooltip-id="RegChartTip"
-                        data-tooltip-html={`<p class="text-lg"> Makes & Misses chart</p>`}
+                        data-tooltip-html={`<p class="text-sm sm:text-lg"> Makes & Misses chart</p>`}
                         data-tooltip-place="bottom"
                       >
                         <img
                           src={xoPic}
                           alt="xo"
-                          className="w-8 items-center"
+                          className="w-6 sm:w-8 items-center"
                           onClick={handleRegChartSwitch}
                         />
                       </a>
                       <Tooltip id="RegChartTip" />
                     </button>
+
+                    {/* Select Hex Chart */}
                     <button
                       className={`${
                         showHexbinChart ? "bg-purple-500" : ""
@@ -165,12 +168,12 @@ const ShotChartContainer = forwardRef((props, ref) => {
                     >
                       <a
                         data-tooltip-id="RegChartTip"
-                        data-tooltip-html={`<p class="text-lg"> Field Goal % vs. League Average chart </p>`}
+                        data-tooltip-html={`<p class="text-xs sm:text-lg"> Field Goal % vs. League Average chart </p>`}
                         data-tooltip-place="bottom"
                       >
                         <TbHexagons
                           onClick={handleHexbinChartSwitch}
-                          className="w-8 items-center"
+                          className="sm:w-8 text-2xl sm:text-3xl items-center"
                         />
                       </a>
                       <Tooltip id="HexbinChartTip" />
@@ -184,18 +187,18 @@ const ShotChartContainer = forwardRef((props, ref) => {
                         ref={optionsButtonRef}
                         className={`${
                           showOptions ? "bg-purple-500" : "bg-white"
-                        } text-3xl border border-black rounded-md p-1 hover:bg-purple-300 mr-1`}
+                        } text-3xl border border-black rounded-md p-1 hover:bg-purple-300 mr-1 h-8 sm:h-10`}
                         onClick={handleOptions}
                       >
-                        <CgOptions />
+                        <CgOptions className="text-2xl sm:text-3xl" />
                       </button>
                     )}
                     {showOptions && (
                       <div
                         ref={optionsPopoverRef}
-                        className="text-lg mt-1 absolute top-10 right-0"
+                        className="text-lg mt-1 absolute top-8 sm:top-10 right-0 z-50"
                       >
-                        <div className="grid grid-cols-1 bg-white border border-black shadow-md rounded-md p-2 w-56">
+                        <div className="grid grid-cols-1 bg-white border border-black shadow-md rounded-md p-2 w-40 sm:w-56">
                           <div className="text-center underline">Options</div>
                           <div className="text-left">
                             <input // toggle makes
@@ -230,10 +233,10 @@ const ShotChartContainer = forwardRef((props, ref) => {
 
                     {/* download button */}
                     <button
-                      className="bg-white text-3xl border border-black rounded-md p-1 hover:bg-purple-300"
+                      className="bg-white text-3xl border border-black rounded-md p-1 hover:bg-purple-300 h-8 sm:h-10"
                       onClick={handleDownload}
                     >
-                      <MdDownload />
+                      <MdDownload className="text-2xl sm:text-3xl" />
                     </button>
                   </div>
                 </div>

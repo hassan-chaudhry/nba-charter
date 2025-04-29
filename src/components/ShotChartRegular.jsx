@@ -5,13 +5,9 @@ import { FaRegCircle } from "react-icons/fa6";
 import { VscChromeClose } from "react-icons/vsc";
 
 const ShotChartRegular = ({ data, showMakes, showMisses, showTeamColors }) => {
+  // get team-specific colors for makes and misses
   const playerTeamFullName = data.resultSets[0].rowSet[0][6];
 
-  // set default color values
-  let primaryColor = "7,107,237";
-  let secondaryColor = "237,49,7";
-
-  // get team-specific colors for makes and misses
   let teamPrimaryColor;
   let teamSecondaryColor;
   try {
@@ -32,11 +28,41 @@ const ShotChartRegular = ({ data, showMakes, showMisses, showTeamColors }) => {
     );
   }
 
+  let primaryColor;
+  let secondaryColor;
+
   // toggle team colors
   if (showTeamColors) {
+    // team-specific colors
     primaryColor = teamPrimaryColor;
     secondaryColor = teamSecondaryColor;
+  } else {
+    // default colors
+    primaryColor = "7,107,237";
+    secondaryColor = "237,49,7";
   }
+
+  // convert rgb to hex so that chart (uses rgb) and legend (uses hex) colors are in sync
+  function valueToHex(v) {
+    // convert number to hex
+    let hex = v.toString(16);
+    return hex.length == 1 ? "0" + hex : hex;
+  }
+
+  function rgbToHex(rgb) {
+    // convert rgb string to hex string
+
+    if (!rgb) return "#000000"; // default to black in case of error
+
+    const rgbValues = rgb.split(",");
+    const r = Number(rgbValues[0]);
+    const g = Number(rgbValues[1]);
+    const b = Number(rgbValues[2]);
+    return "#" + valueToHex(r) + valueToHex(g) + valueToHex(b);
+  }
+
+  let primaryColorHex = rgbToHex(primaryColor);
+  let secondaryColorHex = rgbToHex(secondaryColor);
 
   // get all shots from the data
   let allShots = [];
@@ -122,48 +148,26 @@ const ShotChartRegular = ({ data, showMakes, showMisses, showTeamColors }) => {
         </div>
 
         {/* shots legend */}
-        <div className="grid grid-cols-1 mt-1">
-          <svg viewBox="0 0 100 7">
-            {/* make */}
-            <circle
-              key={"makeLegend"}
-              className="opacity-75"
-              cx={47}
-              cy={2}
-              r="1"
-              stroke={`rgb(${primaryColor})`}
-              strokeWidth="0.5"
-              fill="none"
-            />
-            <text x="49" y="2.755" style={{ fontSize: "2.5px" }}>
-              Make
-            </text>
+        <div className="grid grid-cols-1">
+          <div className="flex justify-center items-center -mb-5">
+            <h1
+              className="text-3xl sm:text-5xl mr-1"
+              style={{ color: primaryColorHex }}
+            >
+              ○
+            </h1>
+            <h1 className="text-m sm:text-xl">Make</h1>
+          </div>
 
-            {/* miss */}
-            <g key={"missLegend"} className="opacity-75">
-              <line
-                key={"missLegend1"}
-                x1={47 - 1}
-                y1={5 - 1}
-                x2={47 + 1}
-                y2={5 + 1}
-                stroke={`rgb(${secondaryColor})`}
-                strokeWidth="0.65"
-              />
-              <line
-                key={"missLegend2"}
-                x1={47 - 1}
-                y1={5 + 1}
-                x2={47 + 1}
-                y2={5 - 1}
-                stroke={`rgb(${secondaryColor})`}
-                strokeWidth="0.65"
-              />
-            </g>
-            <text x="49" y="5.755" style={{ fontSize: "2.5px" }}>
-              Miss
-            </text>
-          </svg>
+          <div className="flex justify-center items-center">
+            <h1
+              className="text-3xl sm:text-5xl mr-2"
+              style={{ color: secondaryColorHex }}
+            >
+              ⨯
+            </h1>
+            <h1 className="text-m sm:text-xl">Miss</h1>
+          </div>
         </div>
       </div>
     </div>
