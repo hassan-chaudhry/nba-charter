@@ -156,12 +156,10 @@ const ShotChartRegular = ({ data, showMakes, showMisses, showTeamColors }) => {
             >
               ⚬
             </h1>
-            <h1 className="text-m sm:text-x mt-1">Make</h1>
-          </div>
+            <h1 className="text-m sm:text-xl mt-1">Make</h1>
 
-          <div className="flex justify-center items-center">
             <h1
-              className="text-3xl sm:text-5xl mr-2"
+              className="text-3xl sm:text-5xl ml-3 mr-1"
               style={{ color: secondaryColorHex }}
             >
               ⨯

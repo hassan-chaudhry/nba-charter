@@ -134,7 +134,7 @@ const SearchBar = ({ onSearch, suggestion, userQuery }) => {
         <div className="flex bg-white items-center border border-gray-500 focus-within:border-purple-500 focus-within:text-purple-500 p-4 rounded-[20px]">
           <FaSearch className="mr-3" />
           <input
-            className="focus:outline-none focus:ring-0 w-full text-black text-sm sm:text-lg"
+            className="focus:outline-none focus:ring-0 w-full text-black text-base sm:text-lg"
             placeholder="Type a player's name and press 'Enter'"
             value={query}
             onChange={handleInputChange}
