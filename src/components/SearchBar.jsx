@@ -135,7 +135,7 @@ const SearchBar = ({ onSearch, suggestion, userQuery }) => {
           <FaSearch className="mr-3" />
           <input
             className="focus:outline-none focus:ring-0 w-full text-black text-base sm:text-lg"
-            placeholder="Type a player's name and press 'Enter'"
+            placeholder="Enter a player's name"
             value={query}
             onChange={handleInputChange}
             onKeyDown={onEnter}
@@ -144,7 +144,7 @@ const SearchBar = ({ onSearch, suggestion, userQuery }) => {
 
         {/* suggestions list dropdown */}
         {suggestionsList.length > 0 && (
-          <ul className="bg-white max-h-60 rounded-lg overflow-y-auto p-2 border border-purple-500 shadow-xl absolute w-full top-14 sm:mt-2 z-10">
+          <ul className="bg-white max-h-60 rounded-lg overflow-y-auto p-2 border border-purple-500 shadow-xl absolute w-full top-14 mt-1 sm:mt-2 z-10">
             {suggestionsList.map((player, index) => (
               <li
                 key={index}
