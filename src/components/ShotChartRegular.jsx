@@ -154,7 +154,7 @@ const ShotChartRegular = ({ data, showMakes, showMisses, showTeamColors }) => {
               className="text-3xl sm:text-5xl mr-1"
               style={{ color: primaryColorHex }}
             >
-              ○
+              ⚬
             </h1>
             <h1 className="text-m sm:text-xl">Make</h1>
           </div>
