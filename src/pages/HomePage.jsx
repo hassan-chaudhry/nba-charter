@@ -17,7 +17,7 @@ const HomePage = () => {
         "bg-gradient-to-r from-purple-500 to-indigo-500 bg-cover rounded-[20px] m-5"
       }
     >
-      <div className="h-[calc(100vh-40px)] flex justify-center sm:items-center sm:-translate-y-24">
+      <div className="h-[calc(100vh-40px)] flex justify-center sm:items-center translate-y-16 sm:-translate-y-24">
         <div>
           <div className="flex justify-center items-center m-5">
             <img

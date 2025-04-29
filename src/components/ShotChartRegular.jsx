@@ -156,7 +156,7 @@ const ShotChartRegular = ({ data, showMakes, showMisses, showTeamColors }) => {
             >
               ⚬
             </h1>
-            <h1 className="text-m sm:text-xl">Make</h1>
+            <h1 className="text-m sm:text-x mt-1">Make</h1>
           </div>
 
           <div className="flex justify-center items-center">
@@ -166,7 +166,7 @@ const ShotChartRegular = ({ data, showMakes, showMisses, showTeamColors }) => {
             >
               ⨯
             </h1>
-            <h1 className="text-m sm:text-xl">Miss</h1>
+            <h1 className="text-m sm:text-xl mt-1">Miss</h1>
           </div>
         </div>
       </div>
