@@ -10,10 +10,15 @@ require("dotenv").config({
 const app = express();
 app.use(express.json());
 
+const allowedOrigins = [
+  "https://nba-shot-charts.vercel.app",
+  "https://www.nbashotcharts.net",
+];
+
 const corsOptions =
   process.env.NODE_ENV === "development"
     ? {} // development
-    : { origin: "https://nba-shot-charts.vercel.app" }; // production
+    : { origin: allowedOrigins }; // production
 
 app.use(cors(corsOptions));
 
