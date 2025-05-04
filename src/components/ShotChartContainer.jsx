@@ -185,7 +185,7 @@ const ShotChartContainer = forwardRef((props, ref) => {
                   </div>
 
                   {/* options button */}
-                  <div className="mr-3">
+                  <div className="mr-3 relative">
                     {showRegChart && (
                       <button
                         ref={optionsButtonRef}
