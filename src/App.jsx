@@ -14,7 +14,7 @@ const App = () => {
     createRoutesFromElements(
       <>
         <Route index element={<HomePage />} />
-        <Route path="/results" element={<ResultsPage />} />
+        <Route path="/:userQuery" element={<ResultsPage />} />
         <Route path="*" element={<NotFoundPage />} />
       </>
     )

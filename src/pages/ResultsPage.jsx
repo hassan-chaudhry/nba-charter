@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { useLocation } from "react-router-dom";
+import { useParams, useLocation } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import SearchBar from "../components/SearchBar";
 import SelectGamesContainer from "../components/SelectGamesContainer";
@@ -13,8 +13,7 @@ function ResultsPage() {
   const [headerInfo, setHeaderInfo] = useState([]);
   const [suggestion, setSuggestion] = useState("");
   const refShotChart = useRef(null);
-  const { state } = useLocation();
-  const [userQuery, setUserQuery] = useState(state.query || "");
+  const { userQuery } = useParams();
 
   const baseURL = import.meta.env.VITE_API_BASE_URL;
 

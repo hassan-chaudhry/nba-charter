@@ -6,9 +6,9 @@ import logo from "/src/assets/images/logo-title.png";
 const HomePage = () => {
   const navigate = useNavigate();
 
-  const handleEnter = (query) => {
+  const handleEnter = (userQuery) => {
     // navigate to results page with query
-    navigate("/results", { state: { query: query } });
+    navigate(`/${userQuery}`);
   };
 
   return (

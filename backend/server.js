@@ -140,7 +140,9 @@ app.get("/api/playergamelog", async (req, res) => {
   }
   const allPlayers = snapshot.val();
   const foundPlayer = allPlayers.find(
-    (player) => player.full_name.toLowerCase() === playerName
+    (player) =>
+      player.full_name.toLowerCase().replaceAll(" ", "") ===
+      playerName.replaceAll(" ", "")
   );
   if (!foundPlayer) {
     const bestMatch = await getBestMatch(playerName);
@@ -236,7 +238,9 @@ app.get("/api/shotchartdetail", async (req, res) => {
   }
   const allPlayers = snapshot.val();
   const foundPlayer = allPlayers.find(
-    (player) => player.full_name.toLowerCase() === playerName
+    (player) =>
+      player.full_name.toLowerCase().replaceAll(" ", "") ===
+      playerName.replaceAll(" ", "")
   );
   if (!foundPlayer) {
     return res.status(404).json({
