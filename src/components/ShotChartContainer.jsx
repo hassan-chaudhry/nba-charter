@@ -9,6 +9,7 @@ import errorPic from "../assets/images/shot-chart-unavailable.jpg";
 import xoPic from "../assets/images/xo-icon.png";
 import { Tooltip } from "react-tooltip";
 import { HiOutlineExclamation } from "react-icons/hi";
+import { AiOutlineLoading } from "react-icons/ai";
 import { TbHexagons } from "react-icons/tb";
 import { MdDownload } from "react-icons/md";
 import { CgOptions } from "react-icons/cg";
@@ -19,6 +20,7 @@ const ShotChartContainer = forwardRef((props, ref) => {
   const [hovered, setHovered] = useState(false);
   const [showRegChart, setShowRegChart] = useState(true);
   const [showHexbinChart, setShowHexbinChart] = useState(false);
+  const [downloading, setDownloading] = useState(false);
 
   const [showOptions, setShowOptions] = useState(false);
   const [makesChecked, setMakesChecked] = useState(true);
@@ -50,6 +52,7 @@ const ShotChartContainer = forwardRef((props, ref) => {
 
   // download chart using html2canvas
   const handleDownload = async () => {
+    setDownloading(true);
     const element = shotChartRef.current;
     const canvas = await html2canvas(element, {
       useCORS: true,
@@ -68,6 +71,7 @@ const ShotChartContainer = forwardRef((props, ref) => {
     } else {
       window.open(data);
     }
+    setDownloading(false);
   };
 
   // control options on regular chart
@@ -134,7 +138,7 @@ const ShotChartContainer = forwardRef((props, ref) => {
 
           {showChart &&
             (data.resultSets[0].rowSet.length !== 0 ? (
-              <div className="grid items-center justify-center">
+              <div className="grid justify-center items-center ">
                 {/* chart settings bar */}
                 <div className="flex justify-between">
                   {/* select chart */}
@@ -153,7 +157,7 @@ const ShotChartContainer = forwardRef((props, ref) => {
                         <img
                           src={xoPic}
                           alt="xo"
-                          className="w-6 sm:w-8 items-center"
+                          className="h-6 w-6 sm:h-8 sm:w-8 items-center"
                           onClick={handleRegChartSwitch}
                         />
                       </a>
@@ -173,7 +177,7 @@ const ShotChartContainer = forwardRef((props, ref) => {
                       >
                         <TbHexagons
                           onClick={handleHexbinChartSwitch}
-                          className="sm:w-8 text-2xl sm:text-3xl items-center"
+                          className="h-6 w-6 sm:h-8 sm:w-8 text-2xl sm:text-3xl items-center"
                         />
                       </a>
                       <Tooltip id="HexbinChartTip" />
@@ -181,13 +185,13 @@ const ShotChartContainer = forwardRef((props, ref) => {
                   </div>
 
                   {/* options button */}
-                  <div className="mr-3 relative">
+                  <div className="mr-3">
                     {showRegChart && (
                       <button
                         ref={optionsButtonRef}
                         className={`${
                           showOptions ? "bg-purple-500" : "bg-white"
-                        } text-3xl border border-black rounded-md p-1 hover:bg-purple-300 mr-1 h-8 sm:h-10`}
+                        } text-3xl border border-black rounded-md p-1 hover:bg-purple-300 mr-1 h-8 w-8 sm:h-10 sm:w-10`}
                         onClick={handleOptions}
                       >
                         <CgOptions className="text-2xl sm:text-3xl" />
@@ -233,10 +237,14 @@ const ShotChartContainer = forwardRef((props, ref) => {
 
                     {/* download button */}
                     <button
-                      className="bg-white text-3xl border border-black rounded-md p-1 hover:bg-purple-300 h-8 sm:h-10"
+                      className="bg-white border border-black rounded-md p-1 hover:bg-purple-300 mr-1 h-8 w-8 sm:h-10 sm:w-10"
                       onClick={handleDownload}
                     >
-                      <MdDownload className="text-2xl sm:text-3xl" />
+                      {downloading ? (
+                        <AiOutlineLoading className="animate-spin text-purple-600 text-2xl sm:text-3xl" />
+                      ) : (
+                        <MdDownload className="text-2xl sm:text-3xl" />
+                      )}
                     </button>
                   </div>
                 </div>

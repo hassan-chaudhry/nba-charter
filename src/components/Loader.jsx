@@ -13,7 +13,7 @@ const Loader = ({ height = 80, width = 80 }) => {
         width={width}
         color="purple"
         ariaLabel="tail-spin-loading"
-        radius="1"
+        radius="2"
         wrapperStyle={{}}
         wrapperClass=""
       />
