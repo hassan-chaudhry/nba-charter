@@ -1,11 +1,13 @@
 import React from "react";
 import { useState, useEffect, useRef } from "react";
 import { FaSearch } from "react-icons/fa";
+import Loader from "./Loader.jsx";
 
 const SearchBar = ({ onSearch, suggestion, userQuery }) => {
   const [query, setQuery] = useState(userQuery); // initialize with userQuery to keep search bar value in sync between home & results page
   const [allPlayers, setAllPlayers] = useState([]);
   const [suggestionsList, setSuggestionsList] = useState([]);
+  const [suggestionsLoading, setSuggestionsLoading] = useState(false);
   const [bestMatch, setBestMatch] = useState(suggestion);
   const searchRef = useRef(null);
   const debounceRef = useRef(null);
@@ -38,13 +40,16 @@ const SearchBar = ({ onSearch, suggestion, userQuery }) => {
     debounceRef.current = setTimeout(() => {
       // limit API calls to when user input is longer than 1 character
       if (input.length > 1) {
+        setSuggestionsLoading(true);
         const filteredPlayers = allPlayers
           .map((player) => player.full_name)
           .filter((player) => {
             return player.toLowerCase().includes(input.toLowerCase()); // get player names that include input
           });
+        setSuggestionsLoading(false);
         setSuggestionsList(filteredPlayers); // fill suggestions list with those players
       } else {
+        setSuggestionsLoading(false);
         setSuggestionsList([]); // if input is empty, clear suggestions list
       }
     }, 250); // debounce the input to limit API calls
@@ -145,15 +150,23 @@ const SearchBar = ({ onSearch, suggestion, userQuery }) => {
         {/* suggestions list dropdown */}
         {suggestionsList.length > 0 && (
           <ul className="bg-white max-h-60 rounded-lg overflow-y-auto p-2 border border-purple-500 shadow-xl absolute w-full top-14 mt-1 sm:mt-2 z-10">
-            {suggestionsList.map((player, index) => (
-              <li
-                key={index}
-                className="px-1 hover:bg-purple-100 hover:rounded-md cursor-default"
-                onClick={() => handleSuggestionListClick(player)}
-              >
-                {player}
-              </li>
-            ))}
+            {suggestionsLoading ? (
+              <div className="flex items-center justify-center h-20">
+                <Loader height={50} width={50} />
+              </div>
+            ) : (
+              <div>
+                {suggestionsList.map((player, index) => (
+                  <li
+                    key={index}
+                    className="px-1 hover:bg-purple-100 hover:rounded-md cursor-default"
+                    onClick={() => handleSuggestionListClick(player)}
+                  >
+                    {player}
+                  </li>
+                ))}
+              </div>
+            )}
           </ul>
         )}
 
