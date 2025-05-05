@@ -15,7 +15,7 @@ import { MdDownload } from "react-icons/md";
 import { CgOptions } from "react-icons/cg";
 
 const ShotChartContainer = forwardRef((props, ref) => {
-  const { data, headerInfo } = props;
+  const { shotChartData, headerInfo } = props;
   const [showChart, setShowChart] = useState(false);
   const [hovered, setHovered] = useState(false);
   const [showRegChart, setShowRegChart] = useState(true);
@@ -33,12 +33,12 @@ const ShotChartContainer = forwardRef((props, ref) => {
 
   // open Shot Chart tab when data loaded
   useEffect(() => {
-    if (data) {
+    if (shotChartData) {
       setShowChart(true);
     } else {
       setShowChart(false);
     }
-  }, [data]);
+  }, [shotChartData]);
 
   // switch between displaying regular chart and hexbin chart
   const handleRegChartSwitch = () => {
@@ -114,7 +114,7 @@ const ShotChartContainer = forwardRef((props, ref) => {
 
   return (
     <div ref={ref} className="bg-white">
-      {data ? (
+      {shotChartData ? (
         <>
           <div className="flex flex-col items-center m-5">
             <motion.div
@@ -122,7 +122,7 @@ const ShotChartContainer = forwardRef((props, ref) => {
               onHoverStart={() => setHovered(true)}
               onHoverEnd={() => setHovered(false)}
               onClick={() => {
-                if (data) {
+                if (shotChartData) {
                   setShowChart((prevState) => !prevState);
                 }
               }}
@@ -137,7 +137,7 @@ const ShotChartContainer = forwardRef((props, ref) => {
           </div>
 
           {showChart &&
-            (data.resultSets[0].rowSet.length !== 0 ? (
+            (shotChartData.resultSets[0].rowSet.length !== 0 ? (
               <div className="grid justify-center items-center ">
                 {/* chart settings bar */}
                 <div className="flex justify-between">
@@ -251,20 +251,23 @@ const ShotChartContainer = forwardRef((props, ref) => {
 
                 {/* shot charts */}
                 <div ref={shotChartRef}>
-                  <ShotChartHeader data={data} headerInfo={headerInfo} />
+                  <ShotChartHeader
+                    shotChartData={shotChartData}
+                    headerInfo={headerInfo}
+                  />
                   {showRegChart ? (
                     <ShotChartRegular
-                      data={data}
+                      shotChartData={shotChartData}
                       showMakes={makesChecked}
                       showMisses={missesChecked}
                       showTeamColors={colorsChecked}
                     />
                   ) : (
-                    <ShotChartHexbin data={data} />
+                    <ShotChartHexbin shotChartData={shotChartData} />
                   )}
                   <div className="mb-1"></div>
                 </div>
-                <GamesInfo data={data} />
+                <GamesInfo shotChartData={shotChartData} />
               </div>
             ) : (
               // if no data available, show error message

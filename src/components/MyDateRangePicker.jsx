@@ -18,13 +18,7 @@ import { BiCalendar } from "react-icons/bi";
 import { IoIosArrowDropleft } from "react-icons/io";
 import { IoIosArrowDropright } from "react-icons/io";
 
-function MyDateRangePicker({
-  label,
-  description,
-  errorMessage,
-  firstDayOfWeek,
-  ...props
-}) {
+function MyDateRangePicker({ label, ...props }) {
   // date range picker component: https://react-spectrum.adobe.com/react-aria/DateRangePicker.html
   const [calIconClicked, setCalIconClicked] = useState(false);
   return (
@@ -54,7 +48,7 @@ function MyDateRangePicker({
         <Dialog>
           <RangeCalendar
             className="bg-white border border-gray-500 rounded-md p-3"
-            maxValue={today(getLocalTimeZone())}
+            maxValue={today(getLocalTimeZone())} // get max date value based on current date
           >
             <header className="flex items-center justify-between w-full text-lg mb-1">
               <Button className="m-1 text-xl" slot="previous">
@@ -69,18 +63,19 @@ function MyDateRangePicker({
               {(date) => (
                 <CalendarCell
                   date={date}
-                  className={({ isOutsideMonth, isHovered, isSelected }) =>
-                    `p-1 ${
-                      isOutsideMonth ? "opacity-0 pointer-events-none" : "" // hide days outside of month
-                    } ${
-                      isHovered
-                        ? "bg-indigo-300 rounded-md text-white"
-                        : "text-black"
-                    } ${
-                      isSelected
-                        ? "bg-indigo-500 rounded-md text-white"
-                        : "text-black"
-                    }`
+                  className={
+                    ({ isOutsideMonth, isHovered, isSelected, isDisabled }) =>
+                      `p-1 ${
+                        isOutsideMonth ? "opacity-0 pointer-events-none" : "" // hide days outside of month
+                      } ${
+                        isHovered
+                          ? "bg-indigo-300 rounded-md text-white"
+                          : "text-black"
+                      } ${
+                        isSelected
+                          ? "bg-indigo-500 rounded-md text-white"
+                          : "text-black"
+                      } ${isDisabled ? "text-gray-500" : "text-black-500"}` // gray out future dates
                   }
                 />
               )}

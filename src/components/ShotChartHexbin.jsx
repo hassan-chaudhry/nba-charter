@@ -6,7 +6,7 @@ import court from "../assets/images/court.png";
 import { BsFillHexagonFill } from "react-icons/bs";
 import { FaMinus, FaPlus } from "react-icons/fa6";
 
-const ShotChartHexbin = ({ data }) => {
+const ShotChartHexbin = ({ shotChartData }) => {
   const [hoveredZone, setHoveredZone] = useState(null);
   const svgRef = useRef(null);
 
@@ -19,7 +19,7 @@ const ShotChartHexbin = ({ data }) => {
   //  GROUP LEAGUE AVERAGES INTO ZONES   //
   /////////////////////////////////////////
 
-  const leagueAvgs = data.resultSets[1].rowSet;
+  const leagueAvgs = shotChartData.resultSets[1].rowSet;
 
   // threes - 22-24 ft
   let aboveTheBreak3CenterLA = [];
@@ -200,15 +200,15 @@ const ShotChartHexbin = ({ data }) => {
   let lessThan8Player = [];
 
   let allShots = [];
-  for (let i = 0; i < data.resultSets[0].rowSet.length; i++) {
+  for (let i = 0; i < shotChartData.resultSets[0].rowSet.length; i++) {
     let shot = {
-      LOC_X: data.resultSets[0].rowSet[i][17],
-      LOC_Y: data.resultSets[0].rowSet[i][18],
-      SHOT_ATTEMPTED_FLAG: data.resultSets[0].rowSet[i][19],
-      SHOT_MADE_FLAG: data.resultSets[0].rowSet[i][20],
-      SHOT_ZONE_BASIC: data.resultSets[0].rowSet[i][13],
-      SHOT_ZONE_AREA: data.resultSets[0].rowSet[i][14],
-      SHOT_ZONE_RANGE: data.resultSets[0].rowSet[i][15],
+      LOC_X: shotChartData.resultSets[0].rowSet[i][17],
+      LOC_Y: shotChartData.resultSets[0].rowSet[i][18],
+      SHOT_ATTEMPTED_FLAG: shotChartData.resultSets[0].rowSet[i][19],
+      SHOT_MADE_FLAG: shotChartData.resultSets[0].rowSet[i][20],
+      SHOT_ZONE_BASIC: shotChartData.resultSets[0].rowSet[i][13],
+      SHOT_ZONE_AREA: shotChartData.resultSets[0].rowSet[i][14],
+      SHOT_ZONE_RANGE: shotChartData.resultSets[0].rowSet[i][15],
     };
     allShots.push(shot);
 

@@ -8,7 +8,7 @@ import SelectByGameID from "./SelectByGameID";
 import Loader from "./Loader.jsx";
 import { HiOutlineExclamation } from "react-icons/hi";
 
-const SelectGamesContainer = ({ onSelect, data, suggestion }) => {
+const SelectGamesContainer = ({ onSelect, playerGameLogData, suggestion }) => {
   const [showSelection, setShowSelection] = useState(false);
   const [loading, setLoading] = useState(true);
   const [hovered, setHovered] = useState(false);
@@ -22,7 +22,7 @@ const SelectGamesContainer = ({ onSelect, data, suggestion }) => {
 
   useEffect(() => {
     resetRecentAndID();
-    if (data) {
+    if (playerGameLogData) {
       setLoading(false);
       setShowSelection(true);
     } else {
@@ -32,7 +32,7 @@ const SelectGamesContainer = ({ onSelect, data, suggestion }) => {
     if (suggestion) {
       setLoading(false);
     }
-  }, [data, suggestion]);
+  }, [playerGameLogData, suggestion]);
 
   const resetRecentAndID = () => {
     setResetRecent(true);
@@ -57,7 +57,7 @@ const SelectGamesContainer = ({ onSelect, data, suggestion }) => {
 
   return (
     <div className="bg-white-500 p-3">
-      {data ? (
+      {playerGameLogData ? (
         <>
           <div className="flex flex-col items-center m-5">
             <motion.div
@@ -65,7 +65,7 @@ const SelectGamesContainer = ({ onSelect, data, suggestion }) => {
               onHoverStart={() => setHovered(true)}
               onHoverEnd={() => setHovered(false)}
               onClick={() => {
-                if (data) {
+                if (playerGameLogData) {
                   setShowSelection((prevState) => !prevState);
                 }
               }}
@@ -83,7 +83,7 @@ const SelectGamesContainer = ({ onSelect, data, suggestion }) => {
             <>
               <SelectRecentGames
                 onSelect={onSelect}
-                data={data}
+                playerGameLogData={playerGameLogData}
                 handleReset={resetIDOnly}
                 resetRecent={resetRecent}
               />

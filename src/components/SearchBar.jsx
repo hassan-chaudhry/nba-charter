@@ -28,33 +28,6 @@ const SearchBar = ({ onSearch, suggestion, userQuery }) => {
     }
   };
 
-  // handle input change as user types
-  const handleInputChange = async (e) => {
-    const input = e.target.value;
-    setQuery(input);
-
-    if (debounceRef.current) {
-      clearTimeout(debounceRef.current);
-    }
-
-    debounceRef.current = setTimeout(() => {
-      // limit API calls to when user input is longer than 1 character
-      if (input.length > 1) {
-        setSuggestionsLoading(true);
-        const filteredPlayers = allPlayers
-          .map((player) => player.full_name)
-          .filter((player) => {
-            return player.toLowerCase().includes(input.toLowerCase()); // get player names that include input
-          });
-        setSuggestionsLoading(false);
-        setSuggestionsList(filteredPlayers); // fill suggestions list with those players
-      } else {
-        setSuggestionsLoading(false);
-        setSuggestionsList([]); // if input is empty, clear suggestions list
-      }
-    }, 250); // debounce the input to limit API calls
-  };
-
   useEffect(() => {
     const baseURL = import.meta.env.VITE_API_BASE_URL;
 
@@ -77,6 +50,33 @@ const SearchBar = ({ onSearch, suggestion, userQuery }) => {
 
     fetchPlayers();
   }, []);
+
+  // handle input change as user types
+  const handleInputChange = async (e) => {
+    const input = e.target.value;
+    setQuery(input);
+
+    if (debounceRef.current) {
+      clearTimeout(debounceRef.current);
+    }
+
+    debounceRef.current = setTimeout(() => {
+      // limit suggestion list updates to when user input is longer than 1 character
+      if (input.length > 1) {
+        setSuggestionsLoading(true);
+        const filteredPlayers = allPlayers
+          .map((player) => player.full_name)
+          .filter((player) => {
+            return player.toLowerCase().includes(input.toLowerCase()); // get player names that include input
+          });
+        setSuggestionsLoading(false);
+        setSuggestionsList(filteredPlayers); // fill suggestions list with those players
+      } else {
+        setSuggestionsLoading(false);
+        setSuggestionsList([]); // if input is empty, clear suggestions list
+      }
+    }, 250); // debounce the input to limit suggestion list updates
+  };
 
   ////////////////////////////
   //   HANDLE SUGGESTIONS   //

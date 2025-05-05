@@ -7,15 +7,15 @@ import { HiOutlineExclamation } from "react-icons/hi";
 import { Tooltip } from "react-tooltip";
 
 const SelectByRange = ({ onSelect, handleReset }) => {
-  const [selectRange, setSelectRange] = useState({
+  const [selectedRange, setSelectedRange] = useState({
     start: null,
     end: null,
   });
   const [invalidRange, setInvalidRange] = useState(false);
 
   const onClick = () => {
-    let startDate = selectRange.start;
-    let endDate = selectRange.end;
+    let startDate = selectedRange.start;
+    let endDate = selectedRange.end;
 
     const season = isValidSeason(startDate, endDate);
 
@@ -51,18 +51,18 @@ const SelectByRange = ({ onSelect, handleReset }) => {
       // if start year same as end year, then calculate start year
       const startMonth = startDate.month;
 
-      // find start year based off of start month (October to December = current year, January to April = previous year)
+      // find start year based off of start month (October to December = current year, January to June = previous year)
       if (startMonth >= 10) {
         endYear = parseInt(startYear) + 1;
         season = startYear + "-" + endYear.toString().slice(2, 4);
-      } else if (startMonth <= 4) {
+      } else if (startMonth <= 6) {
         startYear = parseInt(startYear) - 1;
         season = startYear + "-" + endYear.toString().slice(2, 4);
       }
     }
 
     const seasonStart = new Date(startYear + "-10-01"); // NBA season starts in October
-    const seasonEnd = new Date(endYear + "-04-30"); // NBA season ends in April (playoffs not included)
+    const seasonEnd = new Date(endYear + "-06-30"); // NBA season ends in April (4), playoffs end in June (6)
 
     if (
       seasonStart <= rangeStart &&
@@ -118,9 +118,9 @@ const SelectByRange = ({ onSelect, handleReset }) => {
       <div className="p-1 rounded-[20px]">
         <MyDateRangePicker
           label="Game Dates"
-          selectRange={selectRange}
-          onChange={(selectRange) => {
-            setSelectRange(selectRange);
+          selectRange={selectedRange}
+          onChange={(selectedRange) => {
+            setSelectedRange(selectedRange);
           }}
         />
       </div>

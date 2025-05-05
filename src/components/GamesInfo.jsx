@@ -1,8 +1,8 @@
 import React from "react";
 import { useState } from "react";
 
-const GamesInfo = ({ data }) => {
-  const numOfShots = data.resultSets[0].rowSet.length;
+const GamesInfo = ({ shotChartData }) => {
+  const numOfShots = shotChartData.resultSets[0].rowSet.length;
   const [showMoreInfo, setShowMoreInfo] = useState(false);
 
   const formatDate = (date) => {
@@ -21,18 +21,18 @@ const GamesInfo = ({ data }) => {
   let allGamesSorted = [];
   let allGames = [];
 
-  if (data) {
+  if (shotChartData) {
     let game = {};
 
     for (let i = 0; i < numOfShots; i++) {
       // iterate through all shots in data & extract game info from shots
-      let gameID = data.resultSets[0].rowSet[i][1];
+      let gameID = shotChartData.resultSets[0].rowSet[i][1];
       if (!allGames.some((game) => game.gameID === gameID)) {
         game = {
           gameID: gameID,
-          gameDate: data.resultSets[0].rowSet[i][21],
-          homeTeam: data.resultSets[0].rowSet[i][22],
-          visitTeam: data.resultSets[0].rowSet[i][23],
+          gameDate: shotChartData.resultSets[0].rowSet[i][21],
+          homeTeam: shotChartData.resultSets[0].rowSet[i][22],
+          visitTeam: shotChartData.resultSets[0].rowSet[i][23],
         };
         allGames.push(game);
       }

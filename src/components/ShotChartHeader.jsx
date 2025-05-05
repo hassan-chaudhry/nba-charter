@@ -2,16 +2,24 @@ import React from "react";
 import { teams } from "../constants/constants.jsx";
 import blank_pfp from "../assets/images/blank-profile-picture.png";
 
-const ShotChartHeader = ({ data, headerInfo }) => {
+const ShotChartHeader = ({ shotChartData, headerInfo }) => {
   // get player name
   const playerName = JSON.stringify(
-    data.resultSets[0].rowSet[0][4],
+    shotChartData.resultSets[0].rowSet[0][4],
     null,
     2
   ).replace(/"/g, ""); // remove all double quotes
 
-  // get player ID
-  const playerID = data.resultSets[0].rowSet[0][3];
+  // get player ID for picture
+  const playerID = shotChartData.resultSets[0].rowSet[0][3];
+
+  // default profile picture if image fails to load
+  const useDefaultPic = (e) => {
+    e.target.src = blank_pfp;
+  };
+
+  // connect to backend server to get player pic
+  const baseURL = import.meta.env.VITE_API_BASE_URL;
 
   // get date(s)
   const formatDate = (date) => {
@@ -27,35 +35,32 @@ const ShotChartHeader = ({ data, headerInfo }) => {
     return finalDate;
   };
 
-  // get the player team name and opponent team names
-  const playerTeamFullName = data.resultSets[0].rowSet[0][6];
-  const opponentTeam =
-    teams[data.resultSets[0].rowSet[0][22]] == playerTeamFullName
-      ? teams[data.resultSets[0].rowSet[0][23]]
-      : teams[data.resultSets[0].rowSet[0][22]];
-  const date = data.resultSets[0].rowSet[0][21];
-
   // compile header depending on whether a range of games, a season, or a single game is selected
   let header;
+  // Select By Range
   if (headerInfo[0] === "range") {
     // prettier-ignore
     header = `${playerName} ${"\n"} from ${formatDate(headerInfo[1])} to ${formatDate(headerInfo[2])}`; // range of games
-  } else if (headerInfo[0] === "season") {
+  }
+  // Select by Season
+  else if (headerInfo[0] === "season") {
     headerInfo[1] = headerInfo[1].replace("+", " ");
     headerInfo[2] = headerInfo[2].replace("+", " ");
     // prettier-ignore
     header = `${playerName} ${"\n"} during the ${headerInfo[1]} ${headerInfo[2]}`; // season of games
-  } else {
+  }
+  // Select Single Game (Select Recent Games or Select by Game ID)
+  else {
+    // get opponent team name
+    const playerTeamFullName = shotChartData.resultSets[0].rowSet[0][6];
+    const opponentTeam =
+      teams[shotChartData.resultSets[0].rowSet[0][22]] == playerTeamFullName
+        ? teams[shotChartData.resultSets[0].rowSet[0][23]]
+        : teams[shotChartData.resultSets[0].rowSet[0][22]];
+    const date = shotChartData.resultSets[0].rowSet[0][21];
+
     header = `${playerName} ${"\n"} vs. ${opponentTeam} on ${formatDate(date)}`; // single game
   }
-
-  // default profile picture if image fails to load
-  const useDefaultPic = (e) => {
-    e.target.src = blank_pfp;
-  };
-
-  // connect to backend server to get player pic
-  const baseURL = import.meta.env.VITE_API_BASE_URL;
 
   return (
     <div className="bg-white-500 p-3">

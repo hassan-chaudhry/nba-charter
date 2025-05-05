@@ -1,12 +1,15 @@
 import React from "react";
 import { teams, colors } from "../constants/constants.jsx";
 import court from "../assets/images/court.png";
-import { FaRegCircle } from "react-icons/fa6";
-import { VscChromeClose } from "react-icons/vsc";
 
-const ShotChartRegular = ({ data, showMakes, showMisses, showTeamColors }) => {
+const ShotChartRegular = ({
+  shotChartData,
+  showMakes,
+  showMisses,
+  showTeamColors,
+}) => {
   // get team-specific colors for makes and misses
-  const playerTeamFullName = data.resultSets[0].rowSet[0][6];
+  const playerTeamFullName = shotChartData.resultSets[0].rowSet[0][6];
 
   let teamPrimaryColor;
   let teamSecondaryColor;
@@ -51,7 +54,6 @@ const ShotChartRegular = ({ data, showMakes, showMisses, showTeamColors }) => {
 
   function rgbToHex(rgb) {
     // convert rgb string to hex string
-
     if (!rgb) return "#000000"; // default to black in case of error
 
     const rgbValues = rgb.split(",");
@@ -64,15 +66,15 @@ const ShotChartRegular = ({ data, showMakes, showMisses, showTeamColors }) => {
   let primaryColorHex = rgbToHex(primaryColor);
   let secondaryColorHex = rgbToHex(secondaryColor);
 
-  // get all shots from the data
+  // get all shots from the shot chart data
   let allShots = [];
-  for (let i = 0; i < data.resultSets[0].rowSet.length; i++) {
+  for (let i = 0; i < shotChartData.resultSets[0].rowSet.length; i++) {
     // for each shot, get x- and y- coordinates & shot made/attempted flags
     let shot = {
-      LOC_X: data.resultSets[0].rowSet[i][17],
-      LOC_Y: data.resultSets[0].rowSet[i][18],
-      SHOT_ATTEMPTED_FLAG: data.resultSets[0].rowSet[i][19],
-      SHOT_MADE_FLAG: data.resultSets[0].rowSet[i][20],
+      LOC_X: shotChartData.resultSets[0].rowSet[i][17],
+      LOC_Y: shotChartData.resultSets[0].rowSet[i][18],
+      SHOT_ATTEMPTED_FLAG: shotChartData.resultSets[0].rowSet[i][19],
+      SHOT_MADE_FLAG: shotChartData.resultSets[0].rowSet[i][20],
     };
     allShots.push(shot);
   }
@@ -95,7 +97,7 @@ const ShotChartRegular = ({ data, showMakes, showMisses, showTeamColors }) => {
               height: "100%",
               pointerEvents: "none",
             }}
-            viewBox="-250 -47.5 500 470"
+            viewBox="-250 -47.5 500 470" // for more on viewbox paramters: https://developer.mozilla.org/en-US/docs/Web/SVG/Reference/Attribute/viewBox
             preserveAspectRatio="none"
           >
             {/* <circle // center of basket should be at (0,0)

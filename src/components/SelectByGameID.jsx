@@ -20,6 +20,7 @@ const SelectByGameID = ({ onSelect, handleReset, resetID }) => {
   const onEnter = async (e) => {
     if (e.key === "Enter") {
       e.preventDefault();
+      // ignore empty strings
       if (selectID.length !== 0) {
         const result = await onSelect({ gameID: selectID }); // call onSelect function to get game / shot chart data based on gameID
         if (result) {

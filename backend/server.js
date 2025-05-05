@@ -317,9 +317,9 @@ app.get("/image/playerpic", async (req, res) => {
       return res.status(response.status).json({ error: response.statusText });
     }
 
-    const buffer = await response.arrayBuffer();
-    res.set("Content-Type", "image/png");
-    return res.send(Buffer.from(buffer));
+    const buffer = await response.arrayBuffer(); // read raw binary data
+    res.set("Content-Type", "image/png"); // set response header so browser knows it's getting a PNG image
+    return res.send(Buffer.from(buffer)); // converts the ArrayBuffer into a Node.js Buffer
   } catch (error) {
     return res.status(500).send("Failed to fetch image");
   }

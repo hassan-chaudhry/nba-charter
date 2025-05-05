@@ -3,7 +3,12 @@ import { useState, useEffect } from "react";
 import { colors } from "../constants/constants.jsx";
 import { HiOutlineExclamation } from "react-icons/hi";
 
-const SelectRecentGames = ({ onSelect, data, handleReset, resetRecent }) => {
+const SelectRecentGames = ({
+  onSelect,
+  playerGameLogData,
+  handleReset,
+  resetRecent,
+}) => {
   const [selectRecent, setSelectRecent] = useState("");
 
   // reset 'Recent Games' box when different selection method is used
@@ -22,19 +27,19 @@ const SelectRecentGames = ({ onSelect, data, handleReset, resetRecent }) => {
 
   // get regular season games played so far
   let allGames = [];
-  const gamesSoFar = data.resultSets[0].rowSet.length;
+  const gamesSoFar = playerGameLogData.resultSets[0].rowSet.length;
 
-  if (data) {
+  if (playerGameLogData) {
     for (let i = 0; i < gamesSoFar; i++) {
-      const matchup = data.resultSets[0].rowSet[i][4];
+      const matchup = playerGameLogData.resultSets[0].rowSet[i][4];
       const teams = matchup.split(" ");
       const homeTeam = teams[0];
       const visitTeam = teams[2];
 
       let game = {
-        gameID: data.resultSets[0].rowSet[i][2],
-        gameDate: data.resultSets[0].rowSet[i][3],
-        gameMatchup: data.resultSets[0].rowSet[i][4],
+        gameID: playerGameLogData.resultSets[0].rowSet[i][2],
+        gameDate: playerGameLogData.resultSets[0].rowSet[i][3],
+        gameMatchup: playerGameLogData.resultSets[0].rowSet[i][4],
         homeTeamColor: colors[homeTeam][0].toString(),
         visitTeamColor: colors[visitTeam][0].toString(),
       };

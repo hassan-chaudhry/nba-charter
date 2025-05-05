@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { useParams, useLocation } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import SearchBar from "../components/SearchBar";
 import SelectGamesContainer from "../components/SelectGamesContainer";
@@ -23,12 +23,10 @@ function ResultsPage() {
 
   const fetchPlayerGameLogData = async (query) => {
     setShotChartData(null); // reset shot chart after user searches for new player
+
     const name = query.trim();
     setPlayerName(name);
-
     const encodedName = encodeURIComponent(name);
-
-    // console.log(`${baseURL}/api/playergamelog?playerName=${encodedName}`);
 
     try {
       const response = await fetch(
@@ -45,7 +43,7 @@ function ResultsPage() {
       // console.log(data);
       setPlayerGameLogData(data);
     } catch (error) {
-      console.log("Could not fetch player", error);
+      console.log("Could not fetch player game logs", error);
     }
   };
 
@@ -91,7 +89,7 @@ function ResultsPage() {
       }, 25);
       return data;
     } catch (error) {
-      console.log("Could not fetch shot chart", error);
+      console.log("Could not fetch shot chart data", error);
     }
   };
 
@@ -112,12 +110,12 @@ function ResultsPage() {
       />
       <SelectGamesContainer
         onSelect={fetchShotChartData}
-        data={playerGameLogData}
+        playerGameLogData={playerGameLogData}
         suggestion={suggestion}
       />
       <ShotChartContainer
         ref={refShotChart}
-        data={shotChartData}
+        shotChartData={shotChartData}
         headerInfo={headerInfo}
       />
     </>
