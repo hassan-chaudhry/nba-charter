@@ -265,7 +265,7 @@ const ShotChartContainer = forwardRef((props, ref) => {
                   ) : (
                     <ShotChartHexbin shotChartData={shotChartData} />
                   )}
-                  <div className="mb-1"></div>
+                  <div className="mb-2.5"></div>
                 </div>
                 <GamesInfo shotChartData={shotChartData} />
               </div>
