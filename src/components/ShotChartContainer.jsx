@@ -31,13 +31,18 @@ const ShotChartContainer = forwardRef((props, ref) => {
   const optionsButtonRef = useRef(null);
   const optionsPopoverRef = useRef(null);
 
-  // open Shot Chart tab when data loaded
   useEffect(() => {
+    // open Shot Chart tab when data loaded
     if (shotChartData) {
       setShowChart(true);
     } else {
       setShowChart(false);
     }
+
+    // reset options
+    setMakesChecked(true);
+    setMissesChecked(true);
+    setColorsChecked(true);
   }, [shotChartData]);
 
   // switch between displaying regular chart and hexbin chart
@@ -265,7 +270,7 @@ const ShotChartContainer = forwardRef((props, ref) => {
                   ) : (
                     <ShotChartHexbin shotChartData={shotChartData} />
                   )}
-                  <div className="mb-2.5"></div>
+                  <div className="mb-5"></div>
                 </div>
                 <GamesInfo shotChartData={shotChartData} />
               </div>
