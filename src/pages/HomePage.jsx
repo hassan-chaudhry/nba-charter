@@ -1,16 +1,8 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
 import SearchBar from "../components/SearchBar";
 import logo from "/src/assets/images/logo-title.png";
 
 const HomePage = () => {
-  const navigate = useNavigate();
-
-  const handleEnter = (userQuery) => {
-    // navigate to results page with query
-    navigate(`/${userQuery}`);
-  };
-
   return (
     <div
       className={
@@ -26,7 +18,7 @@ const HomePage = () => {
               alt="NBA Charter"
             />
           </div>
-          <SearchBar onSearch={handleEnter} suggestion={""} userQuery={""} />
+          <SearchBar onSearch={() => {}} suggestion={""} userQuery={""} />
         </div>
       </div>
     </div>

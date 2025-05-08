@@ -1,37 +1,56 @@
 import React from "react";
 import { useState, useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import { FaSearch } from "react-icons/fa";
 import Loader from "./Loader.jsx";
 
 const SearchBar = ({ onSearch, suggestion, userQuery }) => {
+  const navigate = useNavigate();
+
   const [query, setQuery] = useState(userQuery); // initialize with userQuery to keep search bar value in sync between home & results page
   const [allPlayers, setAllPlayers] = useState([]);
   const [suggestionsList, setSuggestionsList] = useState([]);
   const [suggestionsLoading, setSuggestionsLoading] = useState(false);
   const [bestMatch, setBestMatch] = useState(suggestion);
+
   const searchRef = useRef(null);
   const debounceRef = useRef(null);
 
-  ///////////////////////////
-  //   HANDLE USER INPUT   //
-  ///////////////////////////
+  /////////////////////////////////
+  //   HANDLE PLAYER SELECTION   //
+  /////////////////////////////////
+
+  // search for selected player
+  const onSelection = (selectedPlayer) => {
+    setSuggestionsList([]);
+    setBestMatch("");
+
+    setQuery(selectedPlayer);
+    onSearch(selectedPlayer);
+
+    navigate(`/${selectedPlayer}`);
+  };
 
   // search for player when user presses enter
-  const onEnter = (e) => {
+  const onEnterPress = (e) => {
     // check to see if enter key was pressed
     if (e.key === "Enter") {
       e.preventDefault();
       // check to see if input is not empty
       if (query !== "") {
-        onSearch(query);
+        onSelection(query);
       }
     }
   };
 
+  ////////////////////////////////
+  //   HANDLE SUGGESTION LIST   //
+  ////////////////////////////////
+
+  // get player data from server on component mount
   useEffect(() => {
     const baseURL = import.meta.env.VITE_API_BASE_URL;
 
-    // get player data from server on component mount
     const fetchPlayers = async () => {
       try {
         const response = await fetch(
@@ -51,7 +70,7 @@ const SearchBar = ({ onSearch, suggestion, userQuery }) => {
     fetchPlayers();
   }, []);
 
-  // handle input change as user types
+  // dynamically update suggestion list as user types
   const handleInputChange = async (e) => {
     const input = e.target.value;
     setQuery(input);
@@ -78,48 +97,8 @@ const SearchBar = ({ onSearch, suggestion, userQuery }) => {
     }, 250); // debounce the input to limit suggestion list updates
   };
 
-  ////////////////////////////
-  //   HANDLE SUGGESTIONS   //
-  ////////////////////////////
-
-  const handleSuggestionListClick = (playerName) => {
-    // after clicking a player name in the suggestions dropdown menu
-    setQuery(playerName);
-    setSuggestionsList([]);
-    onSearch(playerName);
-    setBestMatch("");
-  };
-
-  // handle best match suggestion
-
+  // close suggestion list if user clicks elsewhere
   useEffect(() => {
-    // set best match when a suggestion is passed in
-    setBestMatch(suggestion);
-  }, [suggestion]);
-
-  const handleBestMatchClick = () => {
-    // after clicking best match suggestion under search bar
-    setQuery(suggestion);
-    onSearch(suggestion);
-    setBestMatch("");
-  };
-
-  // display best match suggestion if available
-  let suggestionBarHeader, suggestionBarName;
-  if (bestMatch) {
-    suggestionBarHeader = "Did you mean: ";
-    suggestionBarName = suggestion;
-  } else {
-    suggestionBarHeader = "";
-    suggestionBarName = "";
-  }
-
-  ////////////////////////////
-  //   HANDLE DOM CHANGES   //
-  ////////////////////////////
-
-  useEffect(() => {
-    // close search bar if user clicks elsewhere
     const handleClickOutsideSearchBar = (e) => {
       if (searchRef.current && !searchRef.current.contains(e.target)) {
         setSuggestionsList([]);
@@ -132,6 +111,25 @@ const SearchBar = ({ onSearch, suggestion, userQuery }) => {
     };
   }, []);
 
+  ///////////////////////////
+  //   HANDLE BEST MATCH   //
+  ///////////////////////////
+
+  // set best match when a suggestion is available
+  useEffect(() => {
+    setBestMatch(suggestion);
+  }, [suggestion]);
+
+  // display best match suggestion if available
+  let suggestionBarHeader, suggestionBarName;
+  if (bestMatch) {
+    suggestionBarHeader = "Did you mean: ";
+    suggestionBarName = suggestion;
+  } else {
+    suggestionBarHeader = "";
+    suggestionBarName = "";
+  }
+
   return (
     <div className="m-auto w-[75vw] relative" ref={searchRef}>
       {/* search bar */}
@@ -143,7 +141,7 @@ const SearchBar = ({ onSearch, suggestion, userQuery }) => {
             placeholder="Enter a player's name"
             value={query}
             onChange={handleInputChange}
-            onKeyDown={onEnter}
+            onKeyDown={onEnterPress}
           />
         </div>
 
@@ -160,7 +158,7 @@ const SearchBar = ({ onSearch, suggestion, userQuery }) => {
                   <li
                     key={index}
                     className="px-1 hover:bg-purple-100 hover:rounded-md cursor-default"
-                    onClick={() => handleSuggestionListClick(player)}
+                    onClick={() => onSelection(player)}
                   >
                     {player}
                   </li>
@@ -175,7 +173,7 @@ const SearchBar = ({ onSearch, suggestion, userQuery }) => {
           <h1 className="mr-1 cursor-default">{suggestionBarHeader}</h1>
           <h1
             className="hover:underline cursor-pointer"
-            onClick={handleBestMatchClick}
+            onClick={() => onSelection(suggestion)}
           >
             {suggestionBarName}
           </h1>

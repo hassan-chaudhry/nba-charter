@@ -93,8 +93,8 @@ function ResultsPage() {
     }
   };
 
+  // if search comes from home page, game log must be retrieved
   useEffect(() => {
-    // if search comes from home page
     if (userQuery) {
       fetchPlayerGameLogData(userQuery);
     }
