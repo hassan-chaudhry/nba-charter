@@ -15,7 +15,7 @@ const HomePage = () => {
             <img
               className="mr-1 w-[75vw] sm:w-[55vw]"
               src={logo}
-              alt="NBA Charter"
+              alt="NBA Shot Charts"
             />
           </div>
           <SearchBar onSearch={() => {}} suggestion={""} userQuery={""} />

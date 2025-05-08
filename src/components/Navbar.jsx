@@ -15,7 +15,7 @@ const Navbar = () => {
         <img
           className="h-14 sm:h-16 w-auto ml-3 cursor-pointer"
           src={logo}
-          alt="NBA Charter"
+          alt="NBA Shot Charts"
           onClick={handleClick} // if user clicks on logo, navigate to home page
         />
       </div>
