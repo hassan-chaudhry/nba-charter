@@ -5,13 +5,13 @@ NBA Shot Charts
 </p>
 <p align="center"> https://www.nbashotcharts.net/ </p>
 
-**NBA Shot Charts** is a React JS website that generates NBA player shot charts. 
+**NBA Shot Charts** is a React JS website that generates interactive NBA player shot charts. 
 
-A shot chart is a visualization of a player's shooting performance on the court. It shows the location of all the field goals (i.e. shots) attempted by a player over the course of a game (or games). It can be used to analyze player shooting patterns and their effectiveness from specific areas on the floor. NBA shot charts were invented by Kirk Goldsberry, an NBA analyst and NYT best-selling author, in 2012.
+A shot chart is a visualization of a player's shooting performance on the court. It shows the location of all the field goals (i.e., shots) attempted by a player over the course of a game or multiple games. It can be used to analyze player shooting patterns and their effectiveness from specific areas on the floor. NBA shot charts were invented by Kirk Goldsberry, an NBA analyst and NYT best-selling author, in 2012.
 
-The website allows users to enter a player's name and make their game(s) selection, and then it generates a chart of all the player's field goals over that selection period. 
+To use the website, enter a player's name and select one or more games to generate a chart showing all of their field goal attempts during the selection period.
 
-The website is hosted on Vercel with the backend server running on Fly.io. 
+The website is hosted on Vercel with the backend server deployed on Fly.io. 
 
 Player Selection
 ---
@@ -40,7 +40,7 @@ There are 4 options for selecting a game:
       <img width="300" alt="nsc-date-range" src="https://github.com/user-attachments/assets/033ccaa9-7cbc-48f2-9fbf-fa38cacd3627" />
     </p>
 
-3. **Season:** Select a season type (pre-season, regular season, or playoffs) and a season year (e.g. 2024-25). All shots from that season will be displayed.
+3. **Season:** Select a season type (pre-season, regular season, or playoffs) and a season year (e.g., 2024-25). All shots from that season will be displayed.
     <p align="center">
       <img width="300" alt="nsc-season" src="https://github.com/user-attachments/assets/e94d78f4-bc25-476f-8e90-63d491b1edfd" />
     </p>
@@ -83,7 +83,7 @@ There are 2 types of shot charts available:
 
     The color scale is as follows:
     <p align="center">
-       <img width="300" alt="nsc-hex-legend" src="https://github.com/user-attachments/assets/aba68370-d11e-4dea-82a7-92149ab4bae0" />
+       <img width="300" alt="nsc-hex-legend" src="https://github.com/user-attachments/assets/b2390ac0-7dfc-48a0-8584-7e09dad06c3a" />
     </p>
 
     You can also hover over each of the 14 different zones on display in the chart. This reveals information about that zone including:
@@ -110,6 +110,6 @@ https://github.com/user-attachments/assets/a323d604-0ec6-4e26-84ca-3a437545f6e5
     
 Notes on the API
 ---
-The NBA doesn't have any official documentation for their API. However, the team behind the nba_api API client package for Python have extensively documented the API endpoints which I found immensely helpful for this project. Their work can be found [here](https://github.com/swar/nba_api).
+The NBA doesn't have any official documentation for their API. However, the team behind the `nba_api` API client package for Python have extensively documented the API endpoints which I found immensely helpful for this project. Their work can be found [here](https://github.com/swar/nba_api).
 
-The NBA also blocks certain cloud server IP addresses from accessing its endpoints, likely because they are popular and frequently used. This is a [well-documented issue](https://github.com/bttmly/nba/issues/41). My solution was to host the project's backend on Fly.io, which is not as widely used and, as a result, not on the NBA's blacklist.
+The NBA also blocks some cloud server IP addresses from accessing its endpoints, likely due to high traffic from commonly used servers. This is a [well-documented issue](https://github.com/bttmly/nba/issues/41). My solution was to host the project's backend on Fly.io, which is less widely used and therefore not on the NBA's blacklist.
