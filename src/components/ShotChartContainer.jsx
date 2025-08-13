@@ -7,6 +7,7 @@ import html2canvas from "html2canvas";
 import GamesInfo from "./GamesInfo";
 import errorPic from "../assets/images/shot-chart-unavailable.jpg";
 import xoPic from "../assets/images/xo-icon.png";
+import Loader from "./Loader.jsx";
 import { Tooltip } from "react-tooltip";
 import { HiOutlineExclamation } from "react-icons/hi";
 import { AiOutlineLoading } from "react-icons/ai";
@@ -15,7 +16,8 @@ import { MdDownload } from "react-icons/md";
 import { CgOptions } from "react-icons/cg";
 
 const ShotChartContainer = forwardRef((props, ref) => {
-  const { shotChartData, headerInfo } = props;
+  const { loadChartSection, shotChartData, headerInfo } = props;
+  const [loadChart, setLoadChart] = useState(null);
   const [showChart, setShowChart] = useState(false);
   const [hovered, setHovered] = useState(false);
   const [showRegChart, setShowRegChart] = useState(true);
@@ -39,11 +41,17 @@ const ShotChartContainer = forwardRef((props, ref) => {
       setShowChart(false);
     }
 
+    if (loadChartSection) {
+      setLoadChart(true);
+    } else {
+      setLoadChart(false);
+    }
+
     // reset options
     setMakesChecked(true);
     setMissesChecked(true);
     setColorsChecked(true);
-  }, [shotChartData]);
+  }, [shotChartData, loadChartSection]);
 
   // switch between displaying regular chart and hexbin chart
   const handleRegChartSwitch = () => {
@@ -119,7 +127,7 @@ const ShotChartContainer = forwardRef((props, ref) => {
 
   return (
     <div ref={ref} className="bg-white">
-      {shotChartData ? (
+      {loadChart || shotChartData ? (
         <>
           <div className="flex flex-col items-center m-5">
             <motion.div
@@ -141,7 +149,10 @@ const ShotChartContainer = forwardRef((props, ref) => {
             </motion.div>
           </div>
 
-          {showChart &&
+          {loadChart ? (
+            <Loader />
+          ) : (
+            showChart &&
             (shotChartData.resultSets[0].rowSet.length !== 0 ? (
               <div className="grid justify-center items-center ">
                 {/* chart settings bar */}
@@ -294,7 +305,8 @@ const ShotChartContainer = forwardRef((props, ref) => {
                   />
                 </div>
               </div>
-            ))}
+            ))
+          )}
         </>
       ) : (
         <div className="py-10"></div>

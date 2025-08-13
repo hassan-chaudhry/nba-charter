@@ -9,6 +9,7 @@ import "react-tooltip/dist/react-tooltip.css";
 function ResultsPage() {
   const [playerName, setPlayerName] = useState(null);
   const [playerGameLogData, setPlayerGameLogData] = useState(null);
+  const [loadChart, setLoadChart] = useState(null);
   const [shotChartData, setShotChartData] = useState(null);
   const [headerInfo, setHeaderInfo] = useState([]);
   const [suggestion, setSuggestion] = useState("");
@@ -74,6 +75,9 @@ function ResultsPage() {
     if (season) params.append("season", season);
     if (seasonType) params.append("seasonType", seasonType);
 
+    setLoadChart(true);
+    refShotChart.current?.scrollIntoView({ behavior: "smooth" }); // scroll down to chart automatically
+
     try {
       const response = await fetch(
         `${baseURL}/api/shotchartdetail?${params.toString()}`
@@ -83,10 +87,8 @@ function ResultsPage() {
       }
       const data = await response.json();
       // console.log(data);
+      setLoadChart(false);
       setShotChartData(data);
-      setTimeout(() => {
-        refShotChart.current?.scrollIntoView({ behavior: "smooth" }); // scroll down to chart automatically
-      }, 25);
       return data;
     } catch (error) {
       console.log("Could not fetch shot chart data", error);
@@ -115,6 +117,7 @@ function ResultsPage() {
       />
       <ShotChartContainer
         ref={refShotChart}
+        loadChartSection={loadChart}
         shotChartData={shotChartData}
         headerInfo={headerInfo}
       />
