@@ -4,13 +4,36 @@ import SelectionCard from "./SelectionCard";
 import Select from "react-select";
 
 const SelectBySeason = ({ onSelect, handleReset }) => {
+  const getCurrentSeason = () => {
+    const currentDate = new Date();
+
+    let month = currentDate.getMonth() + 1;
+    let year = currentDate.getFullYear();
+
+    let season;
+
+    if (month >= 10) {
+      const startYear = parseInt(year);
+      const endYear = parseInt(year) + 1;
+      season = startYear + "-" + endYear.toString().slice(2, 4);
+    } else {
+      const startYear = parseInt(year) - 1;
+      const endYear = parseInt(year);
+      season = startYear + "-" + endYear.toString().slice(2, 4);
+    }
+
+    return season;
+  };
+
+  const season = getCurrentSeason();
+
   const [selectSeasonType, setSelectSeasonType] = useState({
     value: "Regular+Season",
     label: "Regular Season",
   });
   const [selectSeason, setSelectSeason] = useState({
-    value: "2024-25",
-    label: "2024-25",
+    value: season,
+    label: season,
   });
 
   const onClick = () => {
@@ -31,7 +54,7 @@ const SelectBySeason = ({ onSelect, handleReset }) => {
   const optionsSeason = [
     // the NBA first started tracking shots during the 1996-97 season
     // { value: "2026-27", label: "2026-27" },
-    // { value: "2025-26", label: "2025-26" },
+    { value: "2025-26", label: "2025-26" },
     { value: "2024-25", label: "2024-25" },
     { value: "2023-24", label: "2023-24" },
     { value: "2022-23", label: "2022-23" },

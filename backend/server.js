@@ -94,13 +94,14 @@ const getBestMatch = async (queryName) => {
   return bestMatch;
 };
 
-const getCurrentSeason = () => {
+const getCurrentSeasonInfo = () => {
   const currentDate = new Date();
 
+  let day = currentDate.getDate();
   let month = currentDate.getMonth() + 1;
   let year = currentDate.getFullYear();
 
-  let season;
+  let season, seasonType;
 
   if (month >= 10) {
     const startYear = parseInt(year);
@@ -112,7 +113,17 @@ const getCurrentSeason = () => {
     season = startYear + "-" + endYear.toString().slice(2, 4);
   }
 
-  return season;
+  if (month == 10 && day <= 20) {
+    seasonType = "Pre Season";
+  } else if ((month == 4 && day >= 20) || month == 5 || month == 6) {
+    seasonType = "Playoffs";
+  } else {
+    seasonType = "Regular Season";
+  }
+
+  const seasonInfo = { season: season, seasonType: seasonType };
+
+  return seasonInfo;
 };
 
 ///////////////////////////////
@@ -159,14 +170,16 @@ app.get("/api/playergamelog", async (req, res) => {
   const playerID = foundPlayer.id;
 
   // get current active NBA season
-  const season = getCurrentSeason();
+  const seasonInfo = getCurrentSeasonInfo();
+  const season = seasonInfo.season;
+  const seasonType = seasonInfo.seasonType;
 
   // convert parameters to string
   const params = new URLSearchParams({
     PlayerID: playerID.toString(),
     LeagueID: "00",
     Season: season,
-    SeasonType: "Regular Season",
+    SeasonType: seasonType,
     DateFrom: dateFrom,
     DateTo: dateTo,
   });

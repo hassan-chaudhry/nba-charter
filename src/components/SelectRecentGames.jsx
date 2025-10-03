@@ -29,6 +29,9 @@ const SelectRecentGames = ({
   let allGames = [];
   const gamesSoFar = playerGameLogData.resultSets[0].rowSet.length;
 
+  console.log(playerGameLogData);
+
+  // player game log
   if (playerGameLogData) {
     for (let i = 0; i < gamesSoFar; i++) {
       const matchup = playerGameLogData.resultSets[0].rowSet[i][4];
