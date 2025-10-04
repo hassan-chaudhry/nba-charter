@@ -28,7 +28,7 @@ If you make a typo or misspell a player's name, the website will return the clos
 Game Selection
 ---
 There are 4 options for selecting a game:
-1. **Recent Games:** Choose from a list of the player's recent games. The list contains all regular season games the player has appeared in so far.
+1. **Recent Games:** Choose from a list of the player's recent games. The list contains all games the player has appeared in so far in the current season. It automatically updates depending on what the current season type is (pre season, regular season, playoffs).
     <p align="center">
       <img width="800" alt="nsc-recent-games" src="https://github.com/user-attachments/assets/9aceb110-231f-4ed4-8b5a-48780c9ecb65" />
     </p>
