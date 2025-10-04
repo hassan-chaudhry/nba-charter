@@ -114,8 +114,10 @@ const getCurrentSeasonInfo = () => {
   }
 
   if (month == 10 && day <= 20) {
+    // pre season starts around late october
     seasonType = "Pre Season";
-  } else if ((month == 4 && day >= 20) || month == 5 || month == 6) {
+  } else if ((month == 4 && day >= 20) || (month >= 5 && month <= 9)) {
+    // playoffs starts around late april + off season
     seasonType = "Playoffs";
   } else {
     seasonType = "Regular Season";
