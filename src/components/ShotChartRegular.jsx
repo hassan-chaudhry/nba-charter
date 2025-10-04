@@ -110,41 +110,41 @@ const ShotChartRegular = ({
               fill="red"
             /> */}
             {allShots.map(({ LOC_X, LOC_Y, SHOT_MADE_FLAG }, index) =>
-              showMakes && SHOT_MADE_FLAG === 1 ? ( // makes
-                <circle
-                  key={index}
-                  className="opacity-75"
-                  cx={LOC_X}
-                  cy={LOC_Y}
-                  r="4"
-                  stroke={`rgb(${primaryColor})`}
-                  strokeWidth="2"
-                  fill="none"
-                />
-              ) : (
-                showMisses && ( // misses
-                  <g key={`${index} - 0`} className="opacity-75">
-                    <line
-                      key={`${index} - 1`}
-                      x1={LOC_X - 4.5}
-                      y1={LOC_Y - 4.5}
-                      x2={LOC_X + 4.5}
-                      y2={LOC_Y + 4.5}
-                      stroke={`rgb(${secondaryColor})`}
-                      strokeWidth="3"
+              SHOT_MADE_FLAG === 1
+                ? showMakes && ( // makes
+                    <circle
+                      key={index}
+                      className="opacity-75"
+                      cx={LOC_X}
+                      cy={LOC_Y}
+                      r="4"
+                      stroke={`rgb(${primaryColor})`}
+                      strokeWidth="2"
+                      fill="none"
                     />
-                    <line
-                      key={`${index} - 2`}
-                      x1={LOC_X - 4.5}
-                      y1={LOC_Y + 4.5}
-                      x2={LOC_X + 4.5}
-                      y2={LOC_Y - 4.5}
-                      stroke={`rgb(${secondaryColor})`}
-                      strokeWidth="3"
-                    />
-                  </g>
-                )
-              )
+                  )
+                : showMisses && ( // misses
+                    <g key={`${index} - 0`} className="opacity-75">
+                      <line
+                        key={`${index} - 1`}
+                        x1={LOC_X - 4.5}
+                        y1={LOC_Y - 4.5}
+                        x2={LOC_X + 4.5}
+                        y2={LOC_Y + 4.5}
+                        stroke={`rgb(${secondaryColor})`}
+                        strokeWidth="3"
+                      />
+                      <line
+                        key={`${index} - 2`}
+                        x1={LOC_X - 4.5}
+                        y1={LOC_Y + 4.5}
+                        x2={LOC_X + 4.5}
+                        y2={LOC_Y - 4.5}
+                        stroke={`rgb(${secondaryColor})`}
+                        strokeWidth="3"
+                      />
+                    </g>
+                  )
             )}
           </svg>
         </div>

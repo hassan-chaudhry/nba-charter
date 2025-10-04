@@ -394,9 +394,14 @@ const ShotChartHexbin = ({ shotChartData }) => {
     // get league average for zone
     const shotsLA = zonesInfo[zone][1];
     let leagueAvgFGPercent;
-    shotsLA.length === 7
-      ? (leagueAvgFGPercent = shotsLA[6])
-      : (leagueAvgFGPercent = (shotsLA[0][6] + shotsLA[1][6]) / 2); // for zones that are grouped together
+
+    if (shotsLA.length > 0) {
+      shotsLA.length === 7
+        ? (leagueAvgFGPercent = shotsLA[6])
+        : (leagueAvgFGPercent = (shotsLA[0][6] + shotsLA[1][6]) / 2); // for zones that are grouped together
+    } else {
+      leagueAvgFGPercent = 0; // if no LA data for zone yet (usually towards beginning of season), set zone LA to 0
+    }
 
     // compile player fg%, shots made / shots total, and league average into dictionary
     zoneAverages[zone] = [
