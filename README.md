@@ -71,7 +71,7 @@ There are 2 types of shot charts available:
 
     You can also toggle off makes and misses.
     <p align="center">
-      <img width="425" alt="nsc-chart5" src="https://github.com/user-attachments/assets/90ed3ab7-9f6f-4aeb-9226-47c7798a6959" />
+      <img width="425" alt="nsc-chart5" src="https://github.com/user-attachments/assets/0155390c-3d98-49bc-b053-c31e760a53bb" />
       <img width="425" alt="nsc-chart6" src="https://github.com/user-attachments/assets/21f623f5-e089-4c08-ac3b-923942990f83" />
 
     </p>
