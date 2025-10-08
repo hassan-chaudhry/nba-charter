@@ -88,9 +88,9 @@ const SelectRecentGames = ({
         ) : (
           // no recent games found message
           <div className="flex items-center justify-center m-5">
-            <div className="flex items-center justify-center text-xl text-orange-400 border border-orange-400 rounded-md w-1/3 p-1 justify-center">
+            <div className="flex items-center justify-center text-xl text-orange-400 border border-orange-400 rounded-md w-2/3 p-2">
               <HiOutlineExclamation className="mr-2 flex-shrink-0" />
-              No recent games found!
+              <text>No recent games found!</text>
             </div>
           </div>
         )}
