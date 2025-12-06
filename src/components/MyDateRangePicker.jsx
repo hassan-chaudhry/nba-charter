@@ -64,18 +64,44 @@ function MyDateRangePicker({ label, ...props }) {
                 <CalendarCell
                   date={date}
                   className={
-                    ({ isOutsideMonth, isHovered, isSelected, isDisabled }) =>
-                      `p-1 ${
+                    ({
+                      isOutsideMonth,
+                      isHovered,
+                      isSelected,
+                      isSelectionStart,
+                      isSelectionEnd,
+                      isDisabled,
+                    }) =>
+                      `w-8 h-8 flex items-center justify-center 
+                      ${
                         isOutsideMonth ? "opacity-0 pointer-events-none" : "" // hide days outside of month
-                      } ${
-                        isHovered
-                          ? "bg-indigo-300 rounded-md text-white"
-                          : "text-black"
-                      } ${
-                        isSelected
-                          ? "bg-indigo-500 rounded-md text-white"
-                          : "text-black"
-                      } ${isDisabled ? "text-gray-500" : "text-black-500"}` // gray out future dates
+                      } 
+                      ${
+                        isHovered && !isSelected
+                          ? "text-indigo-500 font-semibold"
+                          : ""
+                      } 
+                      ${
+                        isSelectionStart || isSelectionEnd
+                          ? "bg-indigo-500 text-white rounded-full z-10"
+                          : ""
+                      }
+                      ${
+                        isSelected && !isSelectionStart && !isSelectionEnd
+                          ? "bg-indigo-200 text-indigo-700 rounded-none"
+                          : ""
+                      } 
+                      ${
+                        isSelectionStart && !isSelectionEnd
+                          ? "rounded-r-none"
+                          : ""
+                      }
+                      ${
+                        isSelectionEnd && !isSelectionStart
+                          ? "rounded-l-none"
+                          : ""
+                      }
+                      ${isDisabled ? "text-gray-500" : ""}` // gray out future dates
                   }
                 />
               )}
