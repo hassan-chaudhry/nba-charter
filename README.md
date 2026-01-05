@@ -37,7 +37,7 @@ There are 4 options for selecting a game:
 
 2. **Range of Dates:** Select a range of dates within a single NBA season. You can type in the dates or use a Calendar popover to make the selection. The generated chart will display shots from all games played over that time period.
     <p align="center">
-      <img width="300" alt="nsc-date-range" src="https://github.com/user-attachments/assets/033ccaa9-7cbc-48f2-9fbf-fa38cacd3627" />
+      <img width="300" alt="nsc-date-range" src="https://github.com/user-attachments/assets/5dfa1c81-5a8b-4db3-b642-24791b2af51f" />
     </p>
 
 3. **Season:** Select a season type (pre-season, regular season, or playoffs) and a season year (e.g., 2024-25). All shots from that season will be displayed.
