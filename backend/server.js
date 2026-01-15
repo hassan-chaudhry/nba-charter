@@ -325,7 +325,7 @@ app.get("/image/playerpic", async (req, res) => {
 
   try {
     const response = await fetch(
-      `https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/${playerID}.png`
+      `https://cdn.nba.com/headshots/nba/latest/1040x760/${playerID}.png`
     );
     if (!response.ok) {
       console.error(`Failed to fetch player picture: ${res.statusText}`);
