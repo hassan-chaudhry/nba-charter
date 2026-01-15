@@ -17,6 +17,17 @@ const SearchBar = ({ onSearch, suggestion, userQuery }) => {
   const searchRef = useRef(null);
   const debounceRef = useRef(null);
 
+  const baseURL = import.meta.env.VITE_API_BASE_URL;
+
+  // wake backend on page load to avoid cold-start delay before fetching players
+  useEffect(() => {
+    const ping = () => {
+      fetch(`${baseURL}/ping`).catch(() => {});
+    };
+
+    ping();
+  }, []);
+
   /////////////////////////////////
   //   HANDLE PLAYER SELECTION   //
   /////////////////////////////////
@@ -54,8 +65,6 @@ const SearchBar = ({ onSearch, suggestion, userQuery }) => {
 
   // get player data from server on component mount
   useEffect(() => {
-    const baseURL = import.meta.env.VITE_API_BASE_URL;
-
     const fetchPlayers = async () => {
       try {
         setSuggestionsLoading(true);

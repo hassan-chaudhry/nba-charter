@@ -128,6 +128,13 @@ const getCurrentSeasonInfo = () => {
   return seasonInfo;
 };
 
+///////////////////////
+//    PING SERVER    //
+///////////////////////
+app.get("/ping", (req, res) => {
+  return res.sendStatus(200);
+});
+
 ///////////////////////////////
 //    PLAYER GAME LOG API    //
 ///////////////////////////////
