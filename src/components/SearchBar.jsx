@@ -58,6 +58,7 @@ const SearchBar = ({ onSearch, suggestion, userQuery }) => {
 
     const fetchPlayers = async () => {
       try {
+        setSuggestionsLoading(true);
         const response = await fetch(
           `${baseURL}/database/allplayers` // call to backend server
         );
@@ -69,6 +70,8 @@ const SearchBar = ({ onSearch, suggestion, userQuery }) => {
         setAllPlayers(data.players);
       } catch (error) {
         console.error("Error fetching player data:", error);
+      } finally {
+        setSuggestionsLoading(false);
       }
     };
 
@@ -89,16 +92,13 @@ const SearchBar = ({ onSearch, suggestion, userQuery }) => {
     debounceRef.current = setTimeout(() => {
       // limit suggestion list updates to when user input is longer than 1 character
       if (input.length > 1) {
-        setSuggestionsLoading(true);
         filteredPlayers = allPlayers
           .map((player) => player.full_name)
           .filter((player) => {
             return player.toLowerCase().includes(input.toLowerCase()); // get player names that include input
           });
         setSuggestionsList(filteredPlayers); // fill suggestions list with those players
-        setSuggestionsLoading(false);
       } else {
-        setSuggestionsLoading(false);
         setSuggestionsList([]); // if input is empty, clear suggestions list
       }
     }, 250); // debounce the input to limit suggestion list updates
