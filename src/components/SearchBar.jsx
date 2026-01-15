@@ -87,6 +87,19 @@ const SearchBar = ({ onSearch, suggestion, userQuery }) => {
     fetchPlayers();
   }, []);
 
+  useEffect(() => {
+    const updateFilteredPlayers = () => {
+      const filteredPlayers = allPlayers
+        .map((player) => player.full_name)
+        .filter((player) => {
+          return player.toLowerCase().includes(query.toLowerCase()); // get player names that include input
+        });
+      setSuggestionsList(filteredPlayers); // fill suggestions list with those players
+    };
+
+    updateFilteredPlayers();
+  }, [allPlayers]);
+
   // dynamically update suggestion list as user types
   const handleInputChange = async (e) => {
     const input = e.target.value;
