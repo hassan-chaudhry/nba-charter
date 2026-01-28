@@ -160,7 +160,7 @@ const SearchBar = ({ onSearch, suggestion, userQuery }) => {
   }
 
   return (
-    <div className="m-auto w-[75vw] relative" ref={searchRef}>
+    <div className="m-auto w-[60vw] relative" ref={searchRef}>
       {/* search bar */}
       <div className="grid grid-col-1">
         <div className="flex bg-white items-center border border-gray-500 focus-within:border-purple-500 focus-within:text-purple-500 p-4 rounded-[20px]">

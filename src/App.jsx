@@ -8,6 +8,8 @@ import {
 import HomePage from "./pages/HomePage";
 import ResultsPage from "./pages/ResultsPage";
 import NotFoundPage from "./pages/NotFoundPage";
+import PrivacyPolicyPage from "./pages/PrivacyPolicyPage";
+import TermsOfService from "./pages/TermsOfService";
 
 const App = () => {
   const router = createBrowserRouter(
@@ -15,6 +17,8 @@ const App = () => {
       <>
         <Route index element={<HomePage />} />
         <Route path="/:userQuery" element={<ResultsPage />} />
+        <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
+        <Route path="/terms-of-service" element={<TermsOfService />} />
         <Route path="*" element={<NotFoundPage />} />
       </>
     )
